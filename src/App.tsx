@@ -62,15 +62,13 @@ const socialLinks = [
   {
     label: 'LinkedIn',
     href: 'https://www.linkedin.com/company/apulza/',
-    description: 'Follow product updates, partnerships, and what we are learning along the way.',
     handle: 'Apulza',
     icon: <IconLinkedIn />,
   },
   {
     label: 'Instagram',
-    href: 'https://www.instagram.com/apulza/',
-    description: 'Find gentle study ideas, behind-the-scenes moments, and small reminders.',
-    handle: '@apulza',
+    href: 'https://www.instagram.com/apulza.ai/',
+    handle: '@apulza.ai',
     icon: <IconInstagram />,
   },
 ]
@@ -1889,41 +1887,6 @@ function App() {
         </div>
       </section>
 
-      <section className="social-section" id="socials" aria-labelledby="social-title">
-        <div className="social-inner">
-          <div className="social-copy motion-reveal">
-            <p className="eyebrow">Stay connected</p>
-            <h2 id="social-title">A little support for your feed.</h2>
-            <p>
-              Follow Apulza for product notes, gentle study ideas, and a closer look at what we are
-              building for students.
-            </p>
-          </div>
-          <div className="social-grid">
-            {socialLinks.map((social) => (
-              <a
-                className="social-card interactive-tile motion-reveal"
-                href={social.href}
-                target="_blank"
-                rel="noreferrer"
-                onPointerMove={handleTilePointerMove}
-                onPointerLeave={resetTileTilt}
-                aria-label={`Follow Apulza on ${social.label} (opens in a new tab)`}
-                key={social.label}
-              >
-                <span className="social-icon">{social.icon}</span>
-                <span className="social-card-copy">
-                  <small>{social.handle}</small>
-                  <strong>{social.label}</strong>
-                  <span>{social.description}</span>
-                </span>
-                <IconArrow />
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <footer className="footer">
         <CatEasterEgg
           cat="feather"
@@ -1942,8 +1905,27 @@ function App() {
             <nav className="footer-links" aria-label="Footer navigation">
               <a href="#demo">Request a demo</a>
               <a href="#contact">Contact us</a>
-              <a href="#socials">Socials</a>
             </nav>
+            <div className="footer-socials" aria-label="Follow Apulza">
+              <span>Follow along</span>
+              <div>
+                {socialLinks.map((social) => (
+                  <a
+                    href={social.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`Follow Apulza on ${social.label} (opens in a new tab)`}
+                    key={social.label}
+                  >
+                    <span className="footer-social-icon">{social.icon}</span>
+                    <span>
+                      <strong>{social.label}</strong>
+                      <small>{social.handle}</small>
+                    </span>
+                  </a>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
         <div className="footer-bottom">
