@@ -58,6 +58,23 @@ const navItems = [
   { label: 'Contact', href: '#contact' },
 ]
 
+const socialLinks = [
+  {
+    label: 'LinkedIn',
+    href: 'https://www.linkedin.com/company/apulza/',
+    description: 'Follow product updates, partnerships, and what we are learning along the way.',
+    handle: 'Apulza',
+    icon: <IconLinkedIn />,
+  },
+  {
+    label: 'Instagram',
+    href: 'https://www.instagram.com/apulza/',
+    description: 'Find gentle study ideas, behind-the-scenes moments, and small reminders.',
+    handle: '@apulza',
+    icon: <IconInstagram />,
+  },
+]
+
 const formEndpoint = (import.meta.env.VITE_FORMSPREE_ENDPOINT as string | undefined)?.trim()
 
 type SubmissionState = 'idle' | 'submitting' | 'success' | 'error' | 'email'
@@ -228,6 +245,42 @@ function IconCheck({ className, size = 15 }: IconProps) {
       strokeWidth="2.4"
     >
       <polyline points="20 6 9 17 4 12" />
+    </svg>
+  )
+}
+
+function IconLinkedIn({ className, size = 22 }: IconProps) {
+  return (
+    <svg
+      className={className}
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      fill="currentColor"
+    >
+      <path d="M5.4 7.75H2.2V21h3.2V7.75ZM3.8 2.5a1.86 1.86 0 1 0 0 3.72 1.86 1.86 0 0 0 0-3.72ZM12.67 7.75H9.6V21h3.2v-6.56c0-1.73.33-3.4 2.47-3.4 2.1 0 2.13 1.97 2.13 3.51V21h3.2v-7.27c0-3.57-.77-6.32-4.95-6.32-2.01 0-3.35 1.1-3.9 2.14h-.04V7.75Z" />
+    </svg>
+  )
+}
+
+function IconInstagram({ className, size = 22 }: IconProps) {
+  return (
+    <svg
+      className={className}
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+    >
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.4" cy="6.7" r="0.7" fill="currentColor" stroke="none" />
     </svg>
   )
 }
@@ -1836,6 +1889,41 @@ function App() {
         </div>
       </section>
 
+      <section className="social-section" id="socials" aria-labelledby="social-title">
+        <div className="social-inner">
+          <div className="social-copy motion-reveal">
+            <p className="eyebrow">Stay connected</p>
+            <h2 id="social-title">A little support for your feed.</h2>
+            <p>
+              Follow Apulza for product notes, gentle study ideas, and a closer look at what we are
+              building for students.
+            </p>
+          </div>
+          <div className="social-grid">
+            {socialLinks.map((social) => (
+              <a
+                className="social-card interactive-tile motion-reveal"
+                href={social.href}
+                target="_blank"
+                rel="noreferrer"
+                onPointerMove={handleTilePointerMove}
+                onPointerLeave={resetTileTilt}
+                aria-label={`Follow Apulza on ${social.label} (opens in a new tab)`}
+                key={social.label}
+              >
+                <span className="social-icon">{social.icon}</span>
+                <span className="social-card-copy">
+                  <small>{social.handle}</small>
+                  <strong>{social.label}</strong>
+                  <span>{social.description}</span>
+                </span>
+                <IconArrow />
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <footer className="footer">
         <CatEasterEgg
           cat="feather"
@@ -1854,6 +1942,7 @@ function App() {
             <nav className="footer-links" aria-label="Footer navigation">
               <a href="#demo">Request a demo</a>
               <a href="#contact">Contact us</a>
+              <a href="#socials">Socials</a>
             </nav>
           </div>
         </div>
