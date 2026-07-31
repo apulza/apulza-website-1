@@ -583,47 +583,76 @@ function StepDemo({ kind }: { kind: (typeof steps)[number]['demo'] }) {
 function EditorialHero() {
   return (
     <section className="hero hero-editorial" id="top">
-      <img src="/assets/hero-landscape.png" alt="" aria-hidden="true" />
-      <div className="hero-scrim" aria-hidden="true" />
+      <div className="hero-aurora hero-aurora-one" aria-hidden="true" />
+      <div className="hero-aurora hero-aurora-two" aria-hidden="true" />
       <div className="hero-inner">
-        <p className="eyebrow">A supportive study buddy</p>
-        <h1>
-          A calm place
-          <br />
-          to keep going.
-        </h1>
-        <p className="hero-lede">
-          Apulza is an AI-powered study companion for students who carry ADHD, anxiety, or low
-          days. It turns courses and assignments into manageable next steps—with no streaks to
-          lose and no pressure to perform.
-        </p>
-        <div className="hero-actions">
-          <ButtonLink href="#try">
-            <IconPlay />
-            Try a small step
-          </ButtonLink>
-          <ButtonLink href="#how" variant="secondary">
-            See how it works
-          </ButtonLink>
+        <div className="hero-copy">
+          <p className="eyebrow hero-kicker"><span /> A supportive study buddy</p>
+          <h1>
+            Make space
+            <br />
+            for your <em>next</em>
+            <br />
+            small step.
+          </h1>
+          <p className="hero-lede">
+            Apulza turns courses, assignments, and heavy days into a calmer way forward—with no
+            streaks to lose and no pressure to perform.
+          </p>
+          <div className="hero-actions hero-actions-left">
+            <ButtonLink href="#try">
+              Try a small step
+              <IconArrow />
+            </ButtonLink>
+            <ButtonLink href="#inside" variant="secondary">
+              <IconPlay />
+              Explore Apulza
+            </ButtonLink>
+          </div>
+          <div className="hero-proof" aria-label="Apulza product qualities">
+            <span><IconCheck /> Free to start</span>
+            <span><IconCheck /> No card needed</span>
+            <span><IconCheck /> Motion optional</span>
+          </div>
         </div>
-        <div className="audience-paths" aria-label="Choose your path">
-          <a href="#try">
-            <span>For students</span>
-            Start with what is on your mind <IconArrow size={14} />
-          </a>
-          <a href="#schools">
-            <span>For schools & counselors</span>
-            See how Apulza supports your students <IconArrow size={14} />
-          </a>
-        </div>
-        <div className="pulse-note">
-          <PulseLine />
-          <span>Try it here — no account needed</span>
+
+        <div className="hero-visual" aria-label="A glimpse inside Apulza">
+          <div className="hero-image-shell">
+            <img src="/assets/hero-landscape.png" alt="" aria-hidden="true" />
+            <div className="hero-image-vignette" aria-hidden="true" />
+            <div className="hero-visual-label"><span>Inside Apulza</span><strong>A softer place to begin.</strong></div>
+          </div>
+          <article className="hero-focus-card">
+            <div className="hero-focus-head">
+              <span><IconHeart size={15} /> Ready when you are</span>
+              <i>Today</i>
+            </div>
+            <h2>Rhetorical analysis</h2>
+            <p>One small step is enough.</p>
+            <div className="hero-task-row">
+              <span className="hero-task-check"><IconCheck size={13} /></span>
+              <span><strong>Choose one passage</strong><small>About 8 minutes</small></span>
+              <button type="button" aria-label="Start this small step"><IconArrow size={14} /></button>
+            </div>
+            <div className="hero-progress"><span /></div>
+            <small className="hero-progress-note">1 of 3 gentle steps · Half still counts</small>
+          </article>
+          <div className="hero-float-chip hero-float-chip-top">
+            <span><IconBookmark size={16} /></span>
+            <p><small>Picked up for you</small><strong>Right where you left off</strong></p>
+          </div>
+          <div className="hero-float-chip hero-float-chip-bottom">
+            <span><IconSpark size={16} /></span>
+            <p><small>Plan adjusted</small><strong>For a lower-energy day</strong></p>
+          </div>
+          <div className="hero-orbit hero-orbit-one" aria-hidden="true"><i /></div>
+          <div className="hero-orbit hero-orbit-two" aria-hidden="true"><i /></div>
         </div>
       </div>
-      <a className="hero-scroll-cue" href="#promises" aria-label="Scroll to learn more">
-        <IconChevron open />
-      </a>
+      <div className="hero-bottom-line">
+        <span>Built for the day you're actually having.</span>
+        <a href="#promises">Scroll to explore <IconChevron open /></a>
+      </div>
     </section>
   )
 }
@@ -1527,11 +1556,25 @@ function App() {
   }, [accessibilitySettings.textSize])
 
   useEffect(() => {
-    const updateHeader = () => setHeaderScrolled(window.scrollY > 24)
+    const progress = document.querySelector<HTMLElement>('.scroll-progress')
+    let animationFrame = 0
+
+    const updateHeader = () => {
+      setHeaderScrolled(window.scrollY > 24)
+      cancelAnimationFrame(animationFrame)
+      animationFrame = requestAnimationFrame(() => {
+        const scrollable = document.documentElement.scrollHeight - window.innerHeight
+        const ratio = scrollable > 0 ? Math.min(window.scrollY / scrollable, 1) : 0
+        progress?.style.setProperty('--scroll-progress', String(ratio))
+      })
+    }
 
     updateHeader()
     window.addEventListener('scroll', updateHeader, { passive: true })
-    return () => window.removeEventListener('scroll', updateHeader)
+    return () => {
+      cancelAnimationFrame(animationFrame)
+      window.removeEventListener('scroll', updateHeader)
+    }
   }, [])
 
   useEffect(() => {
@@ -1605,6 +1648,7 @@ function App() {
 
   return (
     <main className={`app ${accessibilityClasses}`}>
+      <div className="scroll-progress" aria-hidden="true" />
       <header className={`site-header${headerScrolled ? ' is-scrolled' : ''}`}>
         <Brand />
         <nav
@@ -1651,7 +1695,7 @@ function App() {
         {trustPoints.map((point) => (
           <span key={point.label}>
             {point.icon}
-            {point.label}
+            <b>{point.label}</b>
           </span>
         ))}
       </section>
