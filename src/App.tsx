@@ -580,11 +580,16 @@ function StepDemo({ kind }: { kind: (typeof steps)[number]['demo'] }) {
 function EditorialHero() {
   return (
     <section className="hero hero-editorial" id="top">
-      <div className="hero-aurora hero-aurora-one" aria-hidden="true" />
-      <div className="hero-aurora hero-aurora-two" aria-hidden="true" />
+      <img
+        className="hero-background"
+        src="/assets/hero-landscape.png"
+        alt=""
+        aria-hidden="true"
+      />
+      <div className="hero-scrim" aria-hidden="true" />
       <div className="hero-inner">
         <div className="hero-copy">
-          <p className="eyebrow hero-kicker"><span /> A supportive study buddy</p>
+          <p className="eyebrow hero-kicker"><span /> A calmer way forward</p>
           <h1>
             Make space
             <br />
@@ -613,38 +618,21 @@ function EditorialHero() {
           </div>
         </div>
 
-        <div className="hero-visual" aria-label="A glimpse inside Apulza">
-          <div className="hero-image-shell">
-            <img src="/assets/hero-landscape.png" alt="" aria-hidden="true" />
-            <div className="hero-image-vignette" aria-hidden="true" />
-            <div className="hero-visual-label"><span>Inside Apulza</span><strong>A softer place to begin.</strong></div>
+        <article className="hero-focus-card" aria-label="A glimpse inside Apulza">
+          <div className="hero-focus-head">
+            <span><IconHeart size={15} /> Ready when you are</span>
+            <i>Today</i>
           </div>
-          <article className="hero-focus-card">
-            <div className="hero-focus-head">
-              <span><IconHeart size={15} /> Ready when you are</span>
-              <i>Today</i>
-            </div>
-            <h2>Rhetorical analysis</h2>
-            <p>One small step is enough.</p>
-            <div className="hero-task-row">
-              <span className="hero-task-check"><IconCheck size={13} /></span>
-              <span><strong>Choose one passage</strong><small>About 8 minutes</small></span>
-              <button type="button" aria-label="Start this small step"><IconArrow size={14} /></button>
-            </div>
-            <div className="hero-progress"><span /></div>
-            <small className="hero-progress-note">1 of 3 gentle steps · Half still counts</small>
-          </article>
-          <div className="hero-float-chip hero-float-chip-top">
-            <span><IconBookmark size={16} /></span>
-            <p><small>Picked up for you</small><strong>Right where you left off</strong></p>
+          <h2>Rhetorical analysis</h2>
+          <p>One small step is enough.</p>
+          <div className="hero-task-row">
+            <span className="hero-task-check"><IconCheck size={13} /></span>
+            <span><strong>Choose one passage</strong><small>About 8 minutes</small></span>
+            <button type="button" aria-label="Start this small step"><IconArrow size={14} /></button>
           </div>
-          <div className="hero-float-chip hero-float-chip-bottom">
-            <span><IconSpark size={16} /></span>
-            <p><small>Plan adjusted</small><strong>For a lower-energy day</strong></p>
-          </div>
-          <div className="hero-orbit hero-orbit-one" aria-hidden="true"><i /></div>
-          <div className="hero-orbit hero-orbit-two" aria-hidden="true"><i /></div>
-        </div>
+          <div className="hero-progress"><span /></div>
+          <small className="hero-progress-note">1 of 3 gentle steps · Half still counts</small>
+        </article>
       </div>
       <div className="hero-bottom-line">
         <span>Built for the day you're actually having.</span>
