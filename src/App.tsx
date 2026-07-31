@@ -226,6 +226,42 @@ function resetTileTilt(event: ReactPointerEvent<HTMLElement>) {
   event.currentTarget.style.setProperty('--tilt-y', '0deg')
 }
 
+function handleHeroCardPointerMove(event: ReactPointerEvent<HTMLElement>) {
+  if (event.pointerType !== 'mouse' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    return
+  }
+
+  const card = event.currentTarget
+  const bounds = card.getBoundingClientRect()
+  const x = (event.clientX - bounds.left) / bounds.width
+  const y = (event.clientY - bounds.top) / bounds.height
+  const strength = Number(card.dataset.hoverStrength ?? '1')
+
+  card.style.setProperty('--hero-shift-x', `${(x - 0.5) * 12 * strength}px`)
+  card.style.setProperty('--hero-shift-y', `${((y - 0.5) * 8 - 2) * strength}px`)
+}
+
+function resetHeroCardPosition(event: ReactPointerEvent<HTMLElement>) {
+  const nextTarget = event.relatedTarget
+  if (nextTarget instanceof Node && event.currentTarget.contains(nextTarget)) {
+    return
+  }
+
+  event.currentTarget.style.setProperty('--hero-shift-x', '0px')
+  event.currentTarget.style.setProperty('--hero-shift-y', '0px')
+}
+
+function resetUnhoveredHeroCards(event: ReactPointerEvent<HTMLElement>) {
+  if (event.pointerType !== 'mouse') return
+
+  const hoveredCard = event.target instanceof Element ? event.target.closest('.hero-hover-card') : null
+  event.currentTarget.querySelectorAll<HTMLElement>('.hero-hover-card').forEach((card) => {
+    if (card === hoveredCard) return
+    card.style.setProperty('--hero-shift-x', '0px')
+    card.style.setProperty('--hero-shift-y', '0px')
+  })
+}
+
 function IconCheck({ className, size = 15 }: IconProps) {
   return (
     <svg
@@ -579,7 +615,11 @@ function StepDemo({ kind }: { kind: (typeof steps)[number]['demo'] }) {
 
 function EditorialHero() {
   return (
-    <section className="hero hero-editorial" id="top">
+    <section
+      className="hero hero-editorial"
+      id="top"
+      onPointerMove={resetUnhoveredHeroCards}
+    >
       <img
         className="hero-background"
         src="/assets/hero-landscape.png"
@@ -622,10 +662,39 @@ function EditorialHero() {
         <div className="hero-scenic-visual">
           <div className="hero-orbit hero-orbit-one" aria-hidden="true"><i /></div>
           <div className="hero-orbit hero-orbit-two" aria-hidden="true"><i /></div>
-          <span className="hero-preview-shape hero-warm-shape-circle" aria-hidden="true" />
-          <span className="hero-preview-shape hero-warm-shape-triangle" aria-hidden="true" />
-          <span className="hero-preview-shape hero-warm-shape-rounded" aria-hidden="true" />
-          <article className="hero-focus-card" aria-label="A glimpse inside Apulza">
+          <div
+            className="hero-rhythm-card hero-hover-card"
+            data-hover-strength="1.1"
+            aria-hidden="true"
+            onPointerMove={handleHeroCardPointerMove}
+            onPointerLeave={resetHeroCardPosition}
+            onPointerOut={resetHeroCardPosition}
+          >
+            <div className="hero-rhythm-head">
+              <span><IconSpark size={14} /> Today&apos;s rhythm</span>
+              <i>Flexible</i>
+            </div>
+            <div className="hero-rhythm-step is-complete">
+              <span><IconCheck size={12} /></span>
+              <p><strong>Open your notes</strong><small>2 min · a soft start</small></p>
+            </div>
+            <div className="hero-rhythm-step is-current">
+              <span>2</span>
+              <p><strong>Choose one passage</strong><small>Your next small step</small></p>
+              <em>Now</em>
+            </div>
+            <div className="hero-rhythm-rest">
+              <IconHeart size={13} /> Pause whenever you need.
+            </div>
+          </div>
+          <article
+            className="hero-focus-card hero-hover-card"
+            data-hover-strength="0.75"
+            aria-label="A glimpse inside Apulza"
+            onPointerMove={handleHeroCardPointerMove}
+            onPointerLeave={resetHeroCardPosition}
+            onPointerOut={resetHeroCardPosition}
+          >
             <div className="hero-focus-head">
               <span><IconHeart size={15} /> Ready when you are</span>
               <i>Today</i>
