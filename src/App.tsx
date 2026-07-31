@@ -1788,13 +1788,13 @@ function App() {
             type="button"
             aria-pressed={accessibilitySettings.darkMode}
             aria-label={accessibilitySettings.darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+            title={accessibilitySettings.darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
             onClick={() => setAccessibilitySettings((current) => ({
               ...current,
               darkMode: !current.darkMode,
             }))}
           >
             <IconTheme dark={accessibilitySettings.darkMode} />
-            <span>{accessibilitySettings.darkMode ? 'Light mode' : 'Dark mode'}</span>
           </button>
           <AccessibilityMenu
             isOpen={accessibilityOpen}
