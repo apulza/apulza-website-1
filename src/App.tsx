@@ -53,10 +53,7 @@ function loadAccessibilitySettings(): AccessibilitySettings {
 const navItems = [
   { label: 'How it works', href: '#how' },
   { label: 'Inside Apulza', href: '#inside' },
-  { label: 'Safety & privacy', href: '#privacy' },
   { label: 'For schools', href: '#schools' },
-  { label: 'Request a demo', href: '#demo' },
-  { label: 'Contact', href: '#contact' },
 ]
 
 const socialLinks = [
@@ -1950,6 +1947,7 @@ function App() {
               next small step.
             </p>
             <nav className="footer-links" aria-label="Footer navigation">
+              <a href="#privacy">Safety & privacy</a>
               <a href="#demo">Request a demo</a>
               <a href="#contact">Contact us</a>
             </nav>

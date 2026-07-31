@@ -5530,6 +5530,12 @@ h2 { letter-spacing: -0.045em; }
 
 /* Visual QA repairs ------------------------------------------------------- */
 
+@media (min-width: 901px) {
+  .site-header {
+    width: min(980px, calc(100% - 36px));
+  }
+}
+
 .trust-strip span {
   min-width: 0;
 }
