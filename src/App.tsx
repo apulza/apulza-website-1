@@ -1,7 +1,7 @@
 import { memo, useEffect, useState, type FormEvent, type PointerEvent as ReactPointerEvent, type ReactNode } from 'react'
 import './App.css'
 import { catCafeSceneCss, catCafeSceneHtml } from './catCafeSnippet'
-import ExperienceGallery from './ExperienceGallery'
+import MobileAppShowcase from './MobileAppShowcase'
 
 type IconProps = {
   className?: string
@@ -1700,7 +1700,7 @@ function App() {
 
       <ProductSnippets foundCats={foundCats} onDiscoverCat={discoverCat} />
 
-      <ExperienceGallery />
+      <MobileAppShowcase />
 
       <TinyDemo foundCats={foundCats} onDiscoverCat={discoverCat} />
 
