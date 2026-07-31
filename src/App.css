@@ -5717,8 +5717,8 @@ h2 { letter-spacing: -0.045em; }
 .hero-scrim {
   z-index: -2;
   background:
-    linear-gradient(90deg, rgba(21, 25, 28, 0.74) 0%, rgba(26, 30, 35, 0.6) 34%, rgba(32, 35, 43, 0.16) 70%, rgba(30, 33, 39, 0.22) 100%),
-    linear-gradient(180deg, rgba(20, 22, 28, 0.2) 0%, transparent 44%, rgba(19, 23, 27, 0.46) 100%);
+    linear-gradient(90deg, rgba(255, 252, 255, 0.9) 0%, rgba(255, 252, 255, 0.8) 38%, rgba(255, 250, 254, 0.52) 68%, rgba(255, 250, 254, 0.38) 100%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.24) 0%, transparent 46%, rgba(251, 247, 255, 0.68) 100%);
 }
 
 .hero-inner {
@@ -5739,11 +5739,11 @@ h2 { letter-spacing: -0.045em; }
   gap: 10px;
   width: max-content;
   margin-bottom: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.27);
+  border: 1px solid rgba(78, 21, 131, 0.16);
   border-radius: 999px;
   padding: 9px 14px 9px 12px;
-  background: rgba(22, 27, 30, 0.22);
-  color: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.62);
+  color: var(--primary-strong);
   backdrop-filter: blur(14px);
 }
 
@@ -5754,8 +5754,12 @@ h2 { letter-spacing: -0.045em; }
 
 .hero-copy h1,
 .hero-copy h1 em {
-  color: #fff;
-  text-shadow: 0 3px 30px rgba(5, 8, 10, 0.26);
+  color: var(--ink);
+  text-shadow: 0 3px 30px rgba(255, 255, 255, 0.58);
+}
+
+.hero-copy h1 em {
+  color: var(--primary);
 }
 
 .hero-copy h1 {
@@ -5770,40 +5774,95 @@ h2 { letter-spacing: -0.045em; }
 
 .hero-lede {
   max-width: 47ch;
-  color: rgba(255, 255, 255, 0.83);
-  text-shadow: 0 2px 18px rgba(5, 8, 10, 0.25);
+  color: #514758;
+  text-shadow: 0 2px 18px rgba(255, 255, 255, 0.72);
 }
 
 .hero-actions .button:not(.button-secondary) {
-  background: #fff;
-  color: #261b2d;
-  box-shadow: 0 20px 42px -22px rgba(5, 8, 10, 0.72);
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 20px 42px -22px rgba(78, 21, 131, 0.68);
 }
 
 .hero-actions .button:not(.button-secondary):hover {
-  background: #f6edf9;
-  color: var(--primary-strong);
+  background: var(--primary-strong);
+  color: #fff;
 }
 
 .hero-actions .button-secondary {
-  border-color: rgba(255, 255, 255, 0.42);
-  background: rgba(17, 21, 24, 0.22);
-  color: #fff;
+  border-color: rgba(78, 21, 131, 0.2);
+  background: rgba(255, 255, 255, 0.62);
+  color: var(--ink);
   backdrop-filter: blur(14px);
 }
 
 .hero-actions .button-secondary:hover {
-  border-color: rgba(255, 255, 255, 0.72);
-  background: rgba(255, 255, 255, 0.16);
-  color: #fff;
+  border-color: rgba(78, 21, 131, 0.38);
+  background: rgba(255, 255, 255, 0.86);
+  color: var(--primary);
 }
 
 .hero-proof {
-  color: rgba(255, 255, 255, 0.74);
+  color: #645a6a;
 }
 
 .hero-proof svg {
-  color: #9ee0ba;
+  color: var(--success);
+}
+
+.hero-scenic-visual {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  min-height: 540px;
+  align-items: flex-end;
+  perspective: 1200px;
+}
+
+.hero-scenic-visual .hero-orbit {
+  z-index: 0;
+  border-color: rgba(97, 26, 159, 0.18);
+}
+
+.hero-scenic-visual .hero-orbit i {
+  background: #ad65bd;
+  box-shadow: 0 0 0 7px rgba(173, 101, 189, 0.14);
+}
+
+.hero-scenic-visual .hero-orbit-one {
+  top: 2px;
+  right: -84px;
+  width: 500px;
+  height: 500px;
+}
+
+.hero-scenic-visual .hero-orbit-two {
+  right: -8px;
+  bottom: 4px;
+  width: 380px;
+  height: 380px;
+}
+
+.hero-editorial > .hero-aurora {
+  z-index: -1;
+  opacity: 0.72;
+  filter: blur(10px);
+}
+
+.hero-editorial > .hero-aurora-one {
+  top: 18%;
+  right: 20%;
+  width: 320px;
+  height: 320px;
+  background: rgba(188, 127, 221, 0.22);
+}
+
+.hero-editorial > .hero-aurora-two {
+  right: 2%;
+  bottom: 8%;
+  width: 270px;
+  height: 270px;
+  background: rgba(255, 202, 165, 0.25);
 }
 
 .hero-focus-card {
@@ -5811,9 +5870,10 @@ h2 { letter-spacing: -0.045em; }
   right: auto;
   bottom: auto;
   left: auto;
-  align-self: end;
+  z-index: 4;
+  align-self: auto;
   width: 100%;
-  margin-bottom: 54px;
+  margin-bottom: 58px;
   border-color: rgba(255, 255, 255, 0.46);
   padding: 24px;
   background: rgba(255, 255, 255, 0.84);
@@ -5821,12 +5881,17 @@ h2 { letter-spacing: -0.045em; }
   backdrop-filter: blur(22px) saturate(1.14);
 }
 
+.hero-scenic-visual .hero-float-chip-bottom {
+  right: -7%;
+  bottom: 10px;
+}
+
 .hero-bottom-line {
-  color: rgba(255, 255, 255, 0.62);
+  color: rgba(36, 31, 43, 0.66);
 }
 
 .hero-bottom-line a {
-  color: #fff;
+  color: var(--primary);
 }
 
 .trust-strip {
@@ -5845,8 +5910,8 @@ h2 { letter-spacing: -0.045em; }
 
   .hero-scrim {
     background:
-      linear-gradient(90deg, rgba(18, 23, 27, 0.68), rgba(24, 28, 33, 0.26) 75%),
-      linear-gradient(180deg, rgba(20, 22, 28, 0.2), rgba(18, 22, 25, 0.18) 48%, rgba(18, 22, 25, 0.68) 100%);
+      linear-gradient(90deg, rgba(255, 252, 255, 0.88), rgba(255, 251, 254, 0.52) 75%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(255, 252, 255, 0.28) 48%, rgba(251, 247, 255, 0.78) 100%);
   }
 
   .hero-inner {
@@ -5877,6 +5942,12 @@ h2 { letter-spacing: -0.045em; }
     justify-content: flex-start;
   }
 
+  .hero-scenic-visual {
+    width: min(520px, 100%);
+    min-height: 430px;
+    margin-left: auto;
+  }
+
   .hero-focus-card {
     width: min(410px, 100%);
     margin: 0 0 0 auto;
@@ -5895,8 +5966,8 @@ h2 { letter-spacing: -0.045em; }
 
   .hero-scrim {
     background:
-      linear-gradient(90deg, rgba(17, 22, 25, 0.65), rgba(23, 27, 31, 0.28)),
-      linear-gradient(180deg, rgba(17, 20, 25, 0.2), rgba(17, 21, 24, 0.28) 46%, rgba(16, 20, 23, 0.78) 100%);
+      linear-gradient(90deg, rgba(255, 252, 255, 0.9), rgba(255, 251, 254, 0.58)),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.3), rgba(255, 252, 255, 0.4) 46%, rgba(251, 247, 255, 0.86) 100%);
   }
 
   .hero-inner {
@@ -5923,6 +5994,10 @@ h2 { letter-spacing: -0.045em; }
     align-items: stretch;
   }
 
+  .hero-scenic-visual {
+    min-height: 330px;
+  }
+
   .hero-focus-card {
     width: 100%;
     padding: 18px;
@@ -5944,5 +6019,5 @@ h2 { letter-spacing: -0.045em; }
 }
 
 .accessibility-high-contrast .hero-scrim {
-  background: linear-gradient(90deg, rgba(0, 0, 0, 0.88), rgba(0, 0, 0, 0.5));
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.76));
 }
