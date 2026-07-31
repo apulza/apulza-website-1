@@ -1,0 +1,1647 @@
+<title>Apulza Design System &mdash; Account, Support &amp; Onboarding Snippets</title>
+<style>
+  :root {
+    --page-bg: #FBFAFE;
+    --page-surface: #FFFFFF;
+    --page-surface-2: #F6F3FB;
+    --page-border: #E8E2F3;
+    --page-fg: #1C1526;
+    --page-fg-muted: #6B627D;
+    --page-accent: #6D28D9;
+    --page-code-bg: #1C1526;
+    --page-code-fg: #E9E4F5;
+    --page-code-border: #322947;
+    --page-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+    --page-sans: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --page-bg: #120E1B;
+      --page-surface: #1B1529;
+      --page-surface-2: #211A32;
+      --page-border: #2E2645;
+      --page-fg: #F1ECFA;
+      --page-fg-muted: #A79BC0;
+      --page-accent: #B9A2FF;
+      --page-code-bg: #0E0A17;
+      --page-code-fg: #E4DEF4;
+      --page-code-border: #241C38;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --page-bg: #120E1B;
+    --page-surface: #1B1529;
+    --page-surface-2: #211A32;
+    --page-border: #2E2645;
+    --page-fg: #F1ECFA;
+    --page-fg-muted: #A79BC0;
+    --page-accent: #B9A2FF;
+    --page-code-bg: #0E0A17;
+    --page-code-fg: #E4DEF4;
+    --page-code-border: #241C38;
+  }
+
+  :root[data-theme="light"] {
+    --page-bg: #FBFAFE;
+    --page-surface: #FFFFFF;
+    --page-surface-2: #F6F3FB;
+    --page-border: #E8E2F3;
+    --page-fg: #1C1526;
+    --page-fg-muted: #6B627D;
+    --page-accent: #6D28D9;
+    --page-code-bg: #1C1526;
+    --page-code-fg: #E9E4F5;
+    --page-code-border: #322947;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--page-bg);
+    color: var(--page-fg);
+    font-family: var(--page-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+
+  .wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 56px 24px 96px;
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--page-accent);
+    margin: 0 0 12px;
+  }
+
+  h1 {
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin: 0 0 14px;
+  }
+
+  .lede {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--page-fg-muted);
+    max-width: 640px;
+    margin: 0 0 18px;
+  }
+
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--page-fg-muted);
+    margin: 0 0 28px;
+  }
+
+  .meta-row span.sep { color: var(--page-border); }
+
+  .note {
+    background: var(--page-surface-2);
+    border: 1px solid var(--page-border);
+    border-radius: 14px;
+    padding: 14px 18px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--page-fg-muted);
+    margin: 0 0 40px;
+  }
+
+  .note strong { color: var(--page-fg); }
+
+  section.block { margin: 0 0 56px; }
+
+  .block-head { margin: 0 0 18px; }
+
+  .block-head .block-index {
+    font-family: var(--page-mono);
+    font-size: 12px;
+    color: var(--page-accent);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+
+  h2 {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 6px 0 8px;
+  }
+
+  .block-desc {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--page-fg-muted);
+    max-width: 620px;
+    margin: 0;
+  }
+
+  .code-shell {
+    background: var(--page-code-bg);
+    border: 1px solid var(--page-code-border);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .code-shell-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--page-code-border);
+  }
+
+  .code-shell-filename {
+    font-family: var(--page-mono);
+    font-size: 12px;
+    color: var(--page-code-fg);
+    opacity: 0.75;
+  }
+
+  pre.snippet-code {
+    margin: 0;
+    padding: 18px 20px 22px;
+    overflow-x: auto;
+    font-family: var(--page-mono);
+    font-size: 12.5px;
+    line-height: 1.65;
+    color: var(--page-code-fg);
+    white-space: pre;
+  }
+
+  pre.snippet-code.js-plain { padding: 18px 20px 22px; }
+
+  .copy-btn, .snippet-copy {
+    font-family: var(--page-mono);
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    border-radius: 8px;
+    padding: 7px 12px;
+    min-height: 30px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    border: 1px solid var(--page-code-border);
+    background: transparent;
+    color: var(--page-code-fg);
+    transition: background-color 120ms ease-out, border-color 120ms ease-out;
+  }
+
+  .copy-btn:hover, .snippet-copy:hover {
+    background: rgba(233, 228, 245, 0.08);
+    border-color: var(--page-accent);
+  }
+
+  .snippet-copy {
+    border-color: var(--page-border);
+    color: var(--page-fg-muted);
+    background: var(--page-surface);
+  }
+
+  .snippet-copy:hover {
+    background: var(--page-surface-2);
+    color: var(--page-fg);
+  }
+
+  .copy-btn.is-copied, .snippet-copy.is-copied {
+    border-color: #2E9E6E;
+    color: #2E9E6E;
+    background: rgba(46, 158, 110, 0.1);
+  }
+
+  .snippet {
+    background: var(--page-surface);
+    border: 1px solid var(--page-border);
+    border-radius: 18px;
+    overflow: hidden;
+    margin: 0 0 22px;
+    box-shadow: 0 1px 2px rgba(28,21,38,.04), 0 6px 20px rgba(28,21,38,.04);
+  }
+
+  .snippet-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--page-border);
+  }
+
+  .snippet-head h3 {
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0 0 4px;
+  }
+
+  .snippet-source {
+    font-family: var(--page-mono);
+    font-size: 11.5px;
+    color: var(--page-fg-muted);
+    margin: 0;
+    word-break: break-all;
+  }
+
+  .snippet-note {
+    font-size: 12px;
+    color: var(--page-fg-muted);
+    line-height: 1.55;
+    margin: 8px 0 0;
+    max-width: 520px;
+  }
+
+  .snippet-preview {
+    background: var(--page-surface-2);
+    padding: 32px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .snippet-preview > * { max-width: 100%; }
+
+  footer {
+    border-top: 1px solid var(--page-border);
+    padding-top: 24px;
+    margin-top: 8px;
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: var(--page-fg-muted);
+  }
+
+  footer p { margin: 0 0 8px; }
+
+  /* =====================================================================
+     SECTION 1 -- Base styles, scoped under .apz. Include this once wherever
+     these components are used; every snippet below depends on it.
+     ===================================================================== */
+  .apz {
+    --c-bg: #F6F3FB;
+    --c-card: #FFFFFF;
+    --c-muted: #F3EFF9;
+    --c-fg: #1C1526;
+    --c-fg-muted: #78708A;
+    --c-fg-subtle: #A89CBB;
+    --c-primary: #7C3AED;
+    --c-primary-strong: #6D28D9;
+    --c-primary-weak: #F2ECFD;
+    --c-primary-fg: #FFFFFF;
+    --c-border: #EFEAF7;
+    --c-border-strong: #DED2EE;
+    --c-success: #0F9D58;
+    --c-success-weak: #E6F4EC;
+    --c-success-bd: #CBE7D8;
+    --c-attention: #B45309;
+    --c-attention-weak: #FBEFE0;
+    --c-calm: #2C7396;
+    --c-calm-weak: #E7F1F6;
+    --c-calm-bd: #CDE2EC;
+
+    font-family: var(--page-sans);
+    color: var(--c-fg);
+    width: 100%;
+  }
+
+  .apz * { box-sizing: border-box; }
+
+  .apz-eyebrow {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--c-fg-muted);
+    margin: 0 0 8px;
+  }
+
+  .apz-card {
+    background: var(--c-card);
+    border: 1px solid var(--c-border);
+    border-radius: 18px;
+    padding: 20px;
+    box-shadow: 0 1px 2px rgba(28,21,38,.05), 0 1px 8px rgba(28,21,38,.05);
+  }
+
+  .apz-h3 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--c-fg);
+    margin: 0;
+  }
+
+  .apz-text-sm { font-size: 13px; color: var(--c-fg); line-height: 1.5; }
+  .apz-text-xs { font-size: 12px; color: var(--c-fg-muted); line-height: 1.5; }
+
+  .apz-btn-primary, .apz-btn-secondary, .apz-btn-ghost {
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 12px;
+    min-height: 44px;
+    padding: 11px 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: background-color 120ms ease-out, border-color 120ms ease-out, opacity 120ms ease-out;
+    border: 1px solid transparent;
+  }
+
+  .apz-btn-primary {
+    background: var(--c-primary);
+    color: var(--c-primary-fg);
+  }
+  .apz-btn-primary:hover { background: var(--c-primary-strong); }
+  .apz-btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .apz-btn-secondary {
+    background: var(--c-card);
+    color: var(--c-fg);
+    border-color: var(--c-border-strong);
+  }
+  .apz-btn-secondary:hover { background: var(--c-muted); }
+
+  .apz-btn-ghost {
+    background: transparent;
+    color: var(--c-primary);
+    border-color: transparent;
+    min-height: auto;
+    padding: 6px 4px;
+  }
+  .apz-btn-ghost:hover { color: var(--c-primary-strong); }
+
+  .apz-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 8px;
+    line-height: 1.4;
+  }
+  .apz-badge-success { color: var(--c-success); background: var(--c-success-weak); }
+  .apz-badge-attention { color: var(--c-attention); background: var(--c-attention-weak); }
+  .apz-badge-calm { color: var(--c-calm); background: var(--c-calm-weak); }
+  .apz-badge-info { color: var(--c-primary); background: rgba(124,58,237,.08); }
+  .apz-badge-muted { color: var(--c-fg-muted); background: var(--c-muted); }
+
+  .apz-input, .apz-select, .apz-textarea {
+    width: 100%;
+    background: var(--c-card);
+    border: 1px solid var(--c-border-strong);
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 13px;
+    font-family: var(--page-sans);
+    color: var(--c-fg);
+    min-height: 44px;
+  }
+  .apz-input::placeholder, .apz-textarea::placeholder { color: var(--c-fg-subtle); }
+  .apz-input:focus, .apz-select:focus, .apz-textarea:focus {
+    outline: none;
+    border-color: var(--c-primary);
+    box-shadow: 0 0 0 3px rgba(97,26,159,.2);
+  }
+  .apz-textarea { min-height: 76px; resize: none; }
+  .apz-field-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--c-fg-muted);
+    margin: 0 0 6px;
+  }
+
+  .apz-toggle {
+    -webkit-appearance: none;
+    appearance: none;
+    border: none;
+    background: transparent;
+    padding: 0;
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .apz-toggle-track {
+    position: relative;
+    display: block;
+    width: 40px;
+    height: 24px;
+    border-radius: 999px;
+    background: var(--c-muted);
+    border: 1px solid var(--c-border-strong);
+    transition: background-color 120ms ease-out, border-color 120ms ease-out;
+  }
+  .apz-toggle[aria-checked="true"] .apz-toggle-track {
+    background: var(--c-primary);
+    border-color: var(--c-primary);
+  }
+  .apz-toggle-knob {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 16px;
+    height: 16px;
+    border-radius: 999px;
+    background: var(--c-card);
+    box-shadow: 0 1px 2px rgba(0,0,0,.25);
+    transition: transform 120ms ease-out;
+  }
+  .apz-toggle[aria-checked="true"] .apz-toggle-knob { transform: translateX(16px); }
+
+  .apz-chip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 10px 14px;
+    border-radius: 12px;
+    border: 2px solid var(--c-border);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--c-fg-muted);
+    background: transparent;
+    cursor: pointer;
+    min-height: 44px;
+    transition: border-color 120ms ease-out, background-color 120ms ease-out, color 120ms ease-out;
+  }
+  .apz-chip:hover { border-color: var(--c-border-strong); }
+  .apz-chip.is-active {
+    border-color: var(--c-primary);
+    background: rgba(124,58,237,.05);
+    color: var(--c-primary);
+  }
+
+  .apz-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-radius: 12px;
+    border: 2px solid var(--c-border);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--c-fg-muted);
+    background: transparent;
+    cursor: pointer;
+    min-height: 44px;
+    transition: border-color 120ms ease-out, background-color 120ms ease-out, color 120ms ease-out;
+  }
+  .apz-tab.is-active {
+    border-color: var(--c-primary);
+    background: rgba(124,58,237,.05);
+    color: var(--c-primary);
+  }
+
+  .apz-avatar {
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: var(--c-primary-weak);
+  }
+
+  .apz-progress-track {
+    height: 6px;
+    background: var(--c-muted);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .apz-progress-fill {
+    height: 100%;
+    background: var(--c-primary);
+    border-radius: 999px;
+    transition: width 500ms ease-out;
+  }
+
+  .apz-bubble {
+    max-width: 78%;
+    padding: 10px 14px;
+    border-radius: 16px;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .apz-bubble-sent {
+    background: var(--c-primary);
+    color: var(--c-primary-fg);
+    border-bottom-right-radius: 4px;
+  }
+  .apz-bubble-received {
+    background: var(--c-muted);
+    color: var(--c-fg);
+    border: 1px solid var(--c-border);
+    border-bottom-left-radius: 4px;
+  }
+  .apz-bubble-meta { font-size: 10px; margin-top: 4px; opacity: 0.7; }
+
+  .apz-accordion {
+    border: 1px solid var(--c-border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .apz-accordion + .apz-accordion { margin-top: 10px; }
+  .apz-accordion-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 16px 20px;
+    background: transparent;
+    border: none;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--c-fg);
+    cursor: pointer;
+    min-height: 44px;
+  }
+  .apz-accordion-trigger:hover { background: rgba(120,112,138,.06); }
+  .apz-accordion-body {
+    padding: 0 20px 20px;
+    border-top: 1px solid var(--c-border);
+  }
+  .apz-accordion-body p {
+    font-size: 13px;
+    color: var(--c-fg-muted);
+    line-height: 1.6;
+    margin: 16px 0 0;
+  }
+  .apz-tag {
+    display: inline-flex;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--c-primary);
+    background: rgba(124,58,237,.08);
+    padding: 2px 8px;
+    border-radius: 8px;
+  }
+
+  .apz-ic { width: 14px; height: 14px; flex-shrink: 0; }
+  .apz-ic-lg { width: 20px; height: 20px; }
+
+  @media (max-width: 560px) {
+    .snippet-preview { padding: 22px 14px; }
+    h1 { font-size: 27px; }
+  }
+</style>
+
+<div class="wrap">
+
+  <p class="eyebrow">Apulza design system</p>
+  <h1>Account, Support &amp; Onboarding Snippets</h1>
+  <p class="lede">
+    Copy-paste-ready HTML/CSS extracted from the live Apulza student app &mdash;
+    profile, settings, support messaging, resources, pricing, and onboarding.
+    No React, Tailwind, or lucide-react required at the consumption end. Every
+    snippet below is real markup and real design tokens, with realistic
+    placeholder data standing in for user content.
+  </p>
+  <div class="meta-row">
+    <span>7 snippets</span>
+    <span class="sep">&middot;</span>
+    <span>extracted from 7 source files</span>
+    <span class="sep">&middot;</span>
+    <span>self-contained, zero dependencies</span>
+  </div>
+
+  <div class="note">
+    <strong>Font note:</strong> the live app loads Figtree via <code>next/font/google</code>.
+    This preview does not link any external font (external requests are blocked
+    once this page is published), so it falls back to your system sans-serif.
+    Load Figtree yourself in your own build for a pixel-accurate match.
+  </div>
+
+  <section class="block">
+    <div class="block-head">
+      <p class="block-index">Section 1 / 2</p>
+      <h2>Base styles &mdash; include once</h2>
+      <p class="block-desc">
+        Every snippet below is scoped under a single <code>.apz</code> wrapper
+        class. It carries the Apulza design tokens as CSS custom properties
+        (mirrors <code>DESIGN.md</code>) plus the small set of reusable
+        component classes the snippets use &mdash; cards, buttons, badges,
+        inputs, toggles, chips, tabs, avatars, a progress bar, message
+        bubbles, and an accordion. Include this block once per page; every
+        snippet after it only needs its own markup.
+      </p>
+    </div>
+    <div class="code-shell">
+      <div class="code-shell-head">
+        <span class="code-shell-filename">apz-base.css</span>
+        <button class="copy-btn" data-target="code-base" type="button">Copy CSS</button>
+      </div>
+      <pre class="snippet-code js-plain" id="code-base">.apz {
+  --c-bg: #F6F3FB;
+  --c-card: #FFFFFF;
+  --c-muted: #F3EFF9;
+  --c-fg: #1C1526;
+  --c-fg-muted: #78708A;
+  --c-fg-subtle: #A89CBB;
+  --c-primary: #7C3AED;
+  --c-primary-strong: #6D28D9;
+  --c-primary-weak: #F2ECFD;
+  --c-primary-fg: #FFFFFF;
+  --c-border: #EFEAF7;
+  --c-border-strong: #DED2EE;
+  --c-success: #0F9D58;
+  --c-success-weak: #E6F4EC;
+  --c-success-bd: #CBE7D8;
+  --c-attention: #B45309;
+  --c-attention-weak: #FBEFE0;
+  --c-calm: #2C7396;
+  --c-calm-weak: #E7F1F6;
+  --c-calm-bd: #CDE2EC;
+
+  font-family: var(--page-sans);
+  color: var(--c-fg);
+  width: 100%;
+}
+
+.apz * { box-sizing: border-box; }
+
+.apz-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--c-fg-muted);
+  margin: 0 0 8px;
+}
+
+.apz-card {
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 1px 2px rgba(28,21,38,.05), 0 1px 8px rgba(28,21,38,.05);
+}
+
+.apz-h3 {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--c-fg);
+  margin: 0;
+}
+
+.apz-text-sm { font-size: 13px; color: var(--c-fg); line-height: 1.5; }
+.apz-text-xs { font-size: 12px; color: var(--c-fg-muted); line-height: 1.5; }
+
+.apz-btn-primary, .apz-btn-secondary, .apz-btn-ghost {
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 12px;
+  min-height: 44px;
+  padding: 11px 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: background-color 120ms ease-out, border-color 120ms ease-out, opacity 120ms ease-out;
+  border: 1px solid transparent;
+}
+
+.apz-btn-primary {
+  background: var(--c-primary);
+  color: var(--c-primary-fg);
+}
+.apz-btn-primary:hover { background: var(--c-primary-strong); }
+.apz-btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.apz-btn-secondary {
+  background: var(--c-card);
+  color: var(--c-fg);
+  border-color: var(--c-border-strong);
+}
+.apz-btn-secondary:hover { background: var(--c-muted); }
+
+.apz-btn-ghost {
+  background: transparent;
+  color: var(--c-primary);
+  border-color: transparent;
+  min-height: auto;
+  padding: 6px 4px;
+}
+.apz-btn-ghost:hover { color: var(--c-primary-strong); }
+
+.apz-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 8px;
+  line-height: 1.4;
+}
+.apz-badge-success { color: var(--c-success); background: var(--c-success-weak); }
+.apz-badge-attention { color: var(--c-attention); background: var(--c-attention-weak); }
+.apz-badge-calm { color: var(--c-calm); background: var(--c-calm-weak); }
+.apz-badge-info { color: var(--c-primary); background: rgba(124,58,237,.08); }
+.apz-badge-muted { color: var(--c-fg-muted); background: var(--c-muted); }
+
+.apz-input, .apz-select, .apz-textarea {
+  width: 100%;
+  background: var(--c-card);
+  border: 1px solid var(--c-border-strong);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-family: var(--page-sans);
+  color: var(--c-fg);
+  min-height: 44px;
+}
+.apz-input::placeholder, .apz-textarea::placeholder { color: var(--c-fg-subtle); }
+.apz-input:focus, .apz-select:focus, .apz-textarea:focus {
+  outline: none;
+  border-color: var(--c-primary);
+  box-shadow: 0 0 0 3px rgba(97,26,159,.2);
+}
+.apz-textarea { min-height: 76px; resize: none; }
+.apz-field-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--c-fg-muted);
+  margin: 0 0 6px;
+}
+
+.apz-toggle {
+  -webkit-appearance: none;
+  appearance: none;
+  border: none;
+  background: transparent;
+  padding: 0;
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.apz-toggle-track {
+  position: relative;
+  display: block;
+  width: 40px;
+  height: 24px;
+  border-radius: 999px;
+  background: var(--c-muted);
+  border: 1px solid var(--c-border-strong);
+  transition: background-color 120ms ease-out, border-color 120ms ease-out;
+}
+.apz-toggle[aria-checked="true"] .apz-toggle-track {
+  background: var(--c-primary);
+  border-color: var(--c-primary);
+}
+.apz-toggle-knob {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: var(--c-card);
+  box-shadow: 0 1px 2px rgba(0,0,0,.25);
+  transition: transform 120ms ease-out;
+}
+.apz-toggle[aria-checked="true"] .apz-toggle-knob { transform: translateX(16px); }
+
+.apz-chip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 2px solid var(--c-border);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--c-fg-muted);
+  background: transparent;
+  cursor: pointer;
+  min-height: 44px;
+  transition: border-color 120ms ease-out, background-color 120ms ease-out, color 120ms ease-out;
+}
+.apz-chip:hover { border-color: var(--c-border-strong); }
+.apz-chip.is-active {
+  border-color: var(--c-primary);
+  background: rgba(124,58,237,.05);
+  color: var(--c-primary);
+}
+
+.apz-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: 2px solid var(--c-border);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--c-fg-muted);
+  background: transparent;
+  cursor: pointer;
+  min-height: 44px;
+  transition: border-color 120ms ease-out, background-color 120ms ease-out, color 120ms ease-out;
+}
+.apz-tab.is-active {
+  border-color: var(--c-primary);
+  background: rgba(124,58,237,.05);
+  color: var(--c-primary);
+}
+
+.apz-avatar {
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--c-primary-weak);
+}
+
+.apz-progress-track {
+  height: 6px;
+  background: var(--c-muted);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.apz-progress-fill {
+  height: 100%;
+  background: var(--c-primary);
+  border-radius: 999px;
+  transition: width 500ms ease-out;
+}
+
+.apz-bubble {
+  max-width: 78%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: 13px;
+  line-height: 1.55;
+}
+.apz-bubble-sent {
+  background: var(--c-primary);
+  color: var(--c-primary-fg);
+  border-bottom-right-radius: 4px;
+}
+.apz-bubble-received {
+  background: var(--c-muted);
+  color: var(--c-fg);
+  border: 1px solid var(--c-border);
+  border-bottom-left-radius: 4px;
+}
+.apz-bubble-meta { font-size: 10px; margin-top: 4px; opacity: 0.7; }
+
+.apz-accordion {
+  border: 1px solid var(--c-border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.apz-accordion + .apz-accordion { margin-top: 10px; }
+.apz-accordion-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 20px;
+  background: transparent;
+  border: none;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--c-fg);
+  cursor: pointer;
+  min-height: 44px;
+}
+.apz-accordion-trigger:hover { background: rgba(120,112,138,.06); }
+.apz-accordion-body {
+  padding: 0 20px 20px;
+  border-top: 1px solid var(--c-border);
+}
+.apz-accordion-body p {
+  font-size: 13px;
+  color: var(--c-fg-muted);
+  line-height: 1.6;
+  margin: 16px 0 0;
+}
+.apz-tag {
+  display: inline-flex;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--c-primary);
+  background: rgba(124,58,237,.08);
+  padding: 2px 8px;
+  border-radius: 8px;
+}
+
+.apz-ic { width: 14px; height: 14px; flex-shrink: 0; }
+.apz-ic-lg { width: 20px; height: 20px; }</pre>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-head">
+      <p class="block-index">Section 2 / 2</p>
+      <h2>Snippets</h2>
+      <p class="block-desc">
+        Six moments pulled from the student account, support, and onboarding
+        surfaces. Each card shows a live render on the left/top and the raw
+        markup below it &mdash; copy either the whole snippet or adapt pieces
+        of it.
+      </p>
+    </div>
+
+    <!-- 1. Profile + avatar -->
+    <div class="snippet">
+      <div class="snippet-head">
+        <div>
+          <h3>Profile card with avatar</h3>
+          <p class="snippet-source">frontend/src/app/(student)/my-profile/page.tsx + components/student/AvatarPicker.tsx + AvatarBadge.tsx</p>
+          <p class="snippet-note">
+            The real avatar is a procedurally-rendered illustrated cat (breed,
+            color, and pose all user-chosen via <code>AvatarPicker</code>) &mdash;
+            too complex to inline here, so this preview stands in a simplified
+            purple mark in its place. Conditions and academic info are real
+            field patterns from <code>my-profile/page.tsx</code>.
+          </p>
+        </div>
+        <button class="snippet-copy" data-target="code-profile" type="button">Copy HTML</button>
+      </div>
+      <div class="snippet-preview" data-tpl="profile"></div>
+      <div class="code-shell">
+        <div class="code-shell-head">
+          <span class="code-shell-filename">profile-avatar-card.html</span>
+          <button class="copy-btn" data-target="code-profile" type="button">Copy HTML</button>
+        </div>
+        <pre class="snippet-code" id="code-profile"></pre>
+      </div>
+    </div>
+
+    <!-- 2. Settings toggle section -->
+    <div class="snippet">
+      <div class="snippet-head">
+        <div>
+          <h3>Settings section &mdash; display &amp; reading toggles</h3>
+          <p class="snippet-source">frontend/src/app/(student)/my-settings/page.tsx</p>
+          <p class="snippet-note">
+            One representative section from a 1,300+ line settings page: a
+            card heading plus four accessible toggle rows (<code>role="switch"</code>),
+            each with a plain-language description of what it changes.
+          </p>
+        </div>
+        <button class="snippet-copy" data-target="code-settings" type="button">Copy HTML</button>
+      </div>
+      <div class="snippet-preview" data-tpl="settings"></div>
+      <div class="code-shell">
+        <div class="code-shell-head">
+          <span class="code-shell-filename">settings-display-toggles.html</span>
+          <button class="copy-btn" data-target="code-settings" type="button">Copy HTML</button>
+        </div>
+        <pre class="snippet-code" id="code-settings"></pre>
+      </div>
+    </div>
+
+    <!-- 3. Support thread -->
+    <div class="snippet">
+      <div class="snippet-head">
+        <div>
+          <h3>Support conversation &mdash; message thread</h3>
+          <p class="snippet-source">frontend/src/app/(student)/my-support/page.tsx</p>
+          <p class="snippet-note">
+            The <code>ThreadDetail</code> view: header with status, a scrollback
+            of student/counselor message bubbles, and a reply composer.
+          </p>
+        </div>
+        <button class="snippet-copy" data-target="code-support" type="button">Copy HTML</button>
+      </div>
+      <div class="snippet-preview" data-tpl="support"></div>
+      <div class="code-shell">
+        <div class="code-shell-head">
+          <span class="code-shell-filename">support-message-thread.html</span>
+          <button class="copy-btn" data-target="code-support" type="button">Copy HTML</button>
+        </div>
+        <pre class="snippet-code" id="code-support"></pre>
+      </div>
+    </div>
+
+    <!-- 4. Resources accordion -->
+    <div class="snippet">
+      <div class="snippet-head">
+        <div>
+          <h3>Resource library &mdash; expandable strategy card</h3>
+          <p class="snippet-source">frontend/src/app/(student)/resources/page.tsx</p>
+          <p class="snippet-note">
+            Category tabs plus <code>AccordionItem</code> in both states &mdash;
+            one collapsed, one expanded with body copy and topic tags.
+          </p>
+        </div>
+        <button class="snippet-copy" data-target="code-resources" type="button">Copy HTML</button>
+      </div>
+      <div class="snippet-preview" data-tpl="resources"></div>
+      <div class="code-shell">
+        <div class="code-shell-head">
+          <span class="code-shell-filename">resources-accordion-card.html</span>
+          <button class="copy-btn" data-target="code-resources" type="button">Copy HTML</button>
+        </div>
+        <pre class="snippet-code" id="code-resources"></pre>
+      </div>
+    </div>
+
+    <!-- 5. Pricing plans -->
+    <div class="snippet">
+      <div class="snippet-head">
+        <div>
+          <h3>Pricing tiers</h3>
+          <p class="snippet-source">frontend/src/components/billing/PricingPlans.tsx</p>
+          <p class="snippet-note">
+            All three tiers with their real feature copy, shown across the
+            component's three states: current plan, mid-checkout confirmation,
+            and an idle "choose this plan" button.
+          </p>
+        </div>
+        <button class="snippet-copy" data-target="code-pricing" type="button">Copy HTML</button>
+      </div>
+      <div class="snippet-preview" data-tpl="pricing"></div>
+      <div class="code-shell">
+        <div class="code-shell-head">
+          <span class="code-shell-filename">pricing-tier-cards.html</span>
+          <button class="copy-btn" data-target="code-pricing" type="button">Copy HTML</button>
+        </div>
+        <pre class="snippet-code" id="code-pricing"></pre>
+      </div>
+    </div>
+
+    <!-- 6. Onboarding step -->
+    <div class="snippet">
+      <div class="snippet-head">
+        <div>
+          <h3>Onboarding step with progress indicator</h3>
+          <p class="snippet-source">frontend/src/app/onboarding/page.tsx</p>
+          <p class="snippet-note">
+            The <code>ProgressBar</code> plus <code>StepSchool</code> &mdash; step 1
+            of the 5-step flow, showing the low-pressure "you can skip and come
+            back" framing used throughout onboarding.
+          </p>
+        </div>
+        <button class="snippet-copy" data-target="code-onboarding" type="button">Copy HTML</button>
+      </div>
+      <div class="snippet-preview" data-tpl="onboarding"></div>
+      <div class="code-shell">
+        <div class="code-shell-head">
+          <span class="code-shell-filename">onboarding-step-progress.html</span>
+          <button class="copy-btn" data-target="code-onboarding" type="button">Copy HTML</button>
+        </div>
+        <pre class="snippet-code" id="code-onboarding"></pre>
+      </div>
+    </div>
+
+    <!-- 7. Login cat nook -->
+    <div class="snippet">
+      <div class="snippet-head">
+        <div>
+          <h3>Login page illustration &mdash; cat window nook</h3>
+          <p class="snippet-source">frontend/src/components/student/cafe/LoginCatNook.tsx</p>
+          <p class="snippet-note">
+            A standalone decorative SVG asset, purpose-built for the login page
+            (not a crop of the shared multi-cat cafe room). No interaction,
+            no dependencies &mdash; drop it in as-is.
+          </p>
+        </div>
+        <button class="snippet-copy" data-target="code-catnook" type="button">Copy HTML</button>
+      </div>
+      <div class="snippet-preview" data-tpl="catnook"></div>
+      <div class="code-shell">
+        <div class="code-shell-head">
+          <span class="code-shell-filename">login-cat-nook.html</span>
+          <button class="copy-btn" data-target="code-catnook" type="button">Copy HTML</button>
+        </div>
+        <pre class="snippet-code" id="code-catnook"></pre>
+      </div>
+    </div>
+
+  </section>
+
+  <footer>
+    <p>All copy above is placeholder data invented for this preview &mdash; no real student, counselor, or account information is included.</p>
+    <p>Tokens, spacing, and copy rules follow <code>DESIGN.md</code> and <code>CLAUDE.md</code> from the Apulza repository: warm/neutral/instructional tone, month-scoped positive framing on stats, and calm confirmations on any destructive action.</p>
+  </footer>
+
+</div>
+
+<!-- ============================================================
+     TEMPLATES -- one per snippet. Real markup, not escaped strings.
+     ============================================================ -->
+
+<template id="tpl-profile">
+<div class="apz" style="max-width:520px;">
+  <div class="apz-card" style="display:flex;flex-direction:column;gap:18px;">
+    <div style="display:flex;align-items:center;gap:14px;">
+      <button type="button" aria-label="Change your cat avatar" class="apz-avatar" style="width:52px;height:52px;border:none;cursor:pointer;">
+        <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="#7C3AED" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M4 10 L7 4 L10 9" />
+          <path d="M20 10 L17 4 L14 9" />
+          <circle cx="12" cy="13.5" r="7.5" />
+          <circle cx="9" cy="13" r="0.9" fill="#7C3AED" stroke="none" />
+          <circle cx="15" cy="13" r="0.9" fill="#7C3AED" stroke="none" />
+          <path d="M11 16.2 L13 16.2 L12 17.6 Z" fill="#7C3AED" stroke="none" />
+        </svg>
+      </button>
+      <div style="min-width:0;">
+        <p class="apz-h3" style="font-size:15px;">Jordan Alvarez</p>
+        <p class="apz-text-xs" style="margin-top:2px;">jordan.alvarez@braxtonu.edu</p>
+      </div>
+    </div>
+
+    <div>
+      <p class="apz-h3" style="margin-bottom:2px;">My Conditions</p>
+      <p class="apz-text-xs" style="margin-bottom:14px;">Used to personalize your study plans. Private and secure.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <button type="button" class="apz-chip is-active">ADHD
+          <svg class="apz-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /><path d="m9 12 2 2 4-4" /></svg>
+        </button>
+        <button type="button" class="apz-chip is-active">Anxiety
+          <svg class="apz-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /><path d="m9 12 2 2 4-4" /></svg>
+        </button>
+        <button type="button" class="apz-chip">Depression</button>
+        <button type="button" class="apz-chip">Dyslexia</button>
+      </div>
+    </div>
+
+    <div style="border-top:1px solid var(--c-border);padding-top:16px;">
+      <p class="apz-h3" style="margin-bottom:12px;">Academic Info</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+        <div>
+          <label class="apz-field-label" for="apz-profile-program">Program / Major</label>
+          <input id="apz-profile-program" class="apz-input" type="text" value="Computer Science" />
+        </div>
+        <div>
+          <label class="apz-field-label" for="apz-profile-year">Start Year</label>
+          <input id="apz-profile-year" class="apz-input" type="number" value="2023" />
+        </div>
+      </div>
+      <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+        <input type="checkbox" checked style="width:16px;height:16px;" />
+        <span class="apz-text-sm">I have an official accommodation plan</span>
+      </label>
+    </div>
+
+    <button type="button" class="apz-btn-primary" style="align-self:flex-start;">
+      <svg class="apz-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z" /><path d="M17 21v-8H7v8" /><path d="M7 3v5h8" /></svg>
+      Save changes
+    </button>
+  </div>
+</div>
+</template>
+
+<template id="tpl-settings">
+<div class="apz" style="max-width:480px;">
+  <div class="apz-card">
+    <p class="apz-eyebrow">Display &amp; reading</p>
+    <div style="display:flex;flex-direction:column;gap:18px;">
+
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;">
+        <div>
+          <p class="apz-text-sm" style="font-weight:600;">Low-stimulation mode</p>
+          <p class="apz-text-xs" style="margin-top:2px;max-width:280px;">Reduces color, motion, and visual effects across Apulza &mdash; a calmer, quieter look.</p>
+        </div>
+        <button type="button" class="apz-toggle" role="switch" aria-checked="true" aria-label="Low-stimulation mode">
+          <span class="apz-toggle-track"><span class="apz-toggle-knob"></span></span>
+        </button>
+      </div>
+
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;">
+        <div>
+          <p class="apz-text-sm" style="font-weight:600;">Dyslexia-friendly mode</p>
+          <p class="apz-text-xs" style="margin-top:2px;max-width:280px;">Switches to a font and spacing designed to make reading easier.</p>
+        </div>
+        <button type="button" class="apz-toggle" role="switch" aria-checked="false" aria-label="Dyslexia-friendly mode">
+          <span class="apz-toggle-track"><span class="apz-toggle-knob"></span></span>
+        </button>
+      </div>
+
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;">
+        <div>
+          <p class="apz-text-sm" style="font-weight:600;">High contrast</p>
+          <p class="apz-text-xs" style="margin-top:2px;max-width:280px;">Increases contrast between text, borders, and backgrounds for easier reading.</p>
+        </div>
+        <button type="button" class="apz-toggle" role="switch" aria-checked="false" aria-label="High contrast">
+          <span class="apz-toggle-track"><span class="apz-toggle-knob"></span></span>
+        </button>
+      </div>
+
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;">
+        <div>
+          <p class="apz-text-sm" style="font-weight:600;">Colour-blind friendly colours</p>
+          <p class="apz-text-xs" style="margin-top:2px;max-width:280px;">Uses a colour set that stays distinguishable if you see colour differently.</p>
+        </div>
+        <button type="button" class="apz-toggle" role="switch" aria-checked="true" aria-label="Colour-blind friendly colours">
+          <span class="apz-toggle-track"><span class="apz-toggle-knob"></span></span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+</template>
+
+<template id="tpl-support">
+<div class="apz" style="max-width:420px;">
+  <div class="apz-card" style="padding:0;display:flex;flex-direction:column;height:420px;overflow:hidden;">
+    <div style="display:flex;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid var(--c-border);">
+      <button type="button" aria-label="Back to conversations" style="border:none;background:transparent;padding:6px;border-radius:8px;cursor:pointer;color:var(--c-fg-muted);display:flex;">
+        <svg class="apz-ic-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 19-7-7 7-7" /><path d="M19 12H5" /></svg>
+      </button>
+      <div style="flex:1;min-width:0;">
+        <p class="apz-text-sm" style="font-weight:600;">Falling behind in Statistics</p>
+        <p class="apz-text-xs">with Morgan Reyes</p>
+      </div>
+      <span class="apz-badge apz-badge-success">Open</span>
+    </div>
+
+    <div style="flex:1;overflow-y:auto;padding:16px 18px;display:flex;flex-direction:column;gap:12px;">
+      <div style="display:flex;justify-content:flex-start;">
+        <div class="apz-bubble apz-bubble-received">
+          <p>Hi Jordan &mdash; I saw you flagged Statistics as a struggle area. Want to walk through what's been hardest this week?</p>
+          <p class="apz-bubble-meta">1:58 PM &middot; Morgan Reyes</p>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:flex-end;">
+        <div class="apz-bubble apz-bubble-sent">
+          <p>Mostly the take-home problem sets &mdash; I keep putting them off until the night before.</p>
+          <p class="apz-bubble-meta" style="color:rgba(255,255,255,.7);">2:06 PM &middot; You</p>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:flex-start;">
+        <div class="apz-bubble apz-bubble-received">
+          <p>That's really common. Let's try blocking 25 minutes right after your Tuesday lecture, before anything else gets your attention. I can add it to your study plan.</p>
+          <p class="apz-bubble-meta">2:14 PM &middot; Morgan Reyes</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:12px 14px;border-top:1px solid var(--c-border);display:flex;align-items:center;gap:8px;">
+      <input class="apz-input" type="text" placeholder="Write a reply..." style="flex:1;" />
+      <button type="button" aria-label="Send reply" class="apz-btn-primary" style="min-width:44px;padding:11px;">
+        <svg class="apz-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z" /><path d="M22 2 11 13" /></svg>
+      </button>
+    </div>
+  </div>
+</div>
+</template>
+
+<template id="tpl-resources">
+<div class="apz" style="max-width:560px;">
+  <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;">
+    <button type="button" class="apz-tab is-active">
+      <svg class="apz-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6" /><path d="M10 22h4" /><path d="M12 2a7 7 0 0 0-7 7c0 2.5 1.5 4 2.5 5.5S9 17 9 18h6c0-1 .5-1.5 1.5-3S19 11.5 19 9a7 7 0 0 0-7-7Z" /></svg>
+      ADHD &amp; Mental Health
+    </button>
+    <button type="button" class="apz-tab">
+      <svg class="apz-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z" /><path d="m8.5 8.5 7 7" /></svg>
+      Medications
+    </button>
+    <button type="button" class="apz-tab">
+      <svg class="apz-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" /></svg>
+      Harm Reduction
+    </button>
+  </div>
+
+  <div class="apz-accordion">
+    <button type="button" class="apz-accordion-trigger">
+      Pomodoro Technique
+      <svg class="apz-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+    </button>
+  </div>
+
+  <div class="apz-accordion">
+    <button type="button" class="apz-accordion-trigger">
+      Body Doubling
+      <svg class="apz-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m18 15-6-6-6 6" /></svg>
+    </button>
+    <div class="apz-accordion-body">
+      <p>Study in the presence of another person &mdash; a library, cafe, or even a virtual co-working session. The external awareness activates the ADHD brain's motivation system. Try Focusmate or a Discord study stream.</p>
+      <div style="display:flex;gap:6px;margin-top:12px;">
+        <span class="apz-tag">ADHD</span>
+        <span class="apz-tag">Motivation</span>
+      </div>
+    </div>
+  </div>
+</div>
+</template>
+
+<template id="tpl-pricing">
+<div class="apz" style="max-width:800px;">
+  <div style="display:flex;align-items:center;gap:8px;background:var(--c-success-weak);border:1px solid var(--c-success-bd);border-radius:12px;padding:12px 16px;margin-bottom:18px;font-size:14px;font-weight:600;color:var(--c-success);">
+    <svg class="apz-ic-lg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /><path d="m9 12 2 2 4-4" /></svg>
+    You're now on the Medium plan.
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;">
+
+    <div class="apz-card" style="display:flex;flex-direction:column;">
+      <p class="apz-eyebrow">Free</p>
+      <p style="font-size:22px;font-weight:700;letter-spacing:-0.01em;margin:0;">$0</p>
+      <p class="apz-text-xs" style="margin-top:6px;">A gentle way to get started with Apulza.</p>
+      <ul style="list-style:none;margin:16px 0 0;padding:0;flex:1;display:flex;flex-direction:column;gap:8px;">
+        <li style="display:flex;gap:8px;align-items:flex-start;font-size:13px;">
+          <svg class="apz-ic" viewBox="0 0 24 24" fill="none" stroke="#0F9D58" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-top:2px;"><circle cx="12" cy="12" r="10" /><path d="m9 12 2 2 4-4" /></svg>
+          5 AI prompts a month
+        </li>
+        <li style="display:flex;gap:8px;align-items:flex-start;font-size:13px;">
+          <svg class="apz-ic" viewBox="0 0 24 24" fill="none" stroke="#0F9D58" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-top:2px;"><circle cx="12" cy="12" r="10" /><path d="m9 12 2 2 4-4" /></svg>
+          1 course study plan a month
+        </li>
+        <li style="display:flex;gap:8px;align-items:flex-start;font-size:13px;">
+          <svg class="apz-ic" viewBox="0 0 24 24" fill="none" stroke="#0F9D58" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-top:2px;"><circle cx="12" cy="12" r="10" /><path d="m9 12 2 2 4-4" /></svg>
+          2 Cat Cafe unlocks a month
+        </li>
+        <li style="display:flex;gap:8px;align-items:flex-start;font-size:13px;">
+          <svg class="apz-ic" viewBox="0 0 24 24" fill="none" stroke="#0F9D58" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-top:2px;"><circle cx="12" cy="12" r="10" /><path d="m9 12 2 2 4-4" /></svg>
+          Outfits in the Clawset
+        </li>
+      </ul>
+      <button type="button" class="apz-btn-secondary" style="margin-top:20px;">Choose Free</button>
+    </div>
+
+    <div class="apz-card" style="display:flex;flex-direction:column;border-color:var(--c-primary);">
+      <p class="apz-eyebrow">Medium</p>
+      <p style="font-size:22px;font-weight:700;letter-spacing:-0.01em;margin:0;">$7/mo</p>
+      <p class="apz-text-xs" style="margin-top:6px;">More room to plan, chat, and decorate.</p>
+      <ul style="list-style:none;margin:16px 0 0;padding:0;flex:1;display:flex;flex-direction:column;gap:8px;">
+        <li style="display:flex;gap:8px;align-items:flex-start;font-size:13px;">
+          <svg class="apz-ic" viewBox="0 0 24 24" fill="none" stroke="#0F9D58" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-top:2px;"><circle cx="12" cy="12" r="10" /><path d="m9 12 2 2 4-4" /></svg>
+          50 AI prompts a month
+        </li>
+        <li style="display:flex;gap:8px;align-items:flex-start;font-size:13px;">
+          <svg class="apz-ic" viewBox="0 0 24 24" fill="none" stroke="#0F9D58" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-top:2px;"><circle cx="12" cy="12" r="10" /><path d="m9 12 2 2 4-4" /></svg>
+          10 course study plans a month
+        </li>
+        <li style="display:flex;gap:8px;align-items:flex-start;font-size:13px;">
+          <svg class="apz-ic" viewBox="0 0 24 24" fill="none" stroke="#0F9D58" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-top:2px;"><circle cx="12" cy="12" r="10" /><path d="m9 12 2 2 4-4" /></svg>
+          Full Cat Cafe &amp; Clawset access
+        </li>
+        <li style="display:flex;gap:8px;align-items:flex-start;font-size:13px;">
+          <svg class="apz-ic" viewBox="0 0 24 24" fill="none" stroke="#0F9D58" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-top:2px;"><circle cx="12" cy="12" r="10" /><path d="m9 12 2 2 4-4" /></svg>
+          Counselor dashboard (no AI)
+        </li>
+      </ul>
+      <span class="apz-badge apz-badge-info" style="margin-top:20px;align-self:flex-start;">
+        <svg class="apz-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /><path d="m9 12 2 2 4-4" /></svg>
+        Current plan
+      </span>
+    </div>
+
+    <div class="apz-card" style="display:flex;flex-direction:column;">
+      <p class="apz-eyebrow">Premium</p>
+      <p style="font-size:22px;font-weight:700;letter-spacing:-0.01em;margin:0;">$14/mo</p>
+      <p class="apz-text-xs" style="margin-top:6px;">Full access to everything Apulza offers.</p>
+      <ul style="list-style:none;margin:16px 0 0;padding:0;flex:1;display:flex;flex-direction:column;gap:8px;">
+        <li style="display:flex;gap:8px;align-items:flex-start;font-size:13px;">
+          <svg class="apz-ic" viewBox="0 0 24 24" fill="none" stroke="#0F9D58" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-top:2px;"><circle cx="12" cy="12" r="10" /><path d="m9 12 2 2 4-4" /></svg>
+          Unlimited AI prompts
+        </li>
+        <li style="display:flex;gap:8px;align-items:flex-start;font-size:13px;">
+          <svg class="apz-ic" viewBox="0 0 24 24" fill="none" stroke="#0F9D58" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-top:2px;"><circle cx="12" cy="12" r="10" /><path d="m9 12 2 2 4-4" /></svg>
+          Unlimited study plan generation
+        </li>
+        <li style="display:flex;gap:8px;align-items:flex-start;font-size:13px;">
+          <svg class="apz-ic" viewBox="0 0 24 24" fill="none" stroke="#0F9D58" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-top:2px;"><circle cx="12" cy="12" r="10" /><path d="m9 12 2 2 4-4" /></svg>
+          Full Cat Cafe &amp; Clawset access
+        </li>
+        <li style="display:flex;gap:8px;align-items:flex-start;font-size:13px;">
+          <svg class="apz-ic" viewBox="0 0 24 24" fill="none" stroke="#0F9D58" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="margin-top:2px;"><circle cx="12" cy="12" r="10" /><path d="m9 12 2 2 4-4" /></svg>
+          AI-powered counselor Q&amp;A
+        </li>
+      </ul>
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--c-border);display:flex;flex-direction:column;gap:10px;">
+        <div style="display:flex;align-items:center;gap:8px;background:var(--c-muted);border-radius:10px;padding:10px 12px;font-size:12px;color:var(--c-fg-muted);">
+          <svg class="apz-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="5" rx="2" /><line x1="2" y1="10" x2="22" y2="10" /></svg>
+          Card ending in &bull;&bull;&bull;&bull; 4242
+        </div>
+        <p class="apz-text-xs" style="font-size:11px;">This is a preview &mdash; no payment is charged.</p>
+        <div style="display:flex;gap:8px;">
+          <button type="button" class="apz-btn-primary" style="flex:1;">Confirm switch to Premium</button>
+          <button type="button" class="apz-btn-secondary">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</template>
+
+<template id="tpl-onboarding">
+<div class="apz" style="max-width:400px;">
+  <div class="apz-card" style="padding:28px;">
+    <div style="margin-bottom:26px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+        <p style="font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--c-fg-muted);margin:0;">Step 1 of 5</p>
+        <p style="font-size:10px;color:var(--c-fg-subtle);margin:0;">20% complete</p>
+      </div>
+      <div class="apz-progress-track">
+        <div class="apz-progress-fill" style="width:20%;"></div>
+      </div>
+    </div>
+
+    <div style="width:48px;height:48px;border-radius:16px;background:var(--c-primary-weak);display:flex;align-items:center;justify-content:center;margin-bottom:18px;">
+      <svg class="apz-ic-lg" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18" /><path d="M18 22V9a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v13" /><path d="M10 6h4" /><path d="M10 10h4" /><path d="M10 14h4" /><path d="M4 22h18" /></svg>
+    </div>
+
+    <p style="font-size:17px;font-weight:700;margin:0 0 6px;">Where do you study?</p>
+    <p class="apz-text-xs" style="margin-bottom:22px;">This helps us show you the right courses and resources.</p>
+
+    <select class="apz-select" style="margin-bottom:22px;">
+      <option>Braxton University</option>
+    </select>
+
+    <div style="display:flex;align-items:center;gap:14px;">
+      <button type="button" style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--c-fg-muted);background:transparent;border:none;cursor:pointer;padding:8px 4px;">
+        <svg class="apz-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+        Back
+      </button>
+      <button type="button" class="apz-btn-primary">Continue</button>
+    </div>
+
+    <p class="apz-text-xs" style="margin-top:18px;font-size:11px;">This takes about two minutes. You can skip anything and come back later.</p>
+  </div>
+</div>
+</template>
+
+<template id="tpl-catnook">
+<div style="max-width:320px;width:100%;">
+<svg viewBox="0 0 552 483" style="width:100%;height:auto;display:block;border-radius:20px;">
+<rect x="0" y="0" width="552" height="483" fill="#f2ecfd"/>
+<defs>
+<clipPath id="loginNookArch"><path d="M99,389 V244.1 C99,197.13 117.815,152.084 151.307,118.871 C184.799,85.6587 230.224,67 277.588,67 C324.953,67 370.377,85.6587 403.869,118.871 C437.361,152.084 456.176,197.13 456.176,244.1 V389 Z"/></clipPath>
+<linearGradient id="loginNookSky" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0%" stop-color="#cfe8f5"/>
+<stop offset="100%" stop-color="#fdf6e8"/>
+</linearGradient>
+</defs>
+<g clip-path="url(#loginNookArch)">
+<rect x="99" y="54" width="357" height="335" fill="url(#loginNookSky)"/>
+<circle cx="391.24" cy="187.75" r="35.42" fill="#fdeecb" opacity=".8"/>
+<circle cx="391.24" cy="187.75" r="54.72" fill="#fdeecb" opacity=".3"/>
+<g fill="#ffffff" opacity=".85">
+<ellipse cx="155.95" cy="153.15" rx="38.97" ry="17.71"/><ellipse cx="193.29" cy="145.1" rx="25.98" ry="16.1"/><ellipse cx="125.11" cy="146.71" rx="21.11" ry="12.88"/>
+</g>
+<g fill="#ffffff" opacity=".85">
+<ellipse cx="291.95" cy="91.15" rx="38.97" ry="17.71"/><ellipse cx="329.29" cy="83.1" rx="25.98" ry="16.1"/><ellipse cx="261.11" cy="84.71" rx="21.11" ry="12.88"/>
+</g>
+<g fill="#ffffff" opacity=".85">
+<ellipse cx="259.95" cy="245.15" rx="38.97" ry="17.71"/><ellipse cx="297.29" cy="237.1" rx="25.98" ry="16.1"/><ellipse cx="229.11" cy="238.71" rx="21.11" ry="12.88"/>
+</g>
+<g fill="#9ec793" opacity=".9">
+<ellipse cx="147.71" cy="376.12" rx="74.68" ry="41.86"/><ellipse cx="293.82" cy="385.78" rx="94.16" ry="48.3"/><ellipse cx="415.59" cy="372.9" rx="68.19" ry="38.64"/>
+</g>
+</g>
+<path d="M97,383 V238.1 C97,191.13 115.815,146.084 149.307,112.871 C182.799,79.6587 228.224,61 275.588,61 C322.953,61 368.377,79.6587 401.869,112.871 C435.361,146.084 454.176,191.13 454.176,238.1 V383" fill="none" stroke="#a9794f" stroke-width="7"/>
+<line x1="276" y1="61" x2="276" y2="389" stroke="#a9794f" stroke-width="5"/>
+<line x1="97.22" y1="260.76" x2="454.4" y2="260.76" stroke="#a9794f" stroke-width="5"/>
+<rect x="69" y="396" width="415.62" height="25.76" rx="5.4" fill="#a9794f"/>
+<rect x="68" y="383" width="415.62" height="12.88" fill="#8a6240"/>
+<path d="M425.18,354.14 H464.14 L457.65,383.12 H431.67 Z" fill="#c2a26a"/>
+<g fill="#6f9e5a">
+<ellipse cx="434.4" cy="338" rx="11" ry="24.7" transform="rotate(-18 434.4 338)"/>
+<ellipse cx="454.4" cy="338" rx="11" ry="24.7" transform="rotate(18 454.4 338)"/>
+<ellipse cx="444.66" cy="325.16" rx="11.36" ry="27.37"/>
+</g>
+<ellipse cx="181.52" cy="454.94" rx="84.52" ry="16.76" fill="#000" opacity=".1"/>
+<path d="M232.24,429.79 C325.21,413.03 333.67,304.07 274.5,283.11 C325.21,308.26 287.18,387.88 228.01,396.27 Z" fill="#7c3aed"/>
+<path d="M118.13,450.75 C101.23,366.93 122.36,322.23 181.52,316.64 C240.69,322.23 261.82,366.93 244.92,450.75 Z" fill="#7c3aed"/>
+<path d="M173.07,427.7 C173.07,417.28 164.56,408.84 154.05,408.84 C143.55,408.84 135.04,417.28 135.04,427.7 V436.08 C135.04,446.5 143.55,454.94 154.05,454.94 C164.56,454.94 173.07,446.5 173.07,436.08 Z" fill="#6d28d9"/>
+<path d="M228.01,427.7 C228.01,417.28 219.5,408.84 208.99,408.84 C198.49,408.84 189.98,417.28 189.98,427.7 V436.08 C189.98,446.5 198.49,454.94 208.99,454.94 C219.5,454.94 228.01,446.5 228.01,436.08 Z" fill="#6d28d9"/>
+<path d="M181.52,333.4 C221.2,333.4 253.37,301.5 253.37,262.16 C253.37,222.81 221.2,190.91 181.52,190.91 C141.85,190.91 109.68,222.81 109.68,262.16 C109.68,301.5 141.85,333.4 181.52,333.4 Z" fill="#7c3aed"/>
+<path d="M119.29,225.58 L91,162.48 L169.76,195.4 Z" fill="#6d28d9"/>
+<path d="M242.11,225.58 L270.4,162.48 L191.64,195.4 Z" fill="#6d28d9"/>
+<path d="M151.94,279.76 C158.94,279.76 164.62,271.88 164.62,262.16 C164.62,252.43 158.94,244.55 151.94,244.55 C144.94,244.55 139.26,252.43 139.26,262.16 C139.26,271.88 144.94,279.76 151.94,279.76 Z" fill="#fde68a"/>
+<path d="M211.11,279.76 C218.11,279.76 223.79,271.88 223.79,262.16 C223.79,252.43 218.11,244.55 211.11,244.55 C204.11,244.55 198.43,252.43 198.43,262.16 C198.43,271.88 204.11,279.76 211.11,279.76 Z" fill="#fde68a"/>
+<circle cx="154.9" cy="268.02" r="5.03" fill="#161616"/>
+<circle cx="214.07" cy="268.02" r="5.03" fill="#161616"/>
+<path d="M173.07,291.49 H189.98 L181.52,304.07 Z" fill="#6d28d9"/>
+</svg>
+</div>
+</template>
+
+<script>
+(function () {
+  var SNIPPETS = ["profile", "settings", "support", "resources", "pricing", "onboarding", "catnook"];
+
+  SNIPPETS.forEach(function (id) {
+    var tpl = document.getElementById("tpl-" + id);
+    var preview = document.querySelector('.snippet-preview[data-tpl="' + id + '"]');
+    var codeEl = document.getElementById("code-" + id);
+    if (!tpl || !preview || !codeEl) return;
+    var html = tpl.innerHTML.trim();
+    preview.innerHTML = html;
+    codeEl.textContent = html;
+  });
+
+  function legacyCopyFallback(text) {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.top = "-1000px";
+    ta.style.left = "-1000px";
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try {
+      document.execCommand("copy");
+    } catch (e) {
+      /* no-op: nothing more we can do here */
+    }
+    document.body.removeChild(ta);
+  }
+
+  function flashCopied(btn) {
+    var original = btn.textContent;
+    btn.textContent = "Copied";
+    btn.classList.add("is-copied");
+    setTimeout(function () {
+      btn.textContent = original;
+      btn.classList.remove("is-copied");
+    }, 2200);
+  }
+
+  document.querySelectorAll(".copy-btn, .snippet-copy").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var targetId = btn.getAttribute("data-target");
+      var target = document.getElementById(targetId);
+      if (!target) return;
+      var text = target.textContent;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () {
+          flashCopied(btn);
+        }).catch(function () {
+          legacyCopyFallback(text);
+          flashCopied(btn);
+        });
+      } else {
+        legacyCopyFallback(text);
+        flashCopied(btn);
+      }
+    });
+  });
+
+  document.querySelectorAll(".apz-toggle").forEach(function (t) {
+    t.addEventListener("click", function () {
+      var checked = t.getAttribute("aria-checked") === "true";
+      t.setAttribute("aria-checked", String(!checked));
+    });
+  });
+
+  document.querySelectorAll(".apz-accordion-trigger").forEach(function (trigger) {
+    trigger.addEventListener("click", function () {
+      var body = trigger.nextElementSibling;
+      if (body && body.classList.contains("apz-accordion-body")) {
+        body.style.display = body.style.display === "none" ? "block" : "none";
+      }
+    });
+  });
+
+  document.querySelectorAll(".apz-tab").forEach(function (tab) {
+    tab.addEventListener("click", function () {
+      var group = tab.parentElement;
+      if (!group) return;
+      group.querySelectorAll(".apz-tab").forEach(function (t) {
+        t.classList.remove("is-active");
+      });
+      tab.classList.add("is-active");
+    });
+  });
+
+  document.querySelectorAll(".apz-chip").forEach(function (chip) {
+    chip.addEventListener("click", function () {
+      chip.classList.toggle("is-active");
+    });
+  });
+})();
+</script>

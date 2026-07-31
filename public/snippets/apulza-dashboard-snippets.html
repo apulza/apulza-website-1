@@ -1,0 +1,727 @@
+<title>Apulza Dashboard &mdash; Marketing Snippets</title>
+
+<style>
+  :root {
+    --page-bg: #FBFAFE;
+    --page-surface: #FFFFFF;
+    --page-surface-2: #F6F3FB;
+    --page-border: #E8E2F3;
+    --page-fg: #1C1526;
+    --page-fg-muted: #6B627D;
+    --page-fg-subtle: #948AA8;
+    --page-accent: #6D28D9;
+    --page-code-bg: #1C1526;
+    --page-code-fg: #E9E4F5;
+    --page-code-border: #322947;
+    --page-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+    --page-sans: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --page-bg: #120E1B;
+      --page-surface: #1B1529;
+      --page-surface-2: #211A32;
+      --page-border: #2E2645;
+      --page-fg: #F1ECFA;
+      --page-fg-muted: #A79BC0;
+      --page-accent: #B9A2FF;
+      --page-code-bg: #0E0A17;
+      --page-code-fg: #E4DEF4;
+      --page-code-border: #241C38;
+    }
+  }
+  :root[data-theme="dark"] {
+    --page-bg: #120E1B;
+    --page-surface: #1B1529;
+    --page-surface-2: #211A32;
+    --page-border: #2E2645;
+    --page-fg: #F1ECFA;
+    --page-fg-muted: #A79BC0;
+    --page-accent: #B9A2FF;
+    --page-code-bg: #0E0A17;
+    --page-code-fg: #E4DEF4;
+    --page-code-border: #241C38;
+  }
+  :root[data-theme="light"] {
+    --page-bg: #FBFAFE;
+    --page-surface: #FFFFFF;
+    --page-surface-2: #F6F3FB;
+    --page-border: #E8E2F3;
+    --page-fg: #1C1526;
+    --page-fg-muted: #6B627D;
+    --page-accent: #6D28D9;
+    --page-code-bg: #1C1526;
+    --page-code-fg: #E9E4F5;
+    --page-code-border: #322947;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--page-bg);
+    color: var(--page-fg);
+    font-family: var(--page-sans);
+    margin: 0;
+  }
+
+  .wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 56px 24px 96px;
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--page-accent);
+    margin: 0 0 12px;
+  }
+
+  h1 {
+    font-size: clamp(28px, 4vw, 36px);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin: 0 0 14px;
+    text-wrap: balance;
+  }
+
+  .lede {
+    font-size: 15.5px;
+    line-height: 1.65;
+    color: var(--page-fg-muted);
+    max-width: 62ch;
+    margin: 0 0 4px;
+  }
+
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    margin-top: 20px;
+    font-family: var(--page-mono);
+    font-size: 12px;
+    color: var(--page-fg-muted);
+  }
+  .meta-row span { display: inline-flex; align-items: center; gap: 6px; }
+  .meta-dot { width: 5px; height: 5px; border-radius: 999px; background: var(--page-accent); flex-shrink: 0; }
+
+  .note {
+    margin-top: 28px;
+    border: 1px solid var(--page-border);
+    background: var(--page-surface-2);
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--page-fg-muted);
+  }
+  .note strong { color: var(--page-fg); font-weight: 600; }
+
+  section.block { margin-top: 56px; }
+
+  .block-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 6px; }
+  h2 {
+    font-size: 19px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+  .block-desc {
+    font-size: 13.5px;
+    color: var(--page-fg-muted);
+    line-height: 1.6;
+    margin: 6px 0 20px;
+    max-width: 64ch;
+  }
+
+  .code-shell {
+    border: 1px solid var(--page-code-border);
+    border-radius: 14px;
+    overflow: hidden;
+    background: var(--page-code-bg);
+  }
+  .code-shell-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--page-code-border);
+  }
+  .code-shell-label {
+    font-family: var(--page-mono);
+    font-size: 11.5px;
+    color: var(--page-code-fg);
+    opacity: .6;
+  }
+  pre.apz-code {
+    margin: 0;
+    padding: 16px;
+    max-height: 320px;
+    overflow: auto;
+    font-family: var(--page-mono);
+    font-size: 12.3px;
+    line-height: 1.65;
+    color: var(--page-code-fg);
+    white-space: pre;
+  }
+
+  .copy-btn {
+    font-family: var(--page-mono);
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: .02em;
+    color: var(--page-code-fg);
+    background: transparent;
+    border: 1px solid var(--page-code-border);
+    border-radius: 7px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background .12s ease-out, border-color .12s ease-out;
+  }
+  .copy-btn:hover { background: rgba(255,255,255,.06); }
+  .copy-btn.is-copied { border-color: var(--page-accent); color: var(--page-accent); }
+  .copy-btn:focus-visible { outline: 2px solid var(--page-accent); outline-offset: 2px; }
+
+  .snippet {
+    border: 1px solid var(--page-border);
+    background: var(--page-surface);
+    border-radius: 16px;
+    padding: 20px 20px 0;
+    margin-bottom: 28px;
+  }
+  .snippet-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 14px;
+  }
+  .snippet-title { font-size: 14.5px; font-weight: 700; margin: 0 0 3px; }
+  .snippet-source {
+    font-family: var(--page-mono);
+    font-size: 11.5px;
+    color: var(--page-fg-muted);
+  }
+  .snippet-copy {
+    font-family: var(--page-mono);
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--page-accent);
+    background: transparent;
+    border: 1px solid var(--page-border);
+    border-radius: 7px;
+    padding: 6px 11px;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background .12s ease-out;
+  }
+  .snippet-copy:hover { background: var(--page-surface-2); }
+  .snippet-copy.is-copied { color: #0F9D58; border-color: #CBE7D8; }
+
+  .apz-preview {
+    background: var(--page-surface-2);
+    border: 1px solid var(--page-border);
+    border-radius: 12px;
+    padding: 36px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 120px;
+  }
+
+  .snippet .code-shell { border-radius: 12px; margin: 14px 0 20px; }
+
+  footer {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--page-border);
+    font-size: 12.5px;
+    color: var(--page-fg-muted);
+    line-height: 1.7;
+  }
+  footer code {
+    font-family: var(--page-mono);
+    background: var(--page-surface-2);
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+
+  @media (max-width: 560px) {
+    .apz-preview { padding: 24px 14px; }
+    .block-head { flex-direction: column; }
+  }
+</style>
+
+<div class="wrap">
+
+  <p class="eyebrow">Apulza design system</p>
+  <h1>Dashboard &rarr; marketing snippets</h1>
+  <p class="lede">
+    Five drop-in HTML/CSS pieces pulled straight from the live student dashboard &mdash;
+    same tokens, same components, sample copy instead of real student data.
+    Pure HTML and CSS, no React, no Tailwind, no icon library required.
+  </p>
+  <div class="meta-row">
+    <span><span class="meta-dot"></span>5 snippets</span>
+    <span><span class="meta-dot"></span>HTML + CSS only</span>
+    <span><span class="meta-dot"></span>tokens match DESIGN.md</span>
+  </div>
+
+  <div class="note">
+    <strong>Font note &mdash;</strong> the live app loads Figtree via <code style="font-family:var(--page-mono)">next/font/google</code>.
+    These snippets reference <code style="font-family:var(--page-mono)">'Figtree'</code> first and fall back to your system font if it isn't
+    loaded on your marketing page &mdash; load Figtree yourself for a pixel match, or leave the fallback if that's close enough.
+  </div>
+
+  <section class="block">
+    <div class="block-head">
+      <h2>1. Base styles &mdash; include once</h2>
+    </div>
+    <p class="block-desc">
+      Design tokens (colors, spacing) and the small set of component classes every snippet below uses &mdash;
+      <code style="font-family:var(--page-mono);background:var(--page-surface-2);padding:1px 5px;border-radius:4px;">.apz-card</code>,
+      <code style="font-family:var(--page-mono);background:var(--page-surface-2);padding:1px 5px;border-radius:4px;">.apz-btn</code>,
+      <code style="font-family:var(--page-mono);background:var(--page-surface-2);padding:1px 5px;border-radius:4px;">.apz-badge</code>, etc.
+      Paste this once, anywhere before the snippets, then each card below is just markup.
+    </p>
+    <div class="code-shell">
+      <div class="code-shell-head">
+        <span class="code-shell-label">&lt;style&gt;</span>
+        <button class="copy-btn" data-copy-target="code-base">Copy CSS</button>
+      </div>
+      <pre class="apz-code" id="code-base"></pre>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-head">
+      <h2>2. Snippets</h2>
+    </div>
+    <p class="block-desc">Each one is fully self-contained markup &mdash; wrapped in its own <code style="font-family:var(--page-mono);background:var(--page-surface-2);padding:1px 5px;border-radius:4px;">.apz</code> scope, so it won't leak styles onto the rest of your page.</p>
+
+    <!-- Snippet 1: Hero assignment card -->
+    <div class="snippet">
+      <div class="snippet-head">
+        <div>
+          <p class="snippet-title">Hero assignment card</p>
+          <p class="snippet-source">source: widgets/HeroAssignmentWidget.tsx</p>
+        </div>
+        <button class="snippet-copy" data-copy-target="code-hero">Copy HTML</button>
+      </div>
+      <div class="apz-preview" data-tpl="tpl-hero"></div>
+      <div class="code-shell">
+        <div class="code-shell-head">
+          <span class="code-shell-label">hero-card.html</span>
+        </div>
+        <pre class="apz-code" id="code-hero" data-tpl="tpl-hero"></pre>
+      </div>
+    </div>
+
+    <!-- Snippet 2: Study minutes card -->
+    <div class="snippet">
+      <div class="snippet-head">
+        <div>
+          <p class="snippet-title">Study minutes stat card</p>
+          <p class="snippet-source">source: widgets/StudyMinutesWidget.tsx</p>
+        </div>
+        <button class="snippet-copy" data-copy-target="code-minutes">Copy HTML</button>
+      </div>
+      <div class="apz-preview" data-tpl="tpl-minutes"></div>
+      <div class="code-shell">
+        <div class="code-shell-head">
+          <span class="code-shell-label">study-minutes-card.html</span>
+        </div>
+        <pre class="apz-code" id="code-minutes" data-tpl="tpl-minutes"></pre>
+      </div>
+    </div>
+
+    <!-- Snippet 3: Completed this month card -->
+    <div class="snippet">
+      <div class="snippet-head">
+        <div>
+          <p class="snippet-title">Completed-this-month tally card</p>
+          <p class="snippet-source">source: widgets/CompletedThisMonthWidget.tsx</p>
+        </div>
+        <button class="snippet-copy" data-copy-target="code-completed">Copy HTML</button>
+      </div>
+      <div class="apz-preview" data-tpl="tpl-completed"></div>
+      <div class="code-shell">
+        <div class="code-shell-head">
+          <span class="code-shell-label">completed-card.html</span>
+        </div>
+        <pre class="apz-code" id="code-completed" data-tpl="tpl-completed"></pre>
+      </div>
+    </div>
+
+    <!-- Snippet 4: Courses list card -->
+    <div class="snippet">
+      <div class="snippet-head">
+        <div>
+          <p class="snippet-title">Courses list card</p>
+          <p class="snippet-source">source: widgets/CoursesListWidget.tsx</p>
+        </div>
+        <button class="snippet-copy" data-copy-target="code-courses">Copy HTML</button>
+      </div>
+      <div class="apz-preview" data-tpl="tpl-courses"></div>
+      <div class="code-shell">
+        <div class="code-shell-head">
+          <span class="code-shell-label">courses-card.html</span>
+        </div>
+        <pre class="apz-code" id="code-courses" data-tpl="tpl-courses"></pre>
+      </div>
+    </div>
+
+    <!-- Snippet 5: Continue where you left off row -->
+    <div class="snippet">
+      <div class="snippet-head">
+        <div>
+          <p class="snippet-title">"Continue where you left off" row</p>
+          <p class="snippet-source">source: widgets/HeroAssignmentWidget.tsx (resume row)</p>
+        </div>
+        <button class="snippet-copy" data-copy-target="code-continue">Copy HTML</button>
+      </div>
+      <div class="apz-preview" data-tpl="tpl-continue"></div>
+      <div class="code-shell">
+        <div class="code-shell-head">
+          <span class="code-shell-label">continue-row.html</span>
+        </div>
+        <pre class="apz-code" id="code-continue" data-tpl="tpl-continue"></pre>
+      </div>
+    </div>
+
+  </section>
+
+  <footer>
+    Tokens sourced from <code>DESIGN.md</code> &mdash; swap the <code>--c-primary</code> / <code>--c-*</code> values in the base styles
+    to retint any of these for a different section of the marketing site. All copy above is placeholder sample data, not real student records.
+  </footer>
+
+</div>
+
+<!-- ── Raw templates (source of truth for both the live preview and the copy-code blocks) ───────── -->
+
+<template id="tpl-hero">
+<div class="apz" style="max-width: 640px;">
+  <div class="apz-card" style="position: relative; overflow: hidden; border-color: var(--c-primary-weak); padding: 28px; background: linear-gradient(135deg, var(--c-primary-weak) 0%, var(--c-card) 55%);">
+    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 16px;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      <span class="apz-eyebrow" style="color: var(--c-primary);">Ready when you are</span>
+    </div>
+    <h2 style="font-size: 22px; font-weight: 800; letter-spacing: -0.025em; margin: 0 0 8px; max-width: 24ch; line-height: 1.25; color: var(--c-fg);">Rhetorical Analysis Essay</h2>
+    <p style="font-size: 14px; color: var(--c-fg-muted); margin: 0 0 24px;">English 201 &middot; Due in 2 days</p>
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px;">
+      <a href="#" class="apz-btn apz-btn-primary">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+        Open
+      </a>
+      <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--c-fg-muted);">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Essay
+      </span>
+    </div>
+  </div>
+</div>
+</template>
+
+<template id="tpl-minutes">
+<div class="apz" style="max-width: 340px;">
+  <!-- If this snippet appears more than once on the same page, give the gradient id below a unique suffix per instance. -->
+  <div class="apz-card" style="padding: 22px;">
+    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 14px;">
+      <span class="apz-icon-chip" style="background: var(--c-primary-weak); color: var(--c-primary);">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </span>
+      <span class="apz-eyebrow">Study time this month</span>
+    </div>
+    <p style="font-size: 40px; font-weight: 800; letter-spacing: -0.03em; line-height: 1; margin: 0; font-variant-numeric: tabular-nums; color: var(--c-fg);">140<span style="font-size: 18px; font-weight: 600; color: var(--c-fg-muted);"> min</span></p>
+    <p style="font-size: 13px; color: var(--c-fg-muted); margin: 8px 0 0; line-height: 1.6; max-width: 44ch;">You've studied for 140 minutes this month &mdash; that's real progress, and it's still climbing.</p>
+    <div style="margin-top: 20px; position: relative; width: 100%; height: 66px;">
+      <svg viewBox="0 0 280 66" width="100%" height="66" preserveAspectRatio="none" style="overflow: visible; display: block;">
+        <defs>
+          <linearGradient id="apzMinGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#7c3aed" stop-opacity="0.22"/>
+            <stop offset="100%" stop-color="#7c3aed" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <path d="M0 52.1 C 6.7 51.1, 26.7 47.6, 40 46.1 C 53.3 44.6, 66.7 44.8, 80 42.9 C 93.3 41.1, 106.7 37.2, 120 35 C 133.3 32.8, 146.7 32.1, 160 29.7 C 173.3 27.3, 186.7 22.8, 200 20.5 C 213.3 18.2, 226.7 17.6, 240 15.9 C 253.3 14.2, 273.3 11, 280 10 L 280 66 L 0 66 Z" fill="url(#apzMinGrad)"/>
+        <path d="M0 52.1 C 6.7 51.1, 26.7 47.6, 40 46.1 C 53.3 44.6, 66.7 44.8, 80 42.9 C 93.3 41.1, 106.7 37.2, 120 35 C 133.3 32.8, 146.7 32.1, 160 29.7 C 173.3 27.3, 186.7 22.8, 200 20.5 C 213.3 18.2, 226.7 17.6, 240 15.9 C 253.3 14.2, 273.3 11, 280 10" fill="none" stroke="#7c3aed" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span style="position: absolute; left: 100%; top: 15.15%; width: 8px; height: 8px; margin-left: -4px; margin-top: -4px; border-radius: 9999px; background: #7c3aed; box-shadow: 0 0 0 4px rgba(124,58,237,.14);"></span>
+    </div>
+  </div>
+</div>
+</template>
+
+<template id="tpl-completed">
+<div class="apz" style="max-width: 320px;">
+  <div class="apz-card" style="padding: 22px;">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;">
+      <span class="apz-eyebrow">Completed this month</span>
+      <span style="font-size: 24px; font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; color: var(--c-fg);">4</span>
+    </div>
+    <div style="display: flex; gap: 6px;">
+      <span style="flex: 1; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: var(--c-success-weak); border: 1px solid var(--c-success-bd); color: var(--c-success);">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+      </span>
+      <span style="flex: 1; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: var(--c-success-weak); border: 1px solid var(--c-success-bd); color: var(--c-success);">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+      </span>
+      <span style="flex: 1; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: var(--c-success-weak); border: 1px solid var(--c-success-bd); color: var(--c-success);">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+      </span>
+      <span style="flex: 1; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: var(--c-success-weak); border: 1px solid var(--c-success-bd); color: var(--c-success);">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+      </span>
+    </div>
+    <p style="font-size: 12px; color: var(--c-fg-muted); margin: 12px 0 0; line-height: 1.6;">4 assignments done &mdash; nice work.</p>
+  </div>
+</div>
+</template>
+
+<template id="tpl-courses">
+<div class="apz" style="max-width: 360px;">
+  <div class="apz-card" style="overflow: hidden;">
+    <div style="padding: 20px 22px 12px;">
+      <h3 style="font-size: 16px; font-weight: 800; letter-spacing: -0.01em; margin: 0; color: var(--c-fg);">Your courses</h3>
+      <p style="font-size: 12.5px; color: var(--c-fg-subtle); margin: 2px 0 0;">3 of 4 have a study plan ready.</p>
+    </div>
+    <div>
+      <a href="#" class="apz-row-hover" style="display: flex; align-items: center; gap: 12px; padding: 12px 22px; border-top: 1px solid var(--c-border);">
+        <span style="flex-shrink: 0; width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; letter-spacing: .02em; background: #F2EAFB; color: #8b5cf6;">OC</span>
+        <span style="flex: 1; font-size: 13.5px; font-weight: 600; color: var(--c-fg); min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Organic Chemistry</span>
+        <span class="apz-badge apz-badge-success" style="flex-shrink: 0;">Plan ready</span>
+      </a>
+      <a href="#" class="apz-row-hover" style="display: flex; align-items: center; gap: 12px; padding: 12px 22px; border-top: 1px solid var(--c-border);">
+        <span style="flex-shrink: 0; width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; letter-spacing: .02em; background: #E7F1F6; color: #2C7396;">UH</span>
+        <span style="flex: 1; font-size: 13.5px; font-weight: 600; color: var(--c-fg); min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">U.S. History</span>
+        <span class="apz-badge apz-badge-success" style="flex-shrink: 0;">Plan ready</span>
+      </a>
+      <a href="#" class="apz-row-hover" style="display: flex; align-items: center; gap: 12px; padding: 12px 22px; border-top: 1px solid var(--c-border);">
+        <span style="flex-shrink: 0; width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; letter-spacing: .02em; background: #FAEFDF; color: #b45309;">CI</span>
+        <span style="flex: 1; font-size: 13.5px; font-weight: 600; color: var(--c-fg); min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Calculus II</span>
+        <span class="apz-badge apz-badge-primary" style="flex-shrink: 0;">Set up plan</span>
+      </a>
+      <a href="#" class="apz-row-hover" style="display: flex; align-items: center; gap: 12px; padding: 12px 22px; border-top: 1px solid var(--c-border);">
+        <span style="flex-shrink: 0; width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; letter-spacing: .02em; background: #E6F4EC; color: #0f9d58;">EL</span>
+        <span style="flex: 1; font-size: 13.5px; font-weight: 600; color: var(--c-fg); min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">English Literature</span>
+        <span class="apz-badge apz-badge-success" style="flex-shrink: 0;">Plan ready</span>
+      </a>
+    </div>
+    <div style="padding: 12px 22px; border-top: 1px solid var(--c-border);">
+      <a href="#" class="apz-btn apz-btn-secondary" style="width: 100%; justify-content: center; padding: 10px 12px;">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+        Add a course
+      </a>
+    </div>
+  </div>
+</div>
+</template>
+
+<template id="tpl-continue">
+<a href="#" class="apz apz-card apz-row-hover" style="display: flex; align-items: center; gap: 16px; padding: 16px 22px; min-height: 44px; max-width: 480px;">
+  <span class="apz-icon-chip" style="background: var(--c-calm-weak); color: var(--c-calm);">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 2.64-6.36L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>
+  </span>
+  <span style="min-width: 0; flex: 1;">
+    <span class="apz-eyebrow" style="display: block;">Continue where you left off</span>
+    <span style="display: block; font-size: 14px; font-weight: 600; color: var(--c-fg); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Problem Set 4</span>
+    <span style="display: block; font-size: 12px; color: var(--c-fg-muted); margin-top: 2px;">You're on step 2 of 5 &middot; Calculus II</span>
+  </span>
+  <span style="flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--c-primary);">
+    Continue
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+  </span>
+</a>
+</template>
+
+<script>
+(function () {
+  var baseCss = [
+    ".apz {",
+    "  --c-bg: #F6F3FB;",
+    "  --c-card: #FFFFFF;",
+    "  --c-muted: #F3EFF9;",
+    "  --c-fg: #1C1526;",
+    "  --c-fg-muted: #78708A;",
+    "  --c-fg-subtle: #A89CBB;",
+    "  --c-primary: #7C3AED;",
+    "  --c-primary-strong: #6D28D9;",
+    "  --c-primary-weak: #F2ECFD;",
+    "  --c-primary-fg: #FFFFFF;",
+    "  --c-border: #EFEAF7;",
+    "  --c-border-strong: #DED2EE;",
+    "  --c-success: #0F9D58;",
+    "  --c-success-weak: #E6F4EC;",
+    "  --c-success-bd: #CBE7D8;",
+    "  --c-attention: #B45309;",
+    "  --c-attention-weak: #FBEFE0;",
+    "  --c-calm: #2C7396;",
+    "  --c-calm-weak: #E7F1F6;",
+    "  --c-calm-bd: #CDE2EC;",
+    "  font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif;",
+    "  color: var(--c-fg);",
+    "  font-size: 16px;",
+    "  line-height: 1.5;",
+    "  -webkit-font-smoothing: antialiased;",
+    "}",
+    ".apz *,",
+    ".apz *::before,",
+    ".apz *::after {",
+    "  box-sizing: border-box;",
+    "}",
+    ".apz a {",
+    "  text-decoration: none;",
+    "  color: inherit;",
+    "}",
+    ".apz-card {",
+    "  background: var(--c-card);",
+    "  border: 1px solid var(--c-border);",
+    "  border-radius: 18px;",
+    "  box-shadow: 0 1px 2px rgba(28,21,38,.05), 0 1px 3px rgba(28,21,38,.07);",
+    "}",
+    ".apz-card:hover {",
+    "  box-shadow: 0 4px 16px rgba(28,21,38,.12), 0 2px 4px rgba(28,21,38,.06);",
+    "}",
+    ".apz-eyebrow {",
+    "  font-size: 11px;",
+    "  font-weight: 700;",
+    "  letter-spacing: .14em;",
+    "  text-transform: uppercase;",
+    "  color: var(--c-fg-muted);",
+    "}",
+    ".apz-icon-chip {",
+    "  flex-shrink: 0;",
+    "  width: 34px;",
+    "  height: 34px;",
+    "  border-radius: 10px;",
+    "  display: inline-flex;",
+    "  align-items: center;",
+    "  justify-content: center;",
+    "}",
+    ".apz-btn {",
+    "  display: inline-flex;",
+    "  align-items: center;",
+    "  gap: 8px;",
+    "  font-weight: 600;",
+    "  font-size: 14px;",
+    "  padding: 12px 22px;",
+    "  border-radius: 12px;",
+    "  min-height: 44px;",
+    "  border: 1px solid transparent;",
+    "  cursor: pointer;",
+    "  transition: background .12s ease-out, border-color .12s ease-out;",
+    "}",
+    ".apz-btn-primary {",
+    "  background: var(--c-primary);",
+    "  color: var(--c-primary-fg);",
+    "  box-shadow: 0 6px 16px -6px rgba(97,26,159,.45);",
+    "}",
+    ".apz-btn-primary:hover {",
+    "  background: var(--c-primary-strong);",
+    "}",
+    ".apz-btn-secondary {",
+    "  background: var(--c-card);",
+    "  color: var(--c-fg);",
+    "  border-color: var(--c-border-strong);",
+    "}",
+    ".apz-btn-secondary:hover {",
+    "  background: var(--c-muted);",
+    "}",
+    ".apz-badge {",
+    "  display: inline-flex;",
+    "  align-items: center;",
+    "  gap: 6px;",
+    "  font-size: 11.5px;",
+    "  font-weight: 600;",
+    "  padding: 5px 9px;",
+    "  border-radius: 8px;",
+    "  border: 1px solid transparent;",
+    "}",
+    ".apz-badge-success {",
+    "  color: var(--c-success);",
+    "  background: var(--c-success-weak);",
+    "  border-color: var(--c-success-bd);",
+    "}",
+    ".apz-badge-primary {",
+    "  color: var(--c-primary);",
+    "  background: var(--c-primary-weak);",
+    "  border-color: var(--c-border-strong);",
+    "}",
+    ".apz-badge-calm {",
+    "  color: var(--c-calm);",
+    "  background: var(--c-calm-weak);",
+    "  border-color: var(--c-calm-bd);",
+    "}",
+    ".apz-row-hover {",
+    "  transition: background .12s ease-out;",
+    "}",
+    ".apz-row-hover:hover {",
+    "  background: var(--c-muted);",
+    "}"
+  ].join("\n");
+
+  var styleEl = document.createElement("style");
+  styleEl.textContent = baseCss;
+  document.head.appendChild(styleEl);
+
+  var baseCodeEl = document.getElementById("code-base");
+  if (baseCodeEl) baseCodeEl.textContent = baseCss;
+
+  document.querySelectorAll(".apz-preview[data-tpl]").forEach(function (el) {
+    var tpl = document.getElementById(el.getAttribute("data-tpl"));
+    if (tpl) el.innerHTML = tpl.innerHTML.trim();
+  });
+
+  document.querySelectorAll("pre.apz-code[data-tpl]").forEach(function (el) {
+    var tpl = document.getElementById(el.getAttribute("data-tpl"));
+    if (tpl) el.textContent = tpl.innerHTML.trim();
+  });
+
+  function legacyCopy(text) {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    var ok = false;
+    try { ok = document.execCommand("copy"); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+    return ok ? Promise.resolve() : Promise.reject(new Error("execCommand copy failed"));
+  }
+
+  function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text).catch(function () {
+        return legacyCopy(text);
+      });
+    }
+    return legacyCopy(text);
+  }
+
+  document.querySelectorAll("[data-copy-target]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var target = document.getElementById(btn.getAttribute("data-copy-target"));
+      if (!target) return;
+      var original = btn.textContent;
+      copyText(target.textContent).then(function () {
+        btn.textContent = "Copied";
+        btn.classList.add("is-copied");
+        setTimeout(function () {
+          btn.textContent = original;
+          btn.classList.remove("is-copied");
+        }, 1600);
+      }, function () {
+        btn.textContent = "Select & copy manually";
+        setTimeout(function () {
+          btn.textContent = original;
+        }, 2000);
+      });
+    });
+  });
+})();
+</script>

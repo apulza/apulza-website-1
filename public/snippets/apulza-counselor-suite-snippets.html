@@ -1,0 +1,406 @@
+<title>Apulza Counselor Suite &mdash; Interactive Snippets</title>
+
+<style>
+  :root {
+    --page-bg: #FBFAFE; --page-surface: #FFFFFF; --page-surface-2: #F6F3FB;
+    --page-border: #E8E2F3; --page-fg: #1C1526; --page-fg-muted: #6B627D;
+    --page-accent: #6D28D9; --page-code-bg: #1C1526; --page-code-fg: #E9E4F5; --page-code-border: #322947;
+    --page-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+    --page-sans: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --page-bg: #120E1B; --page-surface: #1B1529; --page-surface-2: #211A32;
+      --page-border: #2E2645; --page-fg: #F1ECFA; --page-fg-muted: #A79BC0;
+      --page-accent: #B9A2FF; --page-code-bg: #0E0A17; --page-code-fg: #E4DEF4; --page-code-border: #241C38;
+    }
+  }
+  :root[data-theme="dark"] {
+    --page-bg: #120E1B; --page-surface: #1B1529; --page-surface-2: #211A32;
+    --page-border: #2E2645; --page-fg: #F1ECFA; --page-fg-muted: #A79BC0;
+    --page-accent: #B9A2FF; --page-code-bg: #0E0A17; --page-code-fg: #E4DEF4; --page-code-border: #241C38;
+  }
+  :root[data-theme="light"] {
+    --page-bg: #FBFAFE; --page-surface: #FFFFFF; --page-surface-2: #F6F3FB;
+    --page-border: #E8E2F3; --page-fg: #1C1526; --page-fg-muted: #6B627D;
+    --page-accent: #6D28D9; --page-code-bg: #1C1526; --page-code-fg: #E9E4F5; --page-code-border: #322947;
+  }
+
+  * { box-sizing: border-box; }
+  body { background: var(--page-bg); color: var(--page-fg); font-family: var(--page-sans); margin: 0; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 56px 24px 96px; }
+  .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--page-accent); margin: 0 0 12px; }
+  h1 { font-size: clamp(28px, 4vw, 36px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; margin: 0 0 14px; text-wrap: balance; }
+  .lede { font-size: 15.5px; line-height: 1.65; color: var(--page-fg-muted); max-width: 62ch; margin: 0 0 4px; }
+  .meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 20px; font-family: var(--page-mono); font-size: 12px; color: var(--page-fg-muted); }
+  .meta-row span { display: inline-flex; align-items: center; gap: 6px; }
+  .meta-dot { width: 5px; height: 5px; border-radius: 999px; background: var(--page-accent); flex-shrink: 0; }
+  .note { margin-top: 28px; border: 1px solid var(--page-border); background: var(--page-surface-2); border-radius: 12px; padding: 14px 16px; font-size: 13px; line-height: 1.6; color: var(--page-fg-muted); }
+  .note strong { color: var(--page-fg); font-weight: 600; }
+  .note code { font-family: var(--page-mono); background: var(--page-surface); padding: 1px 5px; border-radius: 4px; }
+  section.block { margin-top: 56px; }
+  .block-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 6px; }
+  h2 { font-size: 19px; font-weight: 800; letter-spacing: -0.01em; margin: 0; }
+  .block-desc { font-size: 13.5px; color: var(--page-fg-muted); line-height: 1.6; margin: 6px 0 20px; max-width: 64ch; }
+  .block-desc code { font-family: var(--page-mono); background: var(--page-surface-2); padding: 1px 5px; border-radius: 4px; }
+  .code-shell { border: 1px solid var(--page-code-border); border-radius: 14px; overflow: hidden; background: var(--page-code-bg); }
+  .code-shell-head { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-bottom: 1px solid var(--page-code-border); }
+  .code-shell-label { font-family: var(--page-mono); font-size: 11.5px; color: var(--page-code-fg); opacity: .6; }
+  pre.snippet-code { margin: 0; padding: 16px; max-height: 340px; overflow: auto; font-family: var(--page-mono); font-size: 12.3px; line-height: 1.65; color: var(--page-code-fg); white-space: pre; }
+  .copy-btn { font-family: var(--page-mono); font-size: 11.5px; font-weight: 600; letter-spacing: .02em; color: var(--page-code-fg); background: transparent; border: 1px solid var(--page-code-border); border-radius: 7px; padding: 5px 10px; cursor: pointer; transition: background .12s ease-out, border-color .12s ease-out; }
+  .copy-btn:hover { background: rgba(255,255,255,.06); }
+  .copy-btn.is-copied { border-color: var(--page-accent); color: var(--page-accent); }
+  .copy-btn:focus-visible { outline: 2px solid var(--page-accent); outline-offset: 2px; }
+  .snippet { border: 1px solid var(--page-border); background: var(--page-surface); border-radius: 16px; padding: 20px 20px 0; margin-bottom: 28px; }
+  .snippet-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding-bottom: 14px; }
+  .snippet-title { font-size: 14.5px; font-weight: 700; margin: 0 0 3px; }
+  .snippet-source { font-family: var(--page-mono); font-size: 11.5px; color: var(--page-fg-muted); }
+  .snippet-copy { font-family: var(--page-mono); font-size: 11.5px; font-weight: 600; color: var(--page-accent); background: transparent; border: 1px solid var(--page-border); border-radius: 7px; padding: 6px 11px; cursor: pointer; flex-shrink: 0; transition: background .12s ease-out; }
+  .snippet-copy:hover { background: var(--page-surface-2); }
+  .snippet-copy.is-copied { color: #0F9D58; border-color: #CBE7D8; }
+  .snippet-preview { background: var(--page-surface-2); border: 1px solid var(--page-border); border-radius: 12px; padding: 28px 20px; display: flex; align-items: center; justify-content: center; min-height: 120px; overflow-x: auto; }
+  .snippet .code-shell { border-radius: 12px; margin: 14px 0 20px; }
+  footer { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--page-border); font-size: 12.5px; color: var(--page-fg-muted); line-height: 1.7; }
+  footer code { font-family: var(--page-mono); background: var(--page-surface-2); padding: 1px 5px; border-radius: 4px; }
+  @media (max-width: 560px) { .snippet-preview { padding: 18px 12px; } .block-head { flex-direction: column; } }
+
+  /* COUNSELOR-BASE-TOKENS-START (this is what "1. Base styles" below copies) */
+  .apz {
+    --c-bg: #F6F3FB; --c-card: #FFFFFF; --c-muted: #F3EFF9;
+    --c-fg: #1C1526; --c-fg-muted: #78708A; --c-fg-subtle: #A89CBB;
+    --c-primary: #7C3AED; --c-primary-strong: #6D28D9; --c-primary-weak: #F2ECFD;
+    --c-border: #EFEAF7; --c-border-strong: #DED2EE;
+    --c-success: #0F9D58; --c-success-weak: #E6F4EC; --c-success-bd: #CBE7D8;
+    --c-attention: #B45309; --c-attention-weak: #FBEFE0; --c-attention-bd: #F0DCC0;
+    --c-calm: #2C7396; --c-calm-weak: #E7F1F6; --c-calm-bd: #CDE2EC;
+    /* Risk severity is a 4-tier scale the counselor tools need beyond DESIGN.md's
+       3 base semantic states (success/attention/calm) -- low reuses success,
+       medium reuses attention, high/critical are two new tokens added here. */
+    --c-risk-low: var(--c-success); --c-risk-low-weak: var(--c-success-weak); --c-risk-low-bd: var(--c-success-bd);
+    --c-risk-medium: var(--c-attention); --c-risk-medium-weak: var(--c-attention-weak); --c-risk-medium-bd: var(--c-attention-bd);
+    --c-risk-high: #C2410C; --c-risk-high-weak: #FDECDF; --c-risk-high-bd: #F3D3B9;
+    --c-risk-critical: #DC2626; --c-risk-critical-weak: #FDE7E7; --c-risk-critical-bd: #F5C6C6;
+    font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    color: var(--c-fg); font-size: 16px; line-height: 1.5; -webkit-font-smoothing: antialiased;
+  }
+  .apz *, .apz *::before, .apz *::after { box-sizing: border-box; }
+  .apz-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c-fg-muted); }
+  .apz-card { background: var(--c-card); border: 1px solid var(--c-border); border-radius: 18px; box-shadow: 0 1px 2px rgba(28,21,38,.05), 0 1px 3px rgba(28,21,38,.07); }
+
+  /* ── Risk score gauge ── */
+  .rg { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .rg-gauge-wrap { position: relative; width: 180px; height: 180px; }
+  .rg-gauge-wrap svg { transform: rotate(-90deg); }
+  .rg-arc { transition: stroke-dashoffset 30ms linear; }
+  .rg-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .rg-value { font-size: 34px; font-weight: 800; font-variant-numeric: tabular-nums; color: var(--c-fg); line-height: 1; }
+  .rg-max { font-size: 13px; color: var(--c-fg-muted); margin-top: 2px; }
+  .rg-badge-row { display: flex; align-items: center; gap: 8px; }
+  .rg-score-num { font-size: 16px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .rg-pill { font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 999px; border: 1px solid; }
+
+  /* ── Factor breakdown ── */
+  .fb { width: 100%; max-width: 380px; display: flex; flex-direction: column; gap: 16px; }
+  .fb-row { display: flex; flex-direction: column; gap: 4px; }
+  .fb-row-head { display: flex; justify-content: space-between; font-size: 13px; }
+  .fb-name { font-weight: 600; color: var(--c-fg); }
+  .fb-pts { font-variant-numeric: tabular-nums; color: var(--c-fg-muted); }
+  .fb-track { height: 8px; border-radius: 999px; background: var(--c-muted); overflow: hidden; }
+  .fb-fill { height: 100%; border-radius: 999px; transition: width .7s; }
+  .fb-explain { font-size: 12px; color: var(--c-fg-muted); line-height: 1.5; margin: 0; }
+
+  /* ── Stats bar ── */
+  .sb { width: 100%; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  @media (min-width: 480px) { .sb { grid-template-columns: repeat(4, 1fr); } }
+  .sb-card { padding: 16px; }
+  .sb-icon { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 10px; margin-bottom: 12px; }
+  .sb-value { font-size: 22px; font-weight: 800; letter-spacing: -0.01em; line-height: 1; }
+  .sb-label { font-size: 11px; color: var(--c-fg-subtle); margin-top: 6px; font-weight: 500; }
+</style>
+
+<div class="wrap">
+
+  <p class="eyebrow">Apulza design system</p>
+  <h1>Counselor suite &rarr; interactive snippets</h1>
+  <p class="lede">
+    The counselor side of the product &mdash; a live risk-score gauge (the same count-up-and-fill animation as
+    <code style="font-family:var(--page-mono);background:var(--page-surface-2);padding:1px 5px;border-radius:4px;">RiskScoreGauge.tsx</code>),
+    the factor breakdown that explains a score, and the caseload stats bar counselors see first.
+  </p>
+  <div class="meta-row">
+    <span><span class="meta-dot"></span>3 snippets</span>
+    <span><span class="meta-dot"></span>gauge is interactive</span>
+    <span><span class="meta-dot"></span>counselor-facing, not student-facing</span>
+  </div>
+
+  <div class="note">
+    <strong>Different audience, different tone &mdash;</strong> CLAUDE.md's compassionate-copy rules govern the
+    <em>student</em>-facing product. This is internal triage tooling for counselors, so labels here stay plain and
+    clinical ("Critical", "High Risk") rather than reframed &mdash; that directness is what the tool is for.
+    Risk severity also needed a 4th and 5th token (<code style="font-family:var(--page-mono);background:var(--page-surface);padding:1px 5px;border-radius:4px;">--c-risk-high</code> / <code style="font-family:var(--page-mono);background:var(--page-surface);padding:1px 5px;border-radius:4px;">--c-risk-critical</code>) beyond DESIGN.md's base 3 semantic states &mdash; documented inline in the base CSS below.
+  </div>
+
+  <section class="block">
+    <div class="block-head"><h2>1. Base styles &mdash; include once</h2></div>
+    <p class="block-desc">Tokens plus the <code style="font-family:var(--page-mono);background:var(--page-surface-2);padding:1px 5px;border-radius:4px;">.rg-*</code> / <code style="font-family:var(--page-mono);background:var(--page-surface-2);padding:1px 5px;border-radius:4px;">.fb-*</code> / <code style="font-family:var(--page-mono);background:var(--page-surface-2);padding:1px 5px;border-radius:4px;">.sb-*</code> component classes all three snippets use.</p>
+    <div class="code-shell">
+      <div class="code-shell-head"><span class="code-shell-label">&lt;style&gt;</span><button class="copy-btn" data-copy-target="code-base">Copy CSS</button></div>
+      <pre class="snippet-code" id="code-base"></pre>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-head"><h2>2. Snippets</h2></div>
+
+    <div class="snippet">
+      <div class="snippet-head">
+        <div>
+          <p class="snippet-title">Risk score gauge (interactive)</p>
+          <p class="snippet-source">source: components/student/RiskScoreGauge.tsx + dashboard/RiskBadge.tsx</p>
+        </div>
+        <button class="snippet-copy" data-copy-target="code-gauge">Copy HTML</button>
+      </div>
+      <div class="snippet-preview" data-tpl="tpl-gauge" data-init="gauge"></div>
+      <div class="code-shell">
+        <div class="code-shell-head"><span class="code-shell-label">risk-gauge.html</span></div>
+        <pre class="snippet-code" id="code-gauge"></pre>
+      </div>
+    </div>
+
+    <div class="snippet">
+      <div class="snippet-head">
+        <div>
+          <p class="snippet-title">Factor breakdown</p>
+          <p class="snippet-source">source: components/student/FactorBreakdown.tsx &mdash; the "why" behind the score above</p>
+        </div>
+        <button class="snippet-copy" data-copy-target="code-factors">Copy HTML</button>
+      </div>
+      <div class="snippet-preview" data-tpl="tpl-factors"></div>
+      <div class="code-shell">
+        <div class="code-shell-head"><span class="code-shell-label">factor-breakdown.html</span></div>
+        <pre class="snippet-code" id="code-factors" data-tpl="tpl-factors"></pre>
+      </div>
+    </div>
+
+    <div class="snippet">
+      <div class="snippet-head">
+        <div>
+          <p class="snippet-title">Caseload stats bar</p>
+          <p class="snippet-source">source: components/dashboard/StatsBar.tsx &mdash; all 7 real stat types</p>
+        </div>
+        <button class="snippet-copy" data-copy-target="code-stats">Copy HTML</button>
+      </div>
+      <div class="snippet-preview" data-tpl="tpl-stats"></div>
+      <div class="code-shell">
+        <div class="code-shell-head"><span class="code-shell-label">stats-bar.html</span></div>
+        <pre class="snippet-code" id="code-stats" data-tpl="tpl-stats"></pre>
+      </div>
+    </div>
+
+  </section>
+
+  <footer>
+    All three use one consistent sample student (score 68, "High" risk) so the gauge and factor breakdown read as
+    the same story if placed together. The stats bar is a separate caseload-level view (142 students), not
+    tied to that one student. Swap <code>data-score</code> / <code>data-level</code> on the gauge's root element
+    to reuse it for any score.
+  </footer>
+
+</div>
+
+<template id="tpl-gauge">
+<div class="apz rg" data-score="68" data-level="high" style="max-width: 200px;">
+  <div class="rg-gauge-wrap">
+    <svg width="180" height="180" viewBox="0 0 180 180">
+      <circle cx="90" cy="90" r="70" fill="none" stroke="var(--c-border-strong)" stroke-width="14"/>
+      <circle class="rg-arc" cx="90" cy="90" r="70" fill="none" stroke="var(--c-risk-high)" stroke-width="14" stroke-linecap="round" stroke-dasharray="439.82" stroke-dashoffset="439.82"/>
+    </svg>
+    <div class="rg-center">
+      <span class="rg-value">0</span>
+      <span class="rg-max">/100</span>
+    </div>
+  </div>
+  <div class="rg-badge-row">
+    <span class="rg-score-num" style="color:var(--c-risk-high)">68</span>
+    <span class="rg-pill" style="color:var(--c-risk-high);background:var(--c-risk-high-weak);border-color:var(--c-risk-high-bd)">High</span>
+  </div>
+</div>
+</template>
+
+<template id="tpl-factors">
+<div class="apz fb">
+  <div class="fb-row">
+    <div class="fb-row-head"><span class="fb-name">Assignment Completion</span><span class="fb-pts">24.5 pts</span></div>
+    <div class="fb-track"><div class="fb-fill" style="width: 100%; background: var(--c-risk-critical);"></div></div>
+    <p class="fb-explain">Completed 3 of 9 assignments this term &mdash; well below the class average.</p>
+  </div>
+  <div class="fb-row">
+    <div class="fb-row-head"><span class="fb-name">Attendance Rate</span><span class="fb-pts">18.2 pts</span></div>
+    <div class="fb-track"><div class="fb-fill" style="width: 74.3%; background: var(--c-risk-critical);"></div></div>
+    <p class="fb-explain">Present for 61% of sessions over the last 30 days.</p>
+  </div>
+  <div class="fb-row">
+    <div class="fb-row-head"><span class="fb-name">LMS Engagement</span><span class="fb-pts">12.0 pts</span></div>
+    <div class="fb-track"><div class="fb-fill" style="width: 49.0%; background: var(--c-risk-critical);"></div></div>
+    <p class="fb-explain">Logged in twice in the past two weeks, down from a typical 4-5x.</p>
+  </div>
+  <div class="fb-row">
+    <div class="fb-row-head"><span class="fb-name">Grade Average</span><span class="fb-pts">9.6 pts</span></div>
+    <div class="fb-track"><div class="fb-fill" style="width: 39.2%; background: var(--c-risk-medium);"></div></div>
+    <p class="fb-explain">Currently holding a C+ average across enrolled courses.</p>
+  </div>
+  <div class="fb-row">
+    <div class="fb-row-head"><span class="fb-name">Missed Deadlines</span><span class="fb-pts">6.1 pts</span></div>
+    <div class="fb-track"><div class="fb-fill" style="width: 24.9%; background: var(--c-risk-low);"></div></div>
+    <p class="fb-explain">Only 1 missed deadline this month, an improvement from last month's 4.</p>
+  </div>
+</div>
+</template>
+
+<template id="tpl-stats">
+<div class="apz sb">
+  <div class="apz-card sb-card">
+    <span class="sb-icon" style="background:var(--c-muted);color:var(--c-fg-subtle)">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    </span>
+    <div class="sb-value" style="color:var(--c-fg)">142</div>
+    <div class="sb-label">Total Students</div>
+  </div>
+  <div class="apz-card sb-card">
+    <span class="sb-icon" style="background:var(--c-risk-critical-weak);color:var(--c-risk-critical)">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg>
+    </span>
+    <div class="sb-value" style="color:var(--c-risk-critical)">3</div>
+    <div class="sb-label">Critical</div>
+  </div>
+  <div class="apz-card sb-card">
+    <span class="sb-icon" style="background:var(--c-risk-high-weak);color:var(--c-risk-high)">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+    </span>
+    <div class="sb-value" style="color:var(--c-risk-high)">11</div>
+    <div class="sb-label">High Risk</div>
+  </div>
+  <div class="apz-card sb-card">
+    <span class="sb-icon" style="background:var(--c-risk-medium-weak);color:var(--c-risk-medium)">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+    </span>
+    <div class="sb-value" style="color:var(--c-risk-medium)">34</div>
+    <div class="sb-label">Medium Risk</div>
+  </div>
+  <div class="apz-card sb-card">
+    <span class="sb-icon" style="background:var(--c-risk-low-weak);color:var(--c-risk-low)">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+    </span>
+    <div class="sb-value" style="color:var(--c-risk-low)">94</div>
+    <div class="sb-label">Low Risk</div>
+  </div>
+  <div class="apz-card sb-card">
+    <span class="sb-icon" style="background:var(--c-primary-weak);color:var(--c-primary)">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>
+    </span>
+    <div class="sb-value" style="color:var(--c-primary)">28.4</div>
+    <div class="sb-label">Avg Score</div>
+  </div>
+  <div class="apz-card sb-card">
+    <span class="sb-icon" style="background:var(--c-risk-critical-weak);color:var(--c-risk-critical)">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+    </span>
+    <div class="sb-value" style="color:var(--c-risk-critical)">5</div>
+    <div class="sb-label">Unread Alerts</div>
+  </div>
+</div>
+</template>
+
+<script>
+(function () {
+  function initGauge(root) {
+    if (!root || root.dataset.rgInit) return;
+    root.dataset.rgInit = "1";
+    var target = parseInt(root.getAttribute("data-score"), 10) || 0;
+    var circumference = 439.82;
+    var arc = root.querySelector(".rg-arc");
+    var valueEl = root.querySelector(".rg-value");
+    var current = 0;
+    var step = Math.max(1, Math.floor(target / 30));
+    var timer = setInterval(function () {
+      current = Math.min(current + step, target);
+      valueEl.textContent = String(current);
+      arc.style.strokeDashoffset = String(circumference * (1 - current / 100));
+      if (current >= target) clearInterval(timer);
+    }, 20);
+  }
+
+  var INIT_FNS = { gauge: initGauge };
+
+  document.querySelectorAll("[data-tpl]").forEach(function (el) {
+    var tpl = document.getElementById(el.getAttribute("data-tpl"));
+    if (!tpl) return;
+    el.innerHTML = tpl.innerHTML.trim();
+    var initName = el.getAttribute("data-init");
+    if (initName && INIT_FNS[initName]) INIT_FNS[initName](el.firstElementChild);
+  });
+
+  function buildCopyCode(codeId, tplId, initName) {
+    var codeEl = document.getElementById(codeId);
+    var tpl = document.getElementById(tplId);
+    if (!codeEl || !tpl) return;
+    var markup = tpl.innerHTML.trim();
+    if (!initName) {
+      codeEl.textContent = markup;
+      return;
+    }
+    var fnSrc = INIT_FNS[initName].toString();
+    var scriptText = "<script>\n(function () {\n  var init = " + fnSrc + ";\n  init(document.currentScript.previousElementSibling);\n})();\n<" + "/script>";
+    codeEl.textContent = markup + "\n" + scriptText;
+  }
+
+  buildCopyCode("code-gauge", "tpl-gauge", "gauge");
+  buildCopyCode("code-factors", "tpl-factors", null);
+  buildCopyCode("code-stats", "tpl-stats", null);
+
+  var baseCssEl = document.getElementById("code-base");
+  if (baseCssEl) {
+    var sheet = document.querySelector("style");
+    var full = sheet ? sheet.textContent : "";
+    var start = full.indexOf("/* COUNSELOR-BASE-TOKENS-START");
+    if (start !== -1) baseCssEl.textContent = full.slice(start).trim();
+  }
+
+  function legacyCopy(text) {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    var ok = false;
+    try { ok = document.execCommand("copy"); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+    return ok ? Promise.resolve() : Promise.reject(new Error("execCommand copy failed"));
+  }
+
+  function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text).catch(function () { return legacyCopy(text); });
+    }
+    return legacyCopy(text);
+  }
+
+  document.querySelectorAll("[data-copy-target]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var target = document.getElementById(btn.getAttribute("data-copy-target"));
+      if (!target) return;
+      var original = btn.textContent;
+      copyText(target.textContent).then(function () {
+        btn.textContent = "Copied";
+        btn.classList.add("is-copied");
+        setTimeout(function () { btn.textContent = original; btn.classList.remove("is-copied"); }, 1600);
+      }, function () {
+        btn.textContent = "Select & copy manually";
+        setTimeout(function () { btn.textContent = original; }, 2000);
+      });
+    });
+  });
+})();
+</script>

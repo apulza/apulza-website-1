@@ -1,0 +1,869 @@
+<title>Apulza Mobile - Account &amp; Support Snippets</title>
+<style>
+  :root {
+    --page-bg:#FBFAFE; --page-surface:#FFFFFF; --page-surface-2:#F6F3FB; --page-border:#E8E2F3;
+    --page-fg:#1C1526; --page-fg-muted:#6B627D; --page-accent:#6D28D9;
+    --page-code-bg:#1C1526; --page-code-fg:#E9E4F5; --page-code-border:#322947;
+    --page-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+    --page-sans: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --page-bg:#120E1B; --page-surface:#1B1529; --page-surface-2:#211A32; --page-border:#2E2645;
+      --page-fg:#F1ECFA; --page-fg-muted:#A79BC0; --page-accent:#B9A2FF;
+      --page-code-bg:#0E0A17; --page-code-fg:#E4DEF4; --page-code-border:#241C38;
+    }
+  }
+  :root[data-theme="dark"] {
+    --page-bg:#120E1B; --page-surface:#1B1529; --page-surface-2:#211A32; --page-border:#2E2645;
+    --page-fg:#F1ECFA; --page-fg-muted:#A79BC0; --page-accent:#B9A2FF;
+    --page-code-bg:#0E0A17; --page-code-fg:#E4DEF4; --page-code-border:#241C38;
+  }
+  :root[data-theme="light"] {
+    --page-bg:#FBFAFE; --page-surface:#FFFFFF; --page-surface-2:#F6F3FB; --page-border:#E8E2F3;
+    --page-fg:#1C1526; --page-fg-muted:#6B627D; --page-accent:#6D28D9;
+    --page-code-bg:#1C1526; --page-code-fg:#E9E4F5; --page-code-border:#322947;
+  }
+
+  * { box-sizing: border-box; }
+  body { margin:0; background:var(--page-bg); color:var(--page-fg); font-family:var(--page-sans); }
+
+  .wrap { max-width:1120px; margin:0 auto; padding:64px 24px 96px; }
+  .eyebrow { text-transform:uppercase; font-size:12px; letter-spacing:.08em; color:var(--page-accent); font-weight:700; margin:0 0 12px; }
+  h1 { font-size:clamp(28px,4vw,40px); font-weight:800; margin:0 0 12px; color:var(--page-fg); letter-spacing:-0.01em; }
+  .lede { font-size:16px; line-height:1.6; color:var(--page-fg-muted); max-width:660px; margin:0 0 20px; }
+  .meta-row { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:28px; }
+  .meta-row span { font-family:var(--page-mono); font-size:11px; padding:4px 10px; border-radius:999px; border:1px solid var(--page-border); color:var(--page-fg-muted); background:var(--page-surface-2); }
+  .note { background:var(--page-surface-2); border:1px solid var(--page-border); border-radius:12px; padding:14px 16px; font-size:13px; line-height:1.55; color:var(--page-fg-muted); margin-bottom:44px; }
+  .note strong { color:var(--page-fg); }
+
+  section.block { margin-bottom:56px; }
+  .block-head { margin-bottom:20px; }
+  h2 { font-size:22px; font-weight:800; margin:0 0 6px; color:var(--page-fg); }
+  .block-desc { font-size:14px; color:var(--page-fg-muted); margin:0; max-width:640px; line-height:1.55; }
+
+  .code-shell { background:var(--page-code-bg); border:1px solid var(--page-code-border); border-radius:14px; overflow:hidden; }
+  .code-shell-header { display:flex; align-items:center; justify-content:space-between; padding:10px 16px; border-bottom:1px solid var(--page-code-border); gap:12px; }
+  .code-shell-title { font-family:var(--page-mono); font-size:12px; color:var(--page-code-fg); opacity:.7; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .code-shell pre { margin:0; padding:18px 20px; overflow-x:auto; font-family:var(--page-mono); font-size:12.5px; line-height:1.6; color:var(--page-code-fg); }
+  .code-shell pre code { white-space:pre; }
+
+  .copy-btn { font-family:var(--page-sans); font-size:12px; font-weight:600; color:var(--page-code-fg); background:rgba(255,255,255,.08); border:1px solid var(--page-code-border); border-radius:8px; padding:6px 12px; cursor:pointer; transition:background .15s, transform .1s; flex-shrink:0; }
+  .copy-btn:hover { background:rgba(255,255,255,.16); }
+  .copy-btn:active { transform:scale(.96); }
+  .copy-btn.is-copied { background:var(--page-accent); border-color:var(--page-accent); color:#fff; }
+
+  .snippet { margin-bottom:48px; padding-bottom:48px; border-bottom:1px solid var(--page-border); }
+  .snippet:last-child { border-bottom:none; margin-bottom:0; padding-bottom:0; }
+  .snippet-head { margin-bottom:16px; }
+  .snippet-head h3 { font-size:17px; font-weight:700; margin:0 0 4px; color:var(--page-fg); }
+  .snippet-source { font-family:var(--page-mono); font-size:12px; color:var(--page-fg-muted); margin:0; word-break:break-word; }
+  .snippet-body { display:grid; grid-template-columns:360px 1fr; gap:24px; align-items:start; }
+  @media (max-width:840px) { .snippet-body { grid-template-columns:1fr; } }
+  .snippet-preview { background:var(--page-surface-2); border:1px solid var(--page-border); border-radius:20px; padding:24px; display:flex; justify-content:center; }
+  .snippet-code-wrap { display:flex; flex-direction:column; gap:8px; min-width:0; }
+
+  .phone-frame {
+    width:100%; max-width:375px; aspect-ratio:375/812; border-radius:40px;
+    border:1px solid var(--page-border);
+    box-shadow:0 24px 48px rgba(20,10,40,.22), 0 0 0 6px rgba(0,0,0,.85) inset;
+    overflow:hidden; background:#000; position:relative;
+  }
+
+  footer { margin-top:60px; padding-top:24px; border-top:1px solid var(--page-border); font-size:12px; color:var(--page-fg-muted); display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+
+  /* ============================================================
+     Section 1 -- Base styles (include once). Ported from
+     mobile/src/constants/theme.ts Colors.light. Everything below,
+     scoped under .apz, is the shared foundation every snippet reuses.
+     ============================================================ */
+  .apz, .apz * { box-sizing:border-box; }
+  .apz p, .apz h1, .apz h2, .apz h3, .apz span, .apz button { margin:0; }
+  .apz button { font-family:inherit; border:none; background:none; padding:0; cursor:default; color:inherit; }
+  .apz input, .apz textarea { font-family:inherit; }
+
+  .apz {
+    --c-bg:#F6F3FB; --c-card:#FFFFFF; --c-muted:#F3EFF9;
+    --c-fg:#1C1526; --c-fg-muted:#78708A; --c-subtle:#A89CBB;
+    --c-primary:#7C3AED; --c-primary-strong:#6D28D9; --c-primary-weak:#F2ECFD; --c-primary-fg:#FFFFFF;
+    --c-border:#EFEAF7; --c-border-strong:#DED2EE;
+    --c-success:#0F9D58; --c-success-weak:#E3F6EB;
+    --c-attention:#B45309; --c-attention-weak:#FBEEDD;
+    --c-calm:#2C7396; --c-calm-weak:#E4F1F6;
+    --f-sans:'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --f-mono:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    --shadow-card:0 6px 20px rgba(30,10,60,.12);
+    width:100%; height:100%;
+    font-family:var(--f-sans); color:var(--c-fg); background:var(--c-bg);
+    font-size:14px; line-height:1.4; -webkit-font-smoothing:antialiased;
+    display:flex; flex-direction:column;
+  }
+  .apz-screen { flex:1; display:flex; flex-direction:column; gap:16px; padding:20px 24px 24px; overflow-y:auto; }
+
+  .apz-back-row { display:flex; align-items:center; gap:4px; color:var(--c-fg-muted); font-size:13px; font-weight:500; }
+  .apz-header { display:flex; align-items:center; gap:8px; }
+  .apz-stack { display:flex; flex-direction:column; gap:1px; min-width:0; }
+  .apz-icon-circle { width:36px; height:36px; border-radius:999px; display:flex; align-items:center; justify-content:center; background:var(--c-primary-weak); flex-shrink:0; }
+  .apz-icon-circle.sm { width:28px; height:28px; }
+  .apz-icon-circle.lg { width:48px; height:48px; border-radius:18px; }
+  .apz-title { font-size:22px; font-weight:700; }
+  .apz-subtitle { font-size:14px; color:var(--c-fg-muted); font-weight:500; margin-top:-8px; }
+
+  .apz-text { font-size:14px; font-weight:500; }
+  .apz-text-bold { font-size:14px; font-weight:700; }
+  .apz-text-muted { font-size:14px; font-weight:500; color:var(--c-fg-muted); }
+  .apz-text-sm-muted { font-size:13px; color:var(--c-fg-muted); line-height:1.35; }
+
+  /* SectionCard.tsx */
+  .apz-card { background:var(--c-card); border:1px solid var(--c-border); border-radius:18px; padding:24px; display:flex; flex-direction:column; gap:16px; box-shadow:var(--shadow-card); }
+  .apz-card-label { font-size:11px; letter-spacing:.6px; color:var(--c-fg-muted); font-weight:700; text-transform:uppercase; }
+
+  .apz-tabbar { display:flex; gap:4px; padding:4px; border-radius:12px; background:var(--c-muted); }
+  .apz-tab { flex:1; display:flex; align-items:center; justify-content:center; gap:6px; padding:8px 4px; min-height:44px; border-radius:12px; font-size:12px; font-weight:700; color:var(--c-fg-muted); }
+  .apz-tab.active { background:var(--c-card); color:var(--c-fg); }
+  .apz-tab svg { flex-shrink:0; }
+
+  /* Toggle.tsx */
+  .apz-toggle-track { width:40px; height:24px; border-radius:999px; padding:4px; display:flex; align-items:center; justify-content:flex-start; background:var(--c-muted); flex-shrink:0; }
+  .apz-toggle-track.checked { justify-content:flex-end; background:var(--c-primary); }
+  .apz-toggle-thumb { width:16px; height:16px; border-radius:999px; background:var(--c-card); }
+  .apz-toggle-row { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+  .apz-toggle-row-text { flex:1; display:flex; flex-direction:column; gap:2px; }
+
+  .apz-pill-group { display:flex; flex-wrap:wrap; gap:8px; }
+  .apz-pill { display:inline-flex; flex-direction:column; align-items:flex-start; justify-content:center; gap:2px; border:2px solid var(--c-border); border-radius:12px; padding:8px 16px; min-height:44px; }
+  .apz-pill.active { border-color:var(--c-primary); background:var(--c-primary-weak); }
+  .apz-pill-label { font-size:14px; font-weight:700; color:var(--c-fg-muted); }
+  .apz-pill.active .apz-pill-label { color:var(--c-primary); }
+
+  .apz-btn-primary { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:0 24px; min-height:44px; border-radius:12px; background:var(--c-primary); color:var(--c-primary-fg); font-size:14px; font-weight:700; }
+
+  .apz-input, .apz-textarea { width:100%; border:1px solid var(--c-border-strong); border-radius:12px; padding:8px 16px; min-height:44px; font-size:14px; color:var(--c-fg); background:var(--c-card); }
+  .apz-input::placeholder, .apz-textarea::placeholder { color:var(--c-subtle); }
+
+  .apz-badge { display:inline-flex; align-items:center; border-radius:8px; padding:4px 8px; font-size:13px; font-weight:600; flex-shrink:0; }
+  .apz-badge.success { background:var(--c-success-weak); color:var(--c-success); }
+
+  /* ---- Settings screen: My Profile link row ---- */
+  .apz-profile-link { display:flex; align-items:center; gap:8px; border:1px solid var(--c-primary-weak); border-radius:18px; padding:16px; background:var(--c-primary-weak); }
+  .apz-profile-icon { width:36px; height:36px; border-radius:999px; background:var(--c-card); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .apz-profile-text { flex:1; display:flex; flex-direction:column; gap:1px; min-width:0; }
+
+  /* ---- Support: ApulzaBotWidget ---- */
+  .apz-widget-wrap { margin-top:auto; display:flex; flex-direction:column; align-items:flex-end; gap:8px; }
+  .apz-chat-panel { width:100%; max-width:320px; height:392px; border-radius:18px; border:1px solid var(--c-border); background:var(--c-card); box-shadow:var(--shadow-card); display:flex; flex-direction:column; overflow:hidden; }
+  .apz-chat-header { display:flex; align-items:center; gap:8px; padding:16px; border-bottom:1px solid var(--c-border); }
+  .apz-chat-header-text { flex:1; display:flex; flex-direction:column; gap:1px; min-width:0; }
+  .apz-chat-close { width:32px; height:32px; display:flex; align-items:center; justify-content:center; color:var(--c-fg-muted); flex-shrink:0; }
+  .apz-chat-messages { flex:1; display:flex; flex-direction:column; gap:8px; padding:16px; overflow-y:auto; }
+  .apz-bubble-row { display:flex; max-width:82%; }
+  .apz-bubble-row.mine { align-self:flex-end; }
+  .apz-bubble-row.theirs { align-self:flex-start; }
+  .apz-bubble { border-radius:18px; padding:8px 16px; font-size:14px; line-height:1.4; }
+  .apz-bubble.mine { background:var(--c-primary); color:var(--c-primary-fg); border-bottom-right-radius:4px; }
+  .apz-bubble.theirs { background:var(--c-muted); color:var(--c-fg); border-bottom-left-radius:4px; }
+  .apz-chat-input-row { display:flex; align-items:center; gap:8px; margin:8px; border-radius:12px; background:var(--c-muted); padding:4px 16px; }
+  .apz-chat-input { flex:1; border:none; background:transparent; font-size:13px; min-height:44px; color:var(--c-fg); }
+  .apz-chat-input::placeholder { color:var(--c-subtle); }
+  .apz-fab { width:52px; height:52px; border-radius:999px; display:flex; align-items:center; justify-content:center; box-shadow:var(--shadow-card); flex-shrink:0; }
+
+  /* ---- Resources ---- */
+  .apz-disclaimer { border-radius:18px; border:1px solid rgba(180,83,9,.3); background:var(--c-attention-weak); padding:16px; }
+  .apz-disclaimer-text { font-size:13px; line-height:17px; color:var(--c-attention); }
+  .apz-cat-tabs { display:flex; gap:8px; overflow-x:auto; padding-bottom:2px; }
+  .apz-cat-tab { display:flex; align-items:center; gap:4px; border:1.5px solid var(--c-border); border-radius:18px; padding:0 16px; min-height:44px; background:var(--c-card); color:var(--c-fg-muted); font-size:14px; font-weight:700; flex-shrink:0; white-space:nowrap; }
+  .apz-cat-tab.active.primary { border-color:var(--c-primary); background:var(--c-primary-weak); color:var(--c-primary); }
+  .apz-cat-tab.active.calm { border-color:var(--c-calm); background:var(--c-calm-weak); color:var(--c-calm); }
+  .apz-cat-tab.active.success { border-color:var(--c-success); background:var(--c-success-weak); color:var(--c-success); }
+  .apz-cat-tab svg { flex-shrink:0; }
+  .apz-section-head { display:flex; flex-direction:column; gap:2px; }
+  .apz-section-title-row { display:flex; align-items:center; gap:6px; }
+  .apz-section-title { font-size:16px; font-weight:700; }
+  .apz-accordion-list { display:flex; flex-direction:column; gap:8px; }
+  .apz-accordion-item { border:1px solid var(--c-border); border-radius:18px; overflow:hidden; background:var(--c-card); }
+  .apz-accordion-item.open { box-shadow:var(--shadow-card); }
+  .apz-accordion-header { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:0 16px; min-height:52px; }
+  .apz-accordion-title { flex:1; font-size:14px; font-weight:700; }
+  .apz-chevron { color:var(--c-fg-muted); flex-shrink:0; transition:transform .15s; }
+  .apz-chevron.open { transform:rotate(180deg); }
+  .apz-accordion-body { border-top:1px solid var(--c-border); padding:8px 16px 16px; }
+  .apz-accordion-body.accent { border-left:3px solid var(--c-calm); }
+  .apz-accordion-body-text { font-size:14px; line-height:18px; color:var(--c-fg-muted); }
+  .apz-tag-row { display:flex; flex-wrap:wrap; gap:4px; margin-top:8px; }
+  .apz-tag { background:var(--c-primary-weak); color:var(--c-primary); border-radius:8px; padding:3px 8px; font-size:10px; font-weight:600; }
+
+  /* ---- Profile header ---- */
+  .apz-conditions-grid { display:flex; flex-wrap:wrap; gap:8px; }
+  .apz-condition-pill { flex-basis:47%; flex-grow:1; display:flex; align-items:center; justify-content:space-between; border:2px solid var(--c-border); border-radius:12px; padding:0 16px; min-height:44px; gap:8px; }
+  .apz-condition-pill.active { border-color:var(--c-primary); background:var(--c-primary-weak); }
+  .apz-condition-label { font-size:14px; font-weight:700; color:var(--c-fg-muted); }
+  .apz-condition-pill.active .apz-condition-label { color:var(--c-primary); }
+  .apz-canvas-row { display:flex; align-items:flex-start; justify-content:space-between; gap:8px; }
+  .apz-canvas-title-row { display:flex; align-items:center; gap:6px; }
+  .apz-sync-btn { display:inline-flex; align-items:center; gap:6px; border:1px solid var(--c-primary); color:var(--c-primary); border-radius:12px; padding:0 16px; min-height:44px; background:transparent; font-size:14px; font-weight:700; align-self:flex-start; }
+
+  /* ---- Onboarding step ---- */
+  .apz-progress { display:flex; flex-direction:column; gap:4px; }
+  .apz-progress-labels { display:flex; justify-content:space-between; }
+  .apz-progress-track { height:6px; border-radius:999px; background:var(--c-muted); overflow:hidden; }
+  .apz-progress-fill { height:100%; border-radius:999px; background:var(--c-primary); }
+  .apz-heading { font-size:30px; font-weight:700; line-height:38px; }
+  .apz-body-text { font-size:14px; color:var(--c-fg-muted); line-height:1.4; }
+  .apz-course-list { max-height:220px; overflow-y:auto; border:1px solid var(--c-border); border-radius:18px; }
+  .apz-course-row { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:8px 16px; }
+  .apz-course-row + .apz-course-row { border-top:1px solid var(--c-border); }
+  .apz-course-row.selected { background:var(--c-primary-weak); }
+  .apz-course-row svg { flex-shrink:0; }
+  .apz-course-info { flex:1; display:flex; flex-direction:column; gap:1px; min-width:0; }
+  .apz-course-name { display:block; font-size:14px; color:var(--c-fg); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .apz-course-meta { display:block; font-size:13px; color:var(--c-subtle); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .apz-selected-count { font-size:14px; color:var(--c-primary); font-weight:500; }
+  .apz-nav-row { display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-top:auto; padding-top:4px; }
+  .apz-nav-back { display:flex; align-items:center; gap:2px; min-height:44px; color:var(--c-fg-muted); font-size:14px; font-weight:500; }
+  .apz-nav-skip { color:var(--c-fg-muted); font-size:14px; font-weight:500; }
+</style>
+
+<div class="wrap">
+  <p class="eyebrow">Apulza design system</p>
+  <h1>Mobile &middot; Account &amp; Support</h1>
+  <p class="lede">Five HTML/CSS re-creations of Apulza's Expo/React Native account, resources, and support screens, wrapped in a phone mockup for reuse in the marketing site's features section.</p>
+  <div class="meta-row">
+    <span>React Native &rarr; HTML/CSS</span>
+    <span>Expo mobile app</span>
+    <span>Phone mockup, 375&times;812</span>
+    <span>Tokens: mobile/src/constants/theme.ts</span>
+  </div>
+
+  <div class="note">
+    <strong>Note:</strong> these are faithful HTML/CSS re-creations built from the same ported design tokens as the live mobile app (<code>mobile/src/constants/theme.ts</code>, itself ported from <code>DESIGN.md</code>) &mdash; not literal React Native code, since React Native isn't a web technology and can't run in a browser. Colors, spacing, and radii below are copied 1:1 from <code>Colors.light</code>. The live app loads Figtree, JetBrains Mono, and Newsreader via <code>expo-google-fonts</code>; this page intentionally does not link Google Fonts (external font requests are silently blocked once published), so text below renders in the <code>system-ui</code> fallback instead.
+  </div>
+
+  <section class="block" id="base-styles">
+    <div class="block-head">
+      <h2>Base styles &mdash; include once</h2>
+      <p class="block-desc">The <code>.apz</code> wrapper carries the color tokens as CSS custom properties, plus the reusable primitives (card, pill, toggle, tab bar, button) that every snippet below builds on. Include this once per page, then compose the snippet markup inside it.</p>
+    </div>
+    <div class="code-shell">
+      <div class="code-shell-header">
+        <span class="code-shell-title">apz-base.css</span>
+        <button class="copy-btn" data-target="code-base">Copy</button>
+      </div>
+      <pre id="code-base"><code>.phone-frame {
+  width:100%; max-width:375px; aspect-ratio:375/812; border-radius:40px;
+  border:1px solid var(--page-border);
+  box-shadow:0 24px 48px rgba(20,10,40,.22), 0 0 0 6px rgba(0,0,0,.85) inset;
+  overflow:hidden; background:#000; position:relative;
+}
+/* ============================================================
+   Section 1 -- Base styles (include once). Ported from
+   mobile/src/constants/theme.ts Colors.light. Everything below,
+   scoped under .apz, is the shared foundation every snippet reuses.
+   ============================================================ */
+.apz, .apz * { box-sizing:border-box; }
+.apz p, .apz h1, .apz h2, .apz h3, .apz span, .apz button { margin:0; }
+.apz button { font-family:inherit; border:none; background:none; padding:0; cursor:default; color:inherit; }
+.apz input, .apz textarea { font-family:inherit; }
+
+.apz {
+  --c-bg:#F6F3FB; --c-card:#FFFFFF; --c-muted:#F3EFF9;
+  --c-fg:#1C1526; --c-fg-muted:#78708A; --c-subtle:#A89CBB;
+  --c-primary:#7C3AED; --c-primary-strong:#6D28D9; --c-primary-weak:#F2ECFD; --c-primary-fg:#FFFFFF;
+  --c-border:#EFEAF7; --c-border-strong:#DED2EE;
+  --c-success:#0F9D58; --c-success-weak:#E3F6EB;
+  --c-attention:#B45309; --c-attention-weak:#FBEEDD;
+  --c-calm:#2C7396; --c-calm-weak:#E4F1F6;
+  --f-sans:'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --f-mono:'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --shadow-card:0 6px 20px rgba(30,10,60,.12);
+  width:100%; height:100%;
+  font-family:var(--f-sans); color:var(--c-fg); background:var(--c-bg);
+  font-size:14px; line-height:1.4; -webkit-font-smoothing:antialiased;
+  display:flex; flex-direction:column;
+}
+.apz-screen { flex:1; display:flex; flex-direction:column; gap:16px; padding:20px 24px 24px; overflow-y:auto; }
+
+.apz-back-row { display:flex; align-items:center; gap:4px; color:var(--c-fg-muted); font-size:13px; font-weight:500; }
+.apz-header { display:flex; align-items:center; gap:8px; }
+.apz-stack { display:flex; flex-direction:column; gap:1px; min-width:0; }
+.apz-icon-circle { width:36px; height:36px; border-radius:999px; display:flex; align-items:center; justify-content:center; background:var(--c-primary-weak); flex-shrink:0; }
+.apz-icon-circle.sm { width:28px; height:28px; }
+.apz-icon-circle.lg { width:48px; height:48px; border-radius:18px; }
+.apz-title { font-size:22px; font-weight:700; }
+.apz-subtitle { font-size:14px; color:var(--c-fg-muted); font-weight:500; margin-top:-8px; }
+
+.apz-text { font-size:14px; font-weight:500; }
+.apz-text-bold { font-size:14px; font-weight:700; }
+.apz-text-muted { font-size:14px; font-weight:500; color:var(--c-fg-muted); }
+.apz-text-sm-muted { font-size:13px; color:var(--c-fg-muted); line-height:1.35; }
+
+/* SectionCard.tsx */
+.apz-card { background:var(--c-card); border:1px solid var(--c-border); border-radius:18px; padding:24px; display:flex; flex-direction:column; gap:16px; box-shadow:var(--shadow-card); }
+.apz-card-label { font-size:11px; letter-spacing:.6px; color:var(--c-fg-muted); font-weight:700; text-transform:uppercase; }
+
+.apz-tabbar { display:flex; gap:4px; padding:4px; border-radius:12px; background:var(--c-muted); }
+.apz-tab { flex:1; display:flex; align-items:center; justify-content:center; gap:6px; padding:8px 4px; min-height:44px; border-radius:12px; font-size:12px; font-weight:700; color:var(--c-fg-muted); }
+.apz-tab.active { background:var(--c-card); color:var(--c-fg); }
+.apz-tab svg { flex-shrink:0; }
+
+/* Toggle.tsx */
+.apz-toggle-track { width:40px; height:24px; border-radius:999px; padding:4px; display:flex; align-items:center; justify-content:flex-start; background:var(--c-muted); flex-shrink:0; }
+.apz-toggle-track.checked { justify-content:flex-end; background:var(--c-primary); }
+.apz-toggle-thumb { width:16px; height:16px; border-radius:999px; background:var(--c-card); }
+.apz-toggle-row { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; }
+.apz-toggle-row-text { flex:1; display:flex; flex-direction:column; gap:2px; }
+
+.apz-pill-group { display:flex; flex-wrap:wrap; gap:8px; }
+.apz-pill { display:inline-flex; flex-direction:column; align-items:flex-start; justify-content:center; gap:2px; border:2px solid var(--c-border); border-radius:12px; padding:8px 16px; min-height:44px; }
+.apz-pill.active { border-color:var(--c-primary); background:var(--c-primary-weak); }
+.apz-pill-label { font-size:14px; font-weight:700; color:var(--c-fg-muted); }
+.apz-pill.active .apz-pill-label { color:var(--c-primary); }
+
+.apz-btn-primary { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:0 24px; min-height:44px; border-radius:12px; background:var(--c-primary); color:var(--c-primary-fg); font-size:14px; font-weight:700; }
+
+.apz-input, .apz-textarea { width:100%; border:1px solid var(--c-border-strong); border-radius:12px; padding:8px 16px; min-height:44px; font-size:14px; color:var(--c-fg); background:var(--c-card); }
+.apz-input::placeholder, .apz-textarea::placeholder { color:var(--c-subtle); }
+
+.apz-badge { display:inline-flex; align-items:center; border-radius:8px; padding:4px 8px; font-size:13px; font-weight:600; flex-shrink:0; }
+.apz-badge.success { background:var(--c-success-weak); color:var(--c-success); }
+
+/* ---- Settings screen: My Profile link row ---- */
+.apz-profile-link { display:flex; align-items:center; gap:8px; border:1px solid var(--c-primary-weak); border-radius:18px; padding:16px; background:var(--c-primary-weak); }
+.apz-profile-icon { width:36px; height:36px; border-radius:999px; background:var(--c-card); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.apz-profile-text { flex:1; display:flex; flex-direction:column; gap:1px; min-width:0; }
+
+/* ---- Support: ApulzaBotWidget ---- */
+.apz-widget-wrap { margin-top:auto; display:flex; flex-direction:column; align-items:flex-end; gap:8px; }
+.apz-chat-panel { width:100%; max-width:320px; height:392px; border-radius:18px; border:1px solid var(--c-border); background:var(--c-card); box-shadow:var(--shadow-card); display:flex; flex-direction:column; overflow:hidden; }
+.apz-chat-header { display:flex; align-items:center; gap:8px; padding:16px; border-bottom:1px solid var(--c-border); }
+.apz-chat-header-text { flex:1; display:flex; flex-direction:column; gap:1px; min-width:0; }
+.apz-chat-close { width:32px; height:32px; display:flex; align-items:center; justify-content:center; color:var(--c-fg-muted); flex-shrink:0; }
+.apz-chat-messages { flex:1; display:flex; flex-direction:column; gap:8px; padding:16px; overflow-y:auto; }
+.apz-bubble-row { display:flex; max-width:82%; }
+.apz-bubble-row.mine { align-self:flex-end; }
+.apz-bubble-row.theirs { align-self:flex-start; }
+.apz-bubble { border-radius:18px; padding:8px 16px; font-size:14px; line-height:1.4; }
+.apz-bubble.mine { background:var(--c-primary); color:var(--c-primary-fg); border-bottom-right-radius:4px; }
+.apz-bubble.theirs { background:var(--c-muted); color:var(--c-fg); border-bottom-left-radius:4px; }
+.apz-chat-input-row { display:flex; align-items:center; gap:8px; margin:8px; border-radius:12px; background:var(--c-muted); padding:4px 16px; }
+.apz-chat-input { flex:1; border:none; background:transparent; font-size:13px; min-height:44px; color:var(--c-fg); }
+.apz-chat-input::placeholder { color:var(--c-subtle); }
+.apz-fab { width:52px; height:52px; border-radius:999px; display:flex; align-items:center; justify-content:center; box-shadow:var(--shadow-card); flex-shrink:0; }
+
+/* ---- Resources ---- */
+.apz-disclaimer { border-radius:18px; border:1px solid rgba(180,83,9,.3); background:var(--c-attention-weak); padding:16px; }
+.apz-disclaimer-text { font-size:13px; line-height:17px; color:var(--c-attention); }
+.apz-cat-tabs { display:flex; gap:8px; overflow-x:auto; padding-bottom:2px; }
+.apz-cat-tab { display:flex; align-items:center; gap:4px; border:1.5px solid var(--c-border); border-radius:18px; padding:0 16px; min-height:44px; background:var(--c-card); color:var(--c-fg-muted); font-size:14px; font-weight:700; flex-shrink:0; white-space:nowrap; }
+.apz-cat-tab.active.primary { border-color:var(--c-primary); background:var(--c-primary-weak); color:var(--c-primary); }
+.apz-cat-tab.active.calm { border-color:var(--c-calm); background:var(--c-calm-weak); color:var(--c-calm); }
+.apz-cat-tab.active.success { border-color:var(--c-success); background:var(--c-success-weak); color:var(--c-success); }
+.apz-cat-tab svg { flex-shrink:0; }
+.apz-section-head { display:flex; flex-direction:column; gap:2px; }
+.apz-section-title-row { display:flex; align-items:center; gap:6px; }
+.apz-section-title { font-size:16px; font-weight:700; }
+.apz-accordion-list { display:flex; flex-direction:column; gap:8px; }
+.apz-accordion-item { border:1px solid var(--c-border); border-radius:18px; overflow:hidden; background:var(--c-card); }
+.apz-accordion-item.open { box-shadow:var(--shadow-card); }
+.apz-accordion-header { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:0 16px; min-height:52px; }
+.apz-accordion-title { flex:1; font-size:14px; font-weight:700; }
+.apz-chevron { color:var(--c-fg-muted); flex-shrink:0; transition:transform .15s; }
+.apz-chevron.open { transform:rotate(180deg); }
+.apz-accordion-body { border-top:1px solid var(--c-border); padding:8px 16px 16px; }
+.apz-accordion-body.accent { border-left:3px solid var(--c-calm); }
+.apz-accordion-body-text { font-size:14px; line-height:18px; color:var(--c-fg-muted); }
+.apz-tag-row { display:flex; flex-wrap:wrap; gap:4px; margin-top:8px; }
+.apz-tag { background:var(--c-primary-weak); color:var(--c-primary); border-radius:8px; padding:3px 8px; font-size:10px; font-weight:600; }
+
+/* ---- Profile header ---- */
+.apz-conditions-grid { display:flex; flex-wrap:wrap; gap:8px; }
+.apz-condition-pill { flex-basis:47%; flex-grow:1; display:flex; align-items:center; justify-content:space-between; border:2px solid var(--c-border); border-radius:12px; padding:0 16px; min-height:44px; gap:8px; }
+.apz-condition-pill.active { border-color:var(--c-primary); background:var(--c-primary-weak); }
+.apz-condition-label { font-size:14px; font-weight:700; color:var(--c-fg-muted); }
+.apz-condition-pill.active .apz-condition-label { color:var(--c-primary); }
+.apz-canvas-row { display:flex; align-items:flex-start; justify-content:space-between; gap:8px; }
+.apz-canvas-title-row { display:flex; align-items:center; gap:6px; }
+.apz-sync-btn { display:inline-flex; align-items:center; gap:6px; border:1px solid var(--c-primary); color:var(--c-primary); border-radius:12px; padding:0 16px; min-height:44px; background:transparent; font-size:14px; font-weight:700; align-self:flex-start; }
+
+/* ---- Onboarding step ---- */
+.apz-progress { display:flex; flex-direction:column; gap:4px; }
+.apz-progress-labels { display:flex; justify-content:space-between; }
+.apz-progress-track { height:6px; border-radius:999px; background:var(--c-muted); overflow:hidden; }
+.apz-progress-fill { height:100%; border-radius:999px; background:var(--c-primary); }
+.apz-heading { font-size:30px; font-weight:700; line-height:38px; }
+.apz-body-text { font-size:14px; color:var(--c-fg-muted); line-height:1.4; }
+.apz-course-list { max-height:220px; overflow-y:auto; border:1px solid var(--c-border); border-radius:18px; }
+.apz-course-row { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:8px 16px; }
+.apz-course-row + .apz-course-row { border-top:1px solid var(--c-border); }
+.apz-course-row.selected { background:var(--c-primary-weak); }
+.apz-course-row svg { flex-shrink:0; }
+.apz-course-info { flex:1; display:flex; flex-direction:column; gap:1px; min-width:0; }
+.apz-course-name { display:block; font-size:14px; color:var(--c-fg); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.apz-course-meta { display:block; font-size:13px; color:var(--c-subtle); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.apz-selected-count { font-size:14px; color:var(--c-primary); font-weight:500; }
+.apz-nav-row { display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin-top:auto; padding-top:4px; }
+.apz-nav-back { display:flex; align-items:center; gap:2px; min-height:44px; color:var(--c-fg-muted); font-size:14px; font-weight:500; }
+.apz-nav-skip { color:var(--c-fg-muted); font-size:14px; font-weight:500; }</code></pre>
+    </div>
+  </section>
+
+  <section class="block" id="snippets">
+    <div class="block-head">
+      <h2>Snippets</h2>
+      <p class="block-desc">Curated, realistic sample data &mdash; no real student records. Each snippet is self-contained markup meant to sit inside the <code>.apz</code> wrapper above.</p>
+    </div>
+
+    <!-- 1. Settings -->
+    <div class="snippet">
+      <div class="snippet-head">
+        <h3>1. Settings &mdash; Display &amp; reading</h3>
+        <p class="snippet-source">Source: mobile/src/app/(student)/settings.tsx + components/settings/SectionCard.tsx + Toggle.tsx + PreferencesTab.tsx</p>
+      </div>
+      <div class="snippet-body">
+        <div class="snippet-preview" data-tpl="tpl-settings">
+          <div class="phone-frame"></div>
+        </div>
+        <div class="snippet-code-wrap">
+          <div class="code-shell">
+            <div class="code-shell-header">
+              <span class="code-shell-title">settings-display-reading.html</span>
+              <button class="copy-btn" data-target="code-settings">Copy</button>
+            </div>
+            <pre id="code-settings"><code></code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Support -->
+    <div class="snippet">
+      <div class="snippet-head">
+        <h3>2. Support &mdash; ApulzaBot widget</h3>
+        <p class="snippet-source">Source: mobile/src/app/(student)/support.tsx + components/support/ApulzaBotWidget.tsx</p>
+      </div>
+      <div class="snippet-body">
+        <div class="snippet-preview" data-tpl="tpl-support">
+          <div class="phone-frame"></div>
+        </div>
+        <div class="snippet-code-wrap">
+          <div class="code-shell">
+            <div class="code-shell-header">
+              <span class="code-shell-title">support-apulzabot-widget.html</span>
+              <button class="copy-btn" data-target="code-support">Copy</button>
+            </div>
+            <pre id="code-support"><code></code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Resources -->
+    <div class="snippet">
+      <div class="snippet-head">
+        <h3>3. Resources &mdash; ADHD accordion</h3>
+        <p class="snippet-source">Source: mobile/src/app/(student)/resources.tsx</p>
+      </div>
+      <div class="snippet-body">
+        <div class="snippet-preview" data-tpl="tpl-resources">
+          <div class="phone-frame"></div>
+        </div>
+        <div class="snippet-code-wrap">
+          <div class="code-shell">
+            <div class="code-shell-header">
+              <span class="code-shell-title">resources-adhd-accordion.html</span>
+              <button class="copy-btn" data-target="code-resources">Copy</button>
+            </div>
+            <pre id="code-resources"><code></code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Profile -->
+    <div class="snippet">
+      <div class="snippet-head">
+        <h3>4. Profile &mdash; header &amp; conditions</h3>
+        <p class="snippet-source">Source: mobile/src/app/(student)/profile.tsx</p>
+      </div>
+      <div class="snippet-body">
+        <div class="snippet-preview" data-tpl="tpl-profile">
+          <div class="phone-frame"></div>
+        </div>
+        <div class="snippet-code-wrap">
+          <div class="code-shell">
+            <div class="code-shell-header">
+              <span class="code-shell-title">profile-header.html</span>
+              <button class="copy-btn" data-target="code-profile">Copy</button>
+            </div>
+            <pre id="code-profile"><code></code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Onboarding -->
+    <div class="snippet">
+      <div class="snippet-head">
+        <h3>5. Onboarding &mdash; add your first course</h3>
+        <p class="snippet-source">Source: mobile/src/app/(student)/onboarding.tsx + components/onboarding/StepCourses.tsx + ProgressBar.tsx + OnboardingNav.tsx</p>
+      </div>
+      <div class="snippet-body">
+        <div class="snippet-preview" data-tpl="tpl-onboarding">
+          <div class="phone-frame"></div>
+        </div>
+        <div class="snippet-code-wrap">
+          <div class="code-shell">
+            <div class="code-shell-header">
+              <span class="code-shell-title">onboarding-step-courses.html</span>
+              <button class="copy-btn" data-target="code-onboarding">Copy</button>
+            </div>
+            <pre id="code-onboarding"><code></code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Apulza design system &middot; mobile snippets</span>
+    <span>Generated for the marketing site features section</span>
+  </footer>
+</div>
+
+<template id="tpl-settings">
+<div class="apz">
+  <div class="apz-screen">
+    <div class="apz-back-row">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+      <span>Dashboard</span>
+    </div>
+    <div class="apz-header">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--c-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="20" y2="6"></line><circle cx="14" cy="6" r="2"></circle><line x1="4" y1="12" x2="20" y2="12"></line><circle cx="8" cy="12" r="2"></circle><line x1="4" y1="18" x2="20" y2="18"></line><circle cx="16" cy="18" r="2"></circle></svg>
+      <h3 class="apz-title">Settings</h3>
+    </div>
+    <p class="apz-subtitle">Manage your account, courses, and preferences.</p>
+
+    <div class="apz-profile-link">
+      <div class="apz-profile-icon">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--c-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4.5 3.6-8 8-8s8 3.5 8 8"></path></svg>
+      </div>
+      <div class="apz-profile-text">
+        <p class="apz-text-bold">My Profile</p>
+        <p class="apz-text-sm-muted">Conditions, program, accommodations, and Canvas sync</p>
+      </div>
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--c-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+    </div>
+
+    <div class="apz-tabbar">
+      <button class="apz-tab"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>Account</button>
+      <button class="apz-tab"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5-10-5z"></path><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"></path></svg>Academic</button>
+      <button class="apz-tab active"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>Preferences</button>
+      <button class="apz-tab"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11V5l8-3z"></path></svg>Privacy</button>
+    </div>
+
+    <div class="apz-card">
+      <div>
+        <p class="apz-text-bold" style="margin-bottom:2px;">Theme</p>
+        <p class="apz-text-sm-muted">Choose light or dark, or match your device's setting.</p>
+      </div>
+      <div class="apz-pill-group">
+        <button class="apz-pill"><span class="apz-pill-label">Light</span></button>
+        <button class="apz-pill"><span class="apz-pill-label">Dark</span></button>
+        <button class="apz-pill active"><span class="apz-pill-label">System</span></button>
+      </div>
+      <div class="apz-toggle-row">
+        <div class="apz-toggle-row-text">
+          <p class="apz-text-bold">Low-stimulation mode</p>
+          <p class="apz-text-sm-muted">Reduces color and visual effects across Apulza &mdash; a calmer, quieter look.</p>
+        </div>
+        <div class="apz-toggle-track"><div class="apz-toggle-thumb"></div></div>
+      </div>
+      <div class="apz-toggle-row">
+        <div class="apz-toggle-row-text">
+          <p class="apz-text-bold">Dyslexia-friendly mode</p>
+          <p class="apz-text-sm-muted">Switches to a font and spacing designed to make reading easier.</p>
+        </div>
+        <div class="apz-toggle-track checked"><div class="apz-toggle-thumb"></div></div>
+      </div>
+    </div>
+
+    <p class="apz-text-sm-muted">All nudges are opt-in and can be turned off any time.</p>
+  </div>
+</div>
+</template>
+
+<template id="tpl-support">
+<div class="apz">
+  <div class="apz-screen" style="gap:12px;">
+    <div class="apz-back-row">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+      <span>Dashboard</span>
+    </div>
+    <div class="apz-header" style="opacity:.55;">
+      <div class="apz-icon-circle">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="var(--c-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="4"></circle><line x1="4.9" y1="4.9" x2="9.2" y2="9.2"></line><line x1="14.8" y1="14.8" x2="19.1" y2="19.1"></line><line x1="14.8" y1="9.2" x2="19.1" y2="4.9"></line><line x1="4.9" y1="19.1" x2="9.2" y2="14.8"></line></svg>
+      </div>
+      <div class="apz-stack">
+        <h3 class="apz-title" style="font-size:20px;">Support</h3>
+        <p class="apz-text-sm-muted">We're here whenever you need us.</p>
+      </div>
+    </div>
+    <div class="apz-tabbar" style="opacity:.55;">
+      <button class="apz-tab active"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>Message a Counselor</button>
+      <button class="apz-tab"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><polyline points="2 7 12 13 22 7"></polyline></svg>Contact Us</button>
+    </div>
+
+    <div class="apz-widget-wrap">
+      <div class="apz-chat-panel">
+        <div class="apz-chat-header">
+          <div class="apz-icon-circle sm">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="var(--c-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="10" rx="2"></rect><path d="M12 8V4"></path><circle cx="12" cy="3" r="1"></circle><circle cx="9" cy="13" r="1"></circle><circle cx="15" cy="13" r="1"></circle><line x1="8" y1="17" x2="16" y2="17"></line></svg>
+          </div>
+          <div class="apz-chat-header-text">
+            <p class="apz-text-bold">ApulzaBot</p>
+            <p class="apz-text-sm-muted">Always ready to help</p>
+          </div>
+          <button class="apz-chat-close">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </button>
+        </div>
+        <div class="apz-chat-messages">
+          <div class="apz-bubble-row theirs"><div class="apz-bubble theirs">Hi! I'm ApulzaBot &mdash; here to help you navigate Apulza, understand your study plans, or work through assignments step by step. What can I help you with?</div></div>
+          <div class="apz-bubble-row mine"><div class="apz-bubble mine">How do I connect my Canvas account?</div></div>
+          <div class="apz-bubble-row theirs"><div class="apz-bubble theirs">Head to My Profile, then Link to Canvas &mdash; paste your access token and tap Link Canvas. I can walk you through it step by step if that's easier.</div></div>
+        </div>
+        <div class="apz-chat-input-row">
+          <input class="apz-chat-input" placeholder="Ask me anything about Apulza..." />
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--c-subtle)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+        </div>
+      </div>
+      <div class="apz-fab" style="background:var(--c-muted); color:var(--c-fg-muted);">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </div>
+    </div>
+  </div>
+</div>
+</template>
+
+<template id="tpl-resources">
+<div class="apz">
+  <div class="apz-screen">
+    <div class="apz-back-row">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+      <span>Dashboard</span>
+    </div>
+    <div class="apz-stack" style="gap:2px;">
+      <h3 class="apz-title" style="font-size:24px; line-height:30px;">Resources</h3>
+      <p class="apz-text-sm-muted">Evidence-based strategies, medication information, and harm reduction guidance.</p>
+    </div>
+    <div class="apz-disclaimer">
+      <p class="apz-disclaimer-text">This information is for educational purposes only and does not constitute medical advice. Always consult a qualified healthcare provider before making decisions about medications or treatment.</p>
+    </div>
+    <div class="apz-cat-tabs">
+      <button class="apz-cat-tab active primary"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3a3 3 0 0 0-3 3 3 3 0 0 0-2 5 3 3 0 0 0 2 5h1v3h8v-3h1a3 3 0 0 0 2-5 3 3 0 0 0-2-5 3 3 0 0 0-3-3z"></path></svg>ADHD</button>
+      <button class="apz-cat-tab"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="9" width="20" height="6" rx="3"></rect><line x1="12" y1="9" x2="12" y2="15"></line></svg>Medications</button>
+      <button class="apz-cat-tab"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l8 3v6c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11V5l8-3z"></path></svg>Harm Reduction</button>
+    </div>
+    <div class="apz-section-head">
+      <div class="apz-section-title-row">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--c-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3a3 3 0 0 0-3 3 3 3 0 0 0-2 5 3 3 0 0 0 2 5h1v3h8v-3h1a3 3 0 0 0 2-5 3 3 0 0 0-2-5 3 3 0 0 0-3-3z"></path></svg>
+        <p class="apz-section-title">Understanding ADHD</p>
+      </div>
+      <p class="apz-text-sm-muted">Strategies grounded in research, explained in plain language.</p>
+    </div>
+    <div class="apz-accordion-list">
+      <div class="apz-accordion-item open">
+        <div class="apz-accordion-header">
+          <p class="apz-accordion-title">Executive function and task initiation</p>
+          <svg class="apz-chevron open" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+        <div class="apz-accordion-body accent">
+          <p class="apz-accordion-body-text">Getting started is often harder than the task itself. Breaking work into a single visible next step &mdash; not the whole project &mdash; makes initiation easier for ADHD brains.</p>
+          <div class="apz-tag-row"><span class="apz-tag">Focus strategies</span><span class="apz-tag">Task initiation</span></div>
+        </div>
+      </div>
+      <div class="apz-accordion-item">
+        <div class="apz-accordion-header">
+          <p class="apz-accordion-title">Time blindness and deadlines</p>
+          <svg class="apz-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+      <div class="apz-accordion-item">
+        <div class="apz-accordion-header">
+          <p class="apz-accordion-title">Building external structure</p>
+          <svg class="apz-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</template>
+
+<template id="tpl-profile">
+<div class="apz">
+  <div class="apz-screen">
+    <div class="apz-back-row">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+      <span>Settings</span>
+    </div>
+    <div class="apz-header">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--c-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4.5 3.6-8 8-8s8 3.5 8 8"></path></svg>
+      <h3 class="apz-title">My Profile</h3>
+    </div>
+    <p class="apz-subtitle">Jordan Ellis &middot; jordan.ellis@sample.edu</p>
+
+    <div class="apz-card">
+      <p class="apz-text-bold">My Conditions</p>
+      <p class="apz-text-sm-muted">Used to personalize your study plans. Private and secure.</p>
+      <div class="apz-conditions-grid">
+        <div class="apz-condition-pill active">
+          <span class="apz-condition-label">ADHD</span>
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="var(--c-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M8.5 12.5l2.5 2.5 5-5"></path></svg>
+        </div>
+        <div class="apz-condition-pill active">
+          <span class="apz-condition-label">Anxiety</span>
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="var(--c-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M8.5 12.5l2.5 2.5 5-5"></path></svg>
+        </div>
+        <div class="apz-condition-pill"><span class="apz-condition-label">Dyslexia</span></div>
+        <div class="apz-condition-pill"><span class="apz-condition-label">Depression</span></div>
+      </div>
+    </div>
+
+    <div class="apz-card">
+      <div class="apz-canvas-row">
+        <div class="apz-stack">
+          <div class="apz-canvas-title-row">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="var(--c-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 15l6-6"></path><path d="M7 12a4 4 0 0 1 0-6l2-2a4 4 0 0 1 6 6"></path><path d="M17 12a4 4 0 0 1 0 6l-2 2a4 4 0 0 1-6-6"></path></svg>
+            <p class="apz-text-bold">Link to Canvas</p>
+          </div>
+          <p class="apz-text-sm-muted">Import your courses and assignments directly from Canvas.</p>
+        </div>
+        <span class="apz-badge success">Connected</span>
+      </div>
+      <p class="apz-text-sm-muted">Connected to <span style="color:var(--c-fg); font-weight:700;">sample.instructure.com</span></p>
+      <button class="apz-sync-btn">
+        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"></path><polyline points="21 3 21 9 15 9"></polyline></svg>
+        Sync courses &amp; assignments
+      </button>
+    </div>
+  </div>
+</div>
+</template>
+
+<template id="tpl-onboarding">
+<div class="apz">
+  <div class="apz-screen">
+    <div class="apz-progress">
+      <div class="apz-progress-labels">
+        <span class="apz-text-sm-muted">Step 3 of 4</span>
+        <span class="apz-text-sm-muted" style="color:var(--c-subtle);">75% complete</span>
+      </div>
+      <div class="apz-progress-track"><div class="apz-progress-fill" style="width:75%;"></div></div>
+    </div>
+
+    <div class="apz-icon-circle lg">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--c-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6c-2-1.5-5-2-8-1v13c3-1 6-.5 8 1 2-1.5 5-2 8-1V5c-3-1-6-.5-8 1z"></path></svg>
+    </div>
+    <h3 class="apz-heading">Add your first course</h3>
+    <p class="apz-body-text">Pick at least one course to get started. You can add more any time.</p>
+
+    <input class="apz-input" placeholder="Search by name or code..." />
+
+    <div class="apz-course-list">
+      <div class="apz-course-row">
+        <div class="apz-course-info">
+          <span class="apz-course-name">Introduction to Psychology</span>
+          <span class="apz-course-meta">PSY 101 &middot; Psychology</span>
+        </div>
+      </div>
+      <div class="apz-course-row selected">
+        <div class="apz-course-info">
+          <span class="apz-course-name">Data Structures &amp; Algorithms</span>
+          <span class="apz-course-meta">CS 201 &middot; Computer Science</span>
+        </div>
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--c-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M8.5 12.5l2.5 2.5 5-5"></path></svg>
+      </div>
+      <div class="apz-course-row">
+        <div class="apz-course-info">
+          <span class="apz-course-name">Organic Chemistry I</span>
+          <span class="apz-course-meta">CHEM 231 &middot; Chemistry</span>
+        </div>
+      </div>
+      <div class="apz-course-row selected">
+        <div class="apz-course-info">
+          <span class="apz-course-name">American Literature since 1865</span>
+          <span class="apz-course-meta">ENGL 214 &middot; English</span>
+        </div>
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--c-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M8.5 12.5l2.5 2.5 5-5"></path></svg>
+      </div>
+    </div>
+
+    <p class="apz-selected-count">2 courses selected</p>
+
+    <div class="apz-nav-row">
+      <div class="apz-nav-back">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        Back
+      </div>
+      <button class="apz-btn-primary">Continue</button>
+      <span class="apz-nav-skip">I'll add courses later</span>
+    </div>
+  </div>
+</div>
+</template>
+
+<script>
+(function () {
+  document.querySelectorAll('.snippet-preview[data-tpl]').forEach(function (preview) {
+    var tplId = preview.getAttribute('data-tpl');
+    var tpl = document.getElementById(tplId);
+    if (!tpl) return;
+    var frame = preview.querySelector('.phone-frame');
+    var html = tpl.innerHTML.trim();
+    if (frame) frame.innerHTML = html;
+    var name = tplId.replace('tpl-', '');
+    var codeEl = document.getElementById('code-' + name);
+    if (codeEl) codeEl.textContent = html;
+  });
+
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+
+  document.querySelectorAll('.copy-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var targetId = btn.getAttribute('data-target');
+      var target = document.getElementById(targetId);
+      if (!target) return;
+      var text = target.textContent;
+
+      function announceCopied() {
+        var original = btn.textContent;
+        btn.textContent = 'Copied';
+        btn.classList.add('is-copied');
+        setTimeout(function () {
+          btn.textContent = original;
+          btn.classList.remove('is-copied');
+        }, 2200);
+      }
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(announceCopied).catch(function () {
+          fallbackCopy(text);
+          announceCopied();
+        });
+      } else {
+        fallbackCopy(text);
+        announceCopied();
+      }
+    });
+  });
+})();
+</script>

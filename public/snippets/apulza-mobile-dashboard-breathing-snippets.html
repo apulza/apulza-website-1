@@ -1,0 +1,453 @@
+<title>Apulza Mobile Dashboard &amp; Breathing &mdash; Snippets</title>
+
+<style>
+  :root {
+    --page-bg: #FBFAFE; --page-surface: #FFFFFF; --page-surface-2: #F6F3FB;
+    --page-border: #E8E2F3; --page-fg: #1C1526; --page-fg-muted: #6B627D;
+    --page-accent: #6D28D9; --page-code-bg: #1C1526; --page-code-fg: #E9E4F5; --page-code-border: #322947;
+    --page-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+    --page-sans: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --page-bg: #120E1B; --page-surface: #1B1529; --page-surface-2: #211A32;
+      --page-border: #2E2645; --page-fg: #F1ECFA; --page-fg-muted: #A79BC0;
+      --page-accent: #B9A2FF; --page-code-bg: #0E0A17; --page-code-fg: #E4DEF4; --page-code-border: #241C38;
+    }
+  }
+  :root[data-theme="dark"] {
+    --page-bg: #120E1B; --page-surface: #1B1529; --page-surface-2: #211A32;
+    --page-border: #2E2645; --page-fg: #F1ECFA; --page-fg-muted: #A79BC0;
+    --page-accent: #B9A2FF; --page-code-bg: #0E0A17; --page-code-fg: #E4DEF4; --page-code-border: #241C38;
+  }
+  :root[data-theme="light"] {
+    --page-bg: #FBFAFE; --page-surface: #FFFFFF; --page-surface-2: #F6F3FB;
+    --page-border: #E8E2F3; --page-fg: #1C1526; --page-fg-muted: #6B627D;
+    --page-accent: #6D28D9; --page-code-bg: #1C1526; --page-code-fg: #E9E4F5; --page-code-border: #322947;
+  }
+
+  * { box-sizing: border-box; }
+  body { background: var(--page-bg); color: var(--page-fg); font-family: var(--page-sans); margin: 0; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 56px 24px 96px; }
+  .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--page-accent); margin: 0 0 12px; }
+  h1 { font-size: clamp(28px, 4vw, 36px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; margin: 0 0 14px; text-wrap: balance; }
+  .lede { font-size: 15.5px; line-height: 1.65; color: var(--page-fg-muted); max-width: 62ch; margin: 0 0 4px; }
+  .meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 20px; font-family: var(--page-mono); font-size: 12px; color: var(--page-fg-muted); }
+  .meta-row span { display: inline-flex; align-items: center; gap: 6px; }
+  .meta-dot { width: 5px; height: 5px; border-radius: 999px; background: var(--page-accent); flex-shrink: 0; }
+  .note { margin-top: 28px; border: 1px solid var(--page-border); background: var(--page-surface-2); border-radius: 12px; padding: 14px 16px; font-size: 13px; line-height: 1.6; color: var(--page-fg-muted); }
+  .note strong { color: var(--page-fg); font-weight: 600; }
+  .note code { font-family: var(--page-mono); background: var(--page-surface); padding: 1px 5px; border-radius: 4px; }
+  section.block { margin-top: 56px; }
+  .block-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 6px; }
+  h2 { font-size: 19px; font-weight: 800; letter-spacing: -0.01em; margin: 0; }
+  .block-desc { font-size: 13.5px; color: var(--page-fg-muted); line-height: 1.6; margin: 6px 0 20px; max-width: 64ch; }
+  .block-desc code { font-family: var(--page-mono); background: var(--page-surface-2); padding: 1px 5px; border-radius: 4px; }
+  .code-shell { border: 1px solid var(--page-code-border); border-radius: 14px; overflow: hidden; background: var(--page-code-bg); }
+  .code-shell-head { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-bottom: 1px solid var(--page-code-border); }
+  .code-shell-label { font-family: var(--page-mono); font-size: 11.5px; color: var(--page-code-fg); opacity: .6; }
+  pre.snippet-code { margin: 0; padding: 16px; max-height: 340px; overflow: auto; font-family: var(--page-mono); font-size: 12.3px; line-height: 1.65; color: var(--page-code-fg); white-space: pre; }
+  .copy-btn { font-family: var(--page-mono); font-size: 11.5px; font-weight: 600; letter-spacing: .02em; color: var(--page-code-fg); background: transparent; border: 1px solid var(--page-code-border); border-radius: 7px; padding: 5px 10px; cursor: pointer; transition: background .12s ease-out, border-color .12s ease-out; }
+  .copy-btn:hover { background: rgba(255,255,255,.06); }
+  .copy-btn.is-copied { border-color: var(--page-accent); color: var(--page-accent); }
+  .copy-btn:focus-visible { outline: 2px solid var(--page-accent); outline-offset: 2px; }
+  .snippet { border: 1px solid var(--page-border); background: var(--page-surface); border-radius: 16px; padding: 20px 20px 0; margin-bottom: 28px; }
+  .snippet-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding-bottom: 14px; }
+  .snippet-title { font-size: 14.5px; font-weight: 700; margin: 0 0 3px; }
+  .snippet-source { font-family: var(--page-mono); font-size: 11.5px; color: var(--page-fg-muted); }
+  .snippet-copy { font-family: var(--page-mono); font-size: 11.5px; font-weight: 600; color: var(--page-accent); background: transparent; border: 1px solid var(--page-border); border-radius: 7px; padding: 6px 11px; cursor: pointer; flex-shrink: 0; transition: background .12s ease-out; }
+  .snippet-copy:hover { background: var(--page-surface-2); }
+  .snippet-copy.is-copied { color: #0F9D58; border-color: #CBE7D8; }
+  .snippet-preview { background: var(--page-surface-2); border: 1px solid var(--page-border); border-radius: 12px; padding: 24px; display: flex; align-items: center; justify-content: center; min-height: 120px; overflow-x: auto; }
+  .snippet .code-shell { border-radius: 12px; margin: 14px 0 20px; }
+  footer { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--page-border); font-size: 12.5px; color: var(--page-fg-muted); line-height: 1.7; }
+  footer code { font-family: var(--page-mono); background: var(--page-surface-2); padding: 1px 5px; border-radius: 4px; }
+  @media (max-width: 560px) { .snippet-preview { padding: 16px; } .block-head { flex-direction: column; } }
+
+  /* MOBILE-BASE-TOKENS-START (this is what "1. Base styles" below copies) */
+  .apz {
+    --c-bg: #F6F3FB; --c-card: #FFFFFF; --c-muted: #F3EFF9;
+    --c-fg: #1C1526; --c-fg-muted: #78708A; --c-fg-subtle: #A89CBB;
+    --c-primary: #7C3AED; --c-primary-weak: #F2ECFD; --c-primary-fg: #FFFFFF;
+    --c-border: #EFEAF7; --c-border-strong: #DED2EE;
+    --c-calm: #2C7396; --c-calm-h: 200 55% 38%; --c-calm-weak: #E4F1F6;
+    font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    color: var(--c-fg); font-size: 16px; line-height: 1.5; -webkit-font-smoothing: antialiased;
+  }
+  .apz *, .apz *::before, .apz *::after { box-sizing: border-box; }
+
+  /* ── Phone frame ── */
+  .phone-frame { width: 320px; aspect-ratio: 320/693; border-radius: 40px; border: 1px solid var(--c-border-strong); background: var(--c-bg); box-shadow: 0 20px 44px rgba(28,21,38,.20), 0 2px 8px rgba(28,21,38,.10); overflow: hidden; position: relative; }
+  .phone-island { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); width: 84px; height: 22px; border-radius: 999px; background: #14101d; z-index: 5; }
+  .phone-scroll { position: absolute; inset: 0; overflow: hidden; padding: 46px 16px 16px; display: flex; flex-direction: column; gap: 14px; }
+
+  /* ── Dashboard cards ── */
+  .db-title { font-size: 22px; font-weight: 700; color: var(--c-fg); margin: 0 0 2px; }
+  .db-card { background: var(--c-card); border: 1px solid var(--c-border); border-radius: 18px; padding: 16px; }
+  .db-card-label { font-size: 13px; font-weight: 700; color: var(--c-fg); margin: 0; }
+  .db-minutes { font-size: 30px; font-weight: 700; color: var(--c-fg); margin: 6px 0 4px; font-variant-numeric: tabular-nums; }
+  .db-sub { font-size: 13px; color: var(--c-fg-muted); line-height: 1.5; margin: 0; }
+  .db-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+  .db-list-item { display: flex; align-items: center; gap: 8px; }
+  .db-dot { width: 6px; height: 6px; border-radius: 999px; background: var(--c-primary); flex-shrink: 0; }
+  .db-list-name { font-size: 13px; color: var(--c-fg); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .db-list-day { font-size: 13px; color: var(--c-fg-subtle); flex-shrink: 0; }
+  .db-card-pressable { cursor: pointer; }
+  .db-card-header { display: flex; align-items: center; justify-content: space-between; }
+  .db-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .08em; color: var(--c-primary); text-transform: uppercase; }
+  .db-icon-circle { width: 36px; height: 36px; border-radius: 999px; background: var(--c-primary-weak); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .db-body { font-size: 13px; font-weight: 700; color: var(--c-fg); margin: 8px 0 2px; }
+  .db-cta { display: inline-flex; margin-top: 10px; padding: 8px 14px; border-radius: 12px; background: var(--c-muted); border: 1px solid color-mix(in srgb, var(--c-primary) 25%, transparent); }
+  .db-cta span { font-size: 13px; font-weight: 700; color: var(--c-primary); }
+
+  /* ── Breathing orb (mobile) ── */
+  .bw-panel { background: var(--c-card); border: 1px solid var(--c-calm-weak); border-radius: 18px; padding: 18px 14px; display: flex; flex-direction: column; align-items: center; gap: 14px; background-image: linear-gradient(155deg, var(--c-calm-weak), var(--c-card) 130%); }
+  .bw-label { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--c-calm); margin: 0; }
+  .bw-orb-wrap { position: relative; width: 210px; height: 210px; }
+  .bw-particle { position: absolute; border-radius: 999px; background: hsl(var(--c-calm-h) / .32); pointer-events: none; }
+  .bw-ring { position: absolute; border-radius: 999px; }
+  .bw-ring-outer { inset: 0; border: 1px solid hsl(var(--c-calm-h) / .3); opacity: .55; }
+  .bw-ring-4 { inset: 9%; border: 1px solid hsl(var(--c-calm-h) / .35); opacity: .75; }
+  .bw-ring-3 { inset: 18%; border: 1.5px solid hsl(var(--c-calm-h) / .45); background: hsl(var(--c-calm-h) / .06); }
+  .bw-ring-2 { inset: 26%; border: 1.5px solid hsl(var(--c-calm-h) / .55); background: hsl(var(--c-calm-h) / .1); }
+  .bw-ripple { position: absolute; inset: 28%; border-radius: 999px; border: 2px solid hsl(var(--c-calm-h) / .55); pointer-events: none; display: none; }
+  .bw-orb { position: absolute; inset: 28%; border-radius: 999px; background: color-mix(in srgb, hsl(var(--c-calm-h)) 78%, white 22%); }
+  .bw-center { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; pointer-events: none; height: 100%; }
+  .bw-phase-label { font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.75); margin: 0; }
+  .bw-countdown { font-size: 30px; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1; color: #fff; margin: 3px 0 0; min-height: 30px; }
+  .bw-instruction-title { font-size: 15px; font-weight: 700; color: var(--c-fg); margin: 0; text-align: center; }
+  .bw-instruction-body { font-size: 12px; color: var(--c-fg-muted); line-height: 1.5; margin: 3px 0 0; text-align: center; max-width: 240px; }
+
+  @keyframes bw-float-particle { 0%, 100% { transform: translateY(0) scale(1); opacity: .28; } 50% { transform: translateY(-14px) scale(1.2); opacity: .58; } }
+  @keyframes bw-ripple-out { 0% { transform: scale(.8); opacity: .6; } 100% { transform: scale(2.6); opacity: 0; } }
+  @keyframes bw-hold-breathe { 0%, 100% { opacity: 1; } 50% { opacity: .62; } }
+  @keyframes bw-idle-float { 0%, 100% { transform: scale(.62) translateY(0); } 50% { transform: scale(.62) translateY(-6px); } }
+  @media (prefers-reduced-motion: reduce) { .phone-frame * { animation: none !important; transition: none !important; } }
+</style>
+
+<div class="wrap">
+
+  <p class="eyebrow">Apulza design system</p>
+  <h1>Mobile &rarr; dashboard &amp; breathing</h1>
+  <p class="lede">
+    Two screens from the Expo app, in phone-frame mockups. The dashboard cards mirror the web widgets exactly
+    (same copy, same tokens); the breathing orb runs the identical phase-timing math as
+    <code style="font-family:var(--page-mono);background:var(--page-surface-2);padding:1px 5px;border-radius:4px;">BreathingOrb.tsx</code>'s
+    react-native-reanimated version, ported to vanilla JS.
+  </p>
+  <div class="meta-row">
+    <span><span class="meta-dot"></span>2 snippets</span>
+    <span><span class="meta-dot"></span>breathing orb is interactive</span>
+    <span><span class="meta-dot"></span>tokens from mobile/src/constants/theme.ts</span>
+  </div>
+
+  <div class="note">
+    <strong>Scope note &mdash;</strong> this covers the mobile dashboard and breathing screens. The mobile cat-cafe
+    lounge and Clawset dressing room use a separate react-native-svg sprite system from the web version and
+    weren't re-created here &mdash; the web cat-cafe and Clawset snippets already carry that part of the brand's
+    illustration style. These are HTML/CSS re-creations using the app's real tokens, not literal React Native code.
+  </div>
+
+  <section class="block">
+    <div class="block-head"><h2>1. Base styles &mdash; include once</h2></div>
+    <p class="block-desc">Tokens (from <code style="font-family:var(--page-mono);background:var(--page-surface-2);padding:1px 5px;border-radius:4px;">theme.ts</code> Colors.light) plus the phone-frame, dashboard-card, and breathing-orb component classes.</p>
+    <div class="code-shell">
+      <div class="code-shell-head"><span class="code-shell-label">&lt;style&gt;</span><button class="copy-btn" data-copy-target="code-base">Copy CSS</button></div>
+      <pre class="snippet-code" id="code-base"></pre>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-head"><h2>2. Snippets</h2></div>
+
+    <div class="snippet">
+      <div class="snippet-head">
+        <div>
+          <p class="snippet-title">Dashboard cards</p>
+          <p class="snippet-source">source: app/(student)/(tabs)/dashboard.tsx + components/dashboard/{StudyMinutesCard,ThisWeekCard,CafeCard}.tsx</p>
+        </div>
+        <button class="snippet-copy" data-copy-target="code-dashboard">Copy HTML</button>
+      </div>
+      <div class="snippet-preview" data-tpl="tpl-dashboard"></div>
+      <div class="code-shell">
+        <div class="code-shell-head"><span class="code-shell-label">mobile-dashboard.html</span></div>
+        <pre class="snippet-code" id="code-dashboard" data-tpl="tpl-dashboard"></pre>
+      </div>
+    </div>
+
+    <div class="snippet">
+      <div class="snippet-head">
+        <div>
+          <p class="snippet-title">Breathing orb (interactive)</p>
+          <p class="snippet-source">source: app/(student)/breathing.tsx + components/breathing/BreathingOrb.tsx &mdash; box-breathing pattern</p>
+        </div>
+        <button class="snippet-copy" data-copy-target="code-breathing">Copy HTML</button>
+      </div>
+      <div class="snippet-preview" data-tpl="tpl-breathing" data-init="orb"></div>
+      <div class="code-shell">
+        <div class="code-shell-head"><span class="code-shell-label">mobile-breathing.html</span></div>
+        <pre class="snippet-code" id="code-breathing"></pre>
+      </div>
+    </div>
+
+  </section>
+
+  <footer>
+    The dashboard ships 7 cards total (study minutes, this week, cafe, breathing, resources, settings, support) &mdash;
+    this snippet curates the first 3. The breathing screen's 5 real patterns (steady reset, box breathing, 4-7-8
+    calm, physiological sigh, soft start) are identical between web and mobile, sourced from
+    <code>mobile/src/constants/breathing-patterns.ts</code>; this snippet is wired to box breathing.
+  </footer>
+
+</div>
+
+<template id="tpl-dashboard">
+<div class="apz" style="max-width: 340px;">
+  <div class="phone-frame">
+    <div class="phone-island"></div>
+    <div class="phone-scroll">
+      <p class="db-title">Welcome back, Maya</p>
+
+      <div class="db-card">
+        <p class="db-card-label">Study minutes</p>
+        <p class="db-minutes">3h 20m</p>
+        <p class="db-sub">You've studied for 3h 20m this month &mdash; that's real progress.</p>
+      </div>
+
+      <div class="db-card">
+        <p class="db-card-label">This week</p>
+        <p class="db-sub">2 things due this week, spaced out below &mdash; one at a time is plenty.</p>
+        <div class="db-list">
+          <div class="db-list-item"><span class="db-dot"></span><span class="db-list-name">Lab Report 4</span><span class="db-list-day">today</span></div>
+          <div class="db-list-item"><span class="db-dot"></span><span class="db-list-name">Reading Response</span><span class="db-list-day">Thu</span></div>
+        </div>
+      </div>
+
+      <div class="db-card db-card-pressable">
+        <div class="db-card-header">
+          <span class="db-eyebrow">Cat Cafe</span>
+          <span class="db-icon-circle">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg>
+          </span>
+        </div>
+        <p class="db-body">4 cats living here</p>
+        <p class="db-sub">Pop in to pet, feed, and check on everyone.</p>
+        <div class="db-cta"><span>Visit cafe</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+</template>
+
+<template id="tpl-breathing">
+<div class="apz" style="max-width: 340px;">
+  <div class="phone-frame">
+    <div class="phone-island"></div>
+    <div class="phone-scroll" style="align-items: center; justify-content: center;">
+      <div class="bw-panel">
+        <p class="bw-label">Box breathing</p>
+        <div class="bw-orb-wrap">
+          <span class="bw-particle" style="width:3px;height:3px;top:19%;left:21%;animation:bw-float-particle 4.5s ease-in-out infinite;animation-delay:0s"></span>
+          <span class="bw-particle" style="width:5px;height:5px;top:48%;left:58%;animation:bw-float-particle 5.3s ease-in-out infinite;animation-delay:.6s"></span>
+          <span class="bw-particle" style="width:7px;height:7px;top:77%;left:7%;animation:bw-float-particle 6.1s ease-in-out infinite;animation-delay:1.2s"></span>
+          <span class="bw-particle" style="width:3px;height:3px;top:22%;left:44%;animation:bw-float-particle 6.9s ease-in-out infinite;animation-delay:1.8s"></span>
+          <span class="bw-particle" style="width:5px;height:5px;top:51%;left:81%;animation:bw-float-particle 7.7s ease-in-out infinite;animation-delay:2.4s"></span>
+          <span class="bw-particle" style="width:7px;height:7px;top:80%;left:30%;animation:bw-float-particle 4.5s ease-in-out infinite;animation-delay:3s"></span>
+          <span class="bw-particle" style="width:3px;height:3px;top:25%;left:67%;animation:bw-float-particle 5.3s ease-in-out infinite;animation-delay:3.6s"></span>
+          <span class="bw-particle" style="width:5px;height:5px;top:54%;left:16%;animation:bw-float-particle 6.1s ease-in-out infinite;animation-delay:.2s"></span>
+          <span class="bw-particle" style="width:7px;height:7px;top:83%;left:53%;animation:bw-float-particle 6.9s ease-in-out infinite;animation-delay:.8s"></span>
+          <span class="bw-particle" style="width:3px;height:3px;top:28%;left:18%;animation:bw-float-particle 7.7s ease-in-out infinite;animation-delay:1.4s"></span>
+          <span class="bw-particle" style="width:5px;height:5px;top:57%;left:39%;animation:bw-float-particle 4.5s ease-in-out infinite;animation-delay:2s"></span>
+          <span class="bw-particle" style="width:7px;height:7px;top:86%;left:76%;animation:bw-float-particle 5.3s ease-in-out infinite;animation-delay:2.6s"></span>
+
+          <div class="bw-ring bw-ring-outer"></div>
+          <div class="bw-ring bw-ring-4"></div>
+          <div class="bw-ring bw-ring-3"></div>
+          <div class="bw-ring bw-ring-2"></div>
+          <div class="bw-ripple"></div>
+          <div class="bw-orb"></div>
+
+          <div class="bw-center">
+            <p class="bw-phase-label">Ready</p>
+            <p class="bw-countdown"></p>
+          </div>
+        </div>
+        <div>
+          <p class="bw-instruction-title">Ready when you are</p>
+          <p class="bw-instruction-body">Start whenever you want a small reset.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</template>
+
+<script>
+(function () {
+  function initOrb(root) {
+    if (!root || root.dataset.bwInit) return;
+    root.dataset.bwInit = "1";
+
+    var PHASES = [
+      { label: "Inhale", instruction: "Breathe in steadily.", durationMs: 4000, scale: 1 },
+      { label: "Hold", instruction: "Hold softly at the top.", durationMs: 4000, scale: 1 },
+      { label: "Exhale", instruction: "Breathe out fully and slowly.", durationMs: 4000, scale: 0.52 },
+      { label: "Hold", instruction: "Rest here, easy and still.", durationMs: 4000, scale: 0.52 }
+    ];
+    var CYCLE_MS = PHASES.reduce(function (s, p) { return s + p.durationMs; }, 0);
+
+    var el = {
+      orb: root.querySelector(".bw-orb"),
+      ringOuter: root.querySelector(".bw-ring-outer"),
+      ring4: root.querySelector(".bw-ring-4"),
+      ring3: root.querySelector(".bw-ring-3"),
+      ring2: root.querySelector(".bw-ring-2"),
+      ripple: root.querySelector(".bw-ripple"),
+      phaseLabel: root.querySelector(".bw-phase-label"),
+      countdown: root.querySelector(".bw-countdown"),
+      instrTitle: root.querySelector(".bw-instruction-title"),
+      instrBody: root.querySelector(".bw-instruction-body")
+    };
+
+    var running = true;
+    var elapsedMs = 0;
+    var prevPhaseIndex = -1;
+    var rippleTimer = null;
+
+    function phaseInfo(ms) {
+      var cycleElapsed = ms % CYCLE_MS;
+      var cursor = 0;
+      for (var i = 0; i < PHASES.length; i++) {
+        var p = PHASES[i];
+        var end = cursor + p.durationMs;
+        if (cycleElapsed < end) {
+          return { phase: p, phaseIndex: i, remainingMs: end - cycleElapsed };
+        }
+        cursor = end;
+      }
+      return { phase: PHASES[0], phaseIndex: 0, remainingMs: PHASES[0].durationMs };
+    }
+
+    function render() {
+      var hasStarted = elapsedMs > 0;
+      var info = phaseInfo(elapsedMs);
+      var phase = info.phase, phaseIndex = info.phaseIndex;
+
+      if (prevPhaseIndex !== -1 && prevPhaseIndex !== phaseIndex) {
+        el.ripple.style.display = "block";
+        el.ripple.style.animation = "none";
+        void el.ripple.offsetWidth;
+        el.ripple.style.animation = "bw-ripple-out 750ms ease-out forwards";
+        clearTimeout(rippleTimer);
+        rippleTimer = setTimeout(function () { el.ripple.style.display = "none"; }, 750);
+      }
+      prevPhaseIndex = phaseIndex;
+
+      var circleScale = hasStarted ? phase.scale : 0.62;
+      var dev = circleScale - 1;
+      var ring2Scale = 1 + dev * 0.70;
+      var ring3Scale = 1 + dev * 0.48;
+      var ring4Scale = 1 + dev * 0.28;
+      var outerScale = 1 + dev * 0.13;
+      var phaseDurMs = hasStarted ? phase.durationMs : 400;
+      var isExpand = hasStarted && circleScale >= 0.9;
+      var isHold = phase.label === "Hold";
+      var remainingSeconds = Math.ceil(info.remainingMs / 1000);
+      var tf = "transform " + phaseDurMs + "ms ease-in-out";
+
+      el.ringOuter.style.transition = tf;
+      el.ringOuter.style.transform = "scale(" + outerScale + ")";
+      el.ring4.style.transition = tf;
+      el.ring4.style.transform = "scale(" + ring4Scale + ")";
+      el.ring3.style.transition = tf;
+      el.ring3.style.transform = "scale(" + ring3Scale + ")";
+      el.ring2.style.transition = tf + ", opacity " + phaseDurMs + "ms ease-in-out";
+      el.ring2.style.transform = "scale(" + ring2Scale + ")";
+      el.ring2.style.opacity = running ? (isExpand ? 0.92 : 0.5) : 0.32;
+
+      el.orb.style.transition = tf + ", opacity 300ms ease-in-out";
+      el.orb.style.transform = "scale(" + circleScale + ")";
+      el.orb.style.animation = (isHold && running) ? "bw-hold-breathe 2.5s ease-in-out infinite" : (!hasStarted ? "bw-idle-float 4s ease-in-out infinite" : "none");
+      el.orb.style.opacity = running ? 1 : 0.8;
+
+      el.phaseLabel.textContent = hasStarted ? phase.label.toUpperCase() : "READY";
+      el.countdown.textContent = (hasStarted && running) ? String(remainingSeconds) : "";
+
+      el.instrTitle.textContent = hasStarted ? phase.label : "Ready when you are";
+      el.instrBody.textContent = hasStarted ? phase.instruction : "Start whenever you want a small reset.";
+    }
+
+    render();
+    setInterval(function () {
+      if (running) {
+        elapsedMs += 100;
+        render();
+      }
+    }, 100);
+  }
+
+  var INIT_FNS = { orb: initOrb };
+
+  document.querySelectorAll("[data-tpl]").forEach(function (el) {
+    var tpl = document.getElementById(el.getAttribute("data-tpl"));
+    if (!tpl) return;
+    el.innerHTML = tpl.innerHTML.trim();
+    var initName = el.getAttribute("data-init");
+    if (initName && INIT_FNS[initName]) INIT_FNS[initName](el.firstElementChild);
+  });
+
+  document.getElementById("code-dashboard").textContent = document.getElementById("tpl-dashboard").innerHTML.trim();
+
+  (function () {
+    var markup = document.getElementById("tpl-breathing").innerHTML.trim();
+    var fnSrc = INIT_FNS.orb.toString();
+    var scriptText = "<script>\n(function () {\n  var init = " + fnSrc + ";\n  init(document.currentScript.previousElementSibling.querySelector('.phone-frame'));\n})();\n<" + "/script>";
+    document.getElementById("code-breathing").textContent = markup + "\n" + scriptText;
+  })();
+
+  var baseCssEl = document.getElementById("code-base");
+  if (baseCssEl) {
+    var sheet = document.querySelector("style");
+    var full = sheet ? sheet.textContent : "";
+    var start = full.indexOf("/* MOBILE-BASE-TOKENS-START");
+    if (start !== -1) baseCssEl.textContent = full.slice(start).trim();
+  }
+
+  function legacyCopy(text) {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    var ok = false;
+    try { ok = document.execCommand("copy"); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+    return ok ? Promise.resolve() : Promise.reject(new Error("execCommand copy failed"));
+  }
+
+  function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text).catch(function () { return legacyCopy(text); });
+    }
+    return legacyCopy(text);
+  }
+
+  document.querySelectorAll("[data-copy-target]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var target = document.getElementById(btn.getAttribute("data-copy-target"));
+      if (!target) return;
+      var original = btn.textContent;
+      copyText(target.textContent).then(function () {
+        btn.textContent = "Copied";
+        btn.classList.add("is-copied");
+        setTimeout(function () { btn.textContent = original; btn.classList.remove("is-copied"); }, 1600);
+      }, function () {
+        btn.textContent = "Select & copy manually";
+        setTimeout(function () { btn.textContent = original; }, 2000);
+      });
+    });
+  });
+})();
+</script>

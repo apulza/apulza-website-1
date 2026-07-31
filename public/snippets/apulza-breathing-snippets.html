@@ -1,0 +1,608 @@
+<title>Apulza Breathing Exercise &mdash; Interactive Snippet</title>
+
+<style>
+  :root {
+    --page-bg: #FBFAFE;
+    --page-surface: #FFFFFF;
+    --page-surface-2: #F6F3FB;
+    --page-border: #E8E2F3;
+    --page-fg: #1C1526;
+    --page-fg-muted: #6B627D;
+    --page-accent: #6D28D9;
+    --page-code-bg: #1C1526;
+    --page-code-fg: #E9E4F5;
+    --page-code-border: #322947;
+    --page-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+    --page-sans: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --page-bg: #120E1B; --page-surface: #1B1529; --page-surface-2: #211A32;
+      --page-border: #2E2645; --page-fg: #F1ECFA; --page-fg-muted: #A79BC0;
+      --page-accent: #B9A2FF; --page-code-bg: #0E0A17; --page-code-fg: #E4DEF4; --page-code-border: #241C38;
+    }
+  }
+  :root[data-theme="dark"] {
+    --page-bg: #120E1B; --page-surface: #1B1529; --page-surface-2: #211A32;
+    --page-border: #2E2645; --page-fg: #F1ECFA; --page-fg-muted: #A79BC0;
+    --page-accent: #B9A2FF; --page-code-bg: #0E0A17; --page-code-fg: #E4DEF4; --page-code-border: #241C38;
+  }
+  :root[data-theme="light"] {
+    --page-bg: #FBFAFE; --page-surface: #FFFFFF; --page-surface-2: #F6F3FB;
+    --page-border: #E8E2F3; --page-fg: #1C1526; --page-fg-muted: #6B627D;
+    --page-accent: #6D28D9; --page-code-bg: #1C1526; --page-code-fg: #E9E4F5; --page-code-border: #322947;
+  }
+
+  * { box-sizing: border-box; }
+  body { background: var(--page-bg); color: var(--page-fg); font-family: var(--page-sans); margin: 0; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 56px 24px 96px; }
+  .eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--page-accent); margin: 0 0 12px; }
+  h1 { font-size: clamp(28px, 4vw, 36px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; margin: 0 0 14px; text-wrap: balance; }
+  .lede { font-size: 15.5px; line-height: 1.65; color: var(--page-fg-muted); max-width: 62ch; margin: 0 0 4px; }
+  .meta-row { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 20px; font-family: var(--page-mono); font-size: 12px; color: var(--page-fg-muted); }
+  .meta-row span { display: inline-flex; align-items: center; gap: 6px; }
+  .meta-dot { width: 5px; height: 5px; border-radius: 999px; background: var(--page-accent); flex-shrink: 0; }
+  .note { margin-top: 28px; border: 1px solid var(--page-border); background: var(--page-surface-2); border-radius: 12px; padding: 14px 16px; font-size: 13px; line-height: 1.6; color: var(--page-fg-muted); }
+  .note strong { color: var(--page-fg); font-weight: 600; }
+  .note code { font-family: var(--page-mono); background: var(--page-surface); padding: 1px 5px; border-radius: 4px; }
+  section.block { margin-top: 56px; }
+  .block-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 6px; }
+  h2 { font-size: 19px; font-weight: 800; letter-spacing: -0.01em; margin: 0; }
+  .block-desc { font-size: 13.5px; color: var(--page-fg-muted); line-height: 1.6; margin: 6px 0 20px; max-width: 64ch; }
+  .block-desc code { font-family: var(--page-mono); background: var(--page-surface-2); padding: 1px 5px; border-radius: 4px; }
+  .code-shell { border: 1px solid var(--page-code-border); border-radius: 14px; overflow: hidden; background: var(--page-code-bg); }
+  .code-shell-head { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; border-bottom: 1px solid var(--page-code-border); }
+  .code-shell-label { font-family: var(--page-mono); font-size: 11.5px; color: var(--page-code-fg); opacity: .6; }
+  pre.snippet-code { margin: 0; padding: 16px; max-height: 340px; overflow: auto; font-family: var(--page-mono); font-size: 12.3px; line-height: 1.65; color: var(--page-code-fg); white-space: pre; }
+  .copy-btn { font-family: var(--page-mono); font-size: 11.5px; font-weight: 600; letter-spacing: .02em; color: var(--page-code-fg); background: transparent; border: 1px solid var(--page-code-border); border-radius: 7px; padding: 5px 10px; cursor: pointer; transition: background .12s ease-out, border-color .12s ease-out; }
+  .copy-btn:hover { background: rgba(255,255,255,.06); }
+  .copy-btn.is-copied { border-color: var(--page-accent); color: var(--page-accent); }
+  .copy-btn:focus-visible { outline: 2px solid var(--page-accent); outline-offset: 2px; }
+  .snippet { border: 1px solid var(--page-border); background: var(--page-surface); border-radius: 16px; padding: 20px 20px 0; margin-bottom: 28px; }
+  .snippet-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding-bottom: 14px; }
+  .snippet-title { font-size: 14.5px; font-weight: 700; margin: 0 0 3px; }
+  .snippet-source { font-family: var(--page-mono); font-size: 11.5px; color: var(--page-fg-muted); }
+  .snippet-copy { font-family: var(--page-mono); font-size: 11.5px; font-weight: 600; color: var(--page-accent); background: transparent; border: 1px solid var(--page-border); border-radius: 7px; padding: 6px 11px; cursor: pointer; flex-shrink: 0; transition: background .12s ease-out; }
+  .snippet-copy:hover { background: var(--page-surface-2); }
+  .snippet-copy.is-copied { color: #0F9D58; border-color: #CBE7D8; }
+  .snippet-preview { background: var(--page-surface-2); border: 1px solid var(--page-border); border-radius: 12px; padding: 28px 20px; display: flex; align-items: center; justify-content: center; min-height: 120px; }
+  .snippet .code-shell { border-radius: 12px; margin: 14px 0 20px; }
+  footer { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--page-border); font-size: 12.5px; color: var(--page-fg-muted); line-height: 1.7; }
+  footer code { font-family: var(--page-mono); background: var(--page-surface-2); padding: 1px 5px; border-radius: 4px; }
+  @media (max-width: 560px) { .snippet-preview { padding: 18px 12px; } .block-head { flex-direction: column; } }
+
+  /* CAT-CAFE-STYLE-BASE-TOKENS (this is what "1. Base styles" below copies) */
+  .apz {
+    --c-bg: #F6F3FB; --c-card: #FFFFFF; --c-muted: #F3EFF9;
+    --c-fg: #1C1526; --c-fg-muted: #78708A; --c-fg-subtle: #A89CBB;
+    --c-primary: #7C3AED; --c-primary-strong: #6D28D9; --c-primary-weak: #F2ECFD; --c-primary-fg: #FFFFFF;
+    --c-border: #EFEAF7; --c-border-strong: #DED2EE;
+    --c-success: #0F9D58; --c-success-weak: #E6F4EC; --c-success-bd: #CBE7D8;
+    --c-calm: #2C7396; --c-calm-h: 200 55% 38%; --c-calm-weak: #E7F1F6; --c-calm-bd: #CDE2EC;
+    font-family: 'Figtree', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    color: var(--c-fg); font-size: 16px; line-height: 1.5; -webkit-font-smoothing: antialiased;
+  }
+  .apz *, .apz *::before, .apz *::after { box-sizing: border-box; }
+  .apz-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--c-fg-muted); }
+  .apz-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; font-size: 14px; padding: 12px 22px; border-radius: 12px; min-height: 44px; border: 1px solid transparent; cursor: pointer; transition: background .12s ease-out, border-color .12s ease-out; }
+  .apz-btn-primary { background: var(--c-primary); color: var(--c-primary-fg); }
+  .apz-btn-primary:hover { background: var(--c-primary-strong); }
+  .apz-btn-secondary { background: var(--c-card); color: var(--c-fg); border-color: var(--c-border-strong); }
+  .apz-btn-secondary:hover { background: var(--c-muted); }
+
+  /* ── Breathing orb widget ── */
+  .bw { max-width: 400px; width: 100%; }
+  .bw-panel {
+    position: relative; overflow: hidden; border: 1px solid var(--c-calm-bd); border-radius: 18px;
+    box-shadow: 0 1px 2px rgba(28,21,38,.05), 0 1px 3px rgba(28,21,38,.07);
+    padding: 24px 20px; display: flex; flex-direction: column; gap: 20px;
+    background: linear-gradient(155deg, var(--c-calm-weak), var(--c-card) 120%);
+  }
+  .bw-panel-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+  .bw-sub { font-size: 12.5px; color: var(--c-fg-muted); margin: 4px 0 0; }
+  .bw-badge { flex-shrink: 0; display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; padding: 5px 9px; border-radius: 8px; color: var(--c-calm); background: var(--c-calm-weak); border: 1px solid var(--c-calm-bd); }
+  .bw-stage { display: flex; flex-direction: column; align-items: center; gap: 18px; }
+  .bw-orb-wrap { position: relative; width: min(72vw, 260px); aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center; }
+  .bw-particle { position: absolute; border-radius: 999px; background: hsl(var(--c-calm-h) / .32); pointer-events: none; animation: bw-float-particle 5s ease-in-out infinite; }
+  .bw-ring { position: absolute; border-radius: 999px; }
+  .bw-ring-outer { inset: 0; border: 1px solid var(--c-calm-bd); opacity: .55; }
+  .bw-ring-4 { inset: 9%; border: 1px solid hsl(var(--c-calm-h) / .2); opacity: .75; }
+  .bw-ring-3 { inset: 18%; border: 1.5px solid hsl(var(--c-calm-h) / .3); background: radial-gradient(circle, hsl(var(--c-calm-h) / .08) 0%, transparent 70%); }
+  .bw-ring-2 { inset: 26%; border: 1.5px solid hsl(var(--c-calm-h) / .38); background: radial-gradient(circle, hsl(var(--c-calm-h) / .12) 0%, transparent 65%); }
+  .bw-ripple { position: absolute; inset: 28%; border-radius: 999px; border: 2px solid hsl(var(--c-calm-h) / .55); pointer-events: none; display: none; }
+  .bw-orb { position: absolute; inset: 28%; border-radius: 999px; background: color-mix(in srgb, hsl(var(--c-calm-h)) 78%, white 22%); animation: bw-idle-float 4s ease-in-out infinite; }
+  .bw-center { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; pointer-events: none; }
+  .bw-phase-label { font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.75); margin: 0; }
+  .bw-countdown { font-size: 30px; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1; color: #fff; margin: 3px 0 0; min-height: 30px; }
+  .bw-dots { display: flex; align-items: center; gap: 8px; visibility: hidden; }
+  .bw-dot { display: block; width: 6px; height: 6px; border-radius: 999px; background: hsl(var(--c-calm-h) / .22); transition: all .3s; }
+  .bw-instruction { min-height: 56px; text-align: center; }
+  .bw-instruction-title { font-size: 17px; font-weight: 700; color: var(--c-fg); margin: 0; }
+  .bw-instruction-body { font-size: 12.5px; color: var(--c-fg-muted); line-height: 1.5; margin: 4px 0 0; max-width: 320px; }
+  .bw-stats { display: flex; align-items: center; gap: 20px; }
+  .bw-stat { text-align: center; }
+  .bw-stat-num { font-size: 26px; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1; margin: 0; color: var(--c-fg); }
+  .bw-stat-label { font-size: 11px; color: var(--c-fg-muted); margin: 4px 0 0; }
+  .bw-stat-divider { width: 1px; height: 36px; background: var(--c-border); }
+  .bw-goal-reached { display: none; align-items: center; gap: 6px; }
+  .bw-goal-icon { color: var(--c-success); flex-shrink: 0; }
+  .bw-goal-title { font-size: 12px; font-weight: 600; color: var(--c-success); line-height: 1.2; margin: 0; }
+  .bw-goal-sub { font-size: 11px; color: var(--c-fg-muted); line-height: 1.2; margin: 0; }
+  .bw-bars { width: 100%; max-width: 340px; display: flex; flex-direction: column; gap: 12px; }
+  .bw-bar-head { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 11px; font-weight: 600; color: var(--c-fg-muted); }
+  .bw-bar-track { height: 6px; border-radius: 999px; background: var(--c-card); border: 1px solid var(--c-border); overflow: hidden; }
+  .bw-bar-fill { height: 100%; border-radius: 999px; transition: width .12s; width: 0%; }
+  .bw-controls { display: flex; gap: 10px; justify-content: center; }
+  .bw-icon-pause { display: none; }
+
+  @keyframes bw-float-particle { 0%, 100% { transform: translateY(0) scale(1); opacity: .28; } 50% { transform: translateY(-14px) scale(1.2); opacity: .58; } }
+  @keyframes bw-ripple-out { 0% { transform: scale(.8); opacity: .6; } 100% { transform: scale(2.6); opacity: 0; } }
+  @keyframes bw-hold-breathe { 0%, 100% { opacity: 1; } 50% { opacity: .62; } }
+  @keyframes bw-idle-float { 0%, 100% { transform: scale(.62) translateY(0); } 50% { transform: scale(.62) translateY(-6px); } }
+  @media (prefers-reduced-motion: reduce) { .bw * { animation: none !important; transition: none !important; } }
+
+  /* RHYTHM-PICKER-CARDS-START */
+  .rp { max-width: 380px; width: 100%; display: flex; flex-direction: column; gap: 8px; }
+  .rp-card { width: 100%; text-align: left; border-radius: 12px; border: 1px solid var(--c-border-strong); background: var(--c-card); padding: 12px 16px; cursor: pointer; font-family: inherit; transition: background .12s, border-color .12s; }
+  .rp-card:hover { background: var(--c-muted); }
+  .rp-card.is-active { border-color: var(--c-primary); background: color-mix(in srgb, var(--c-primary) 10%, transparent); }
+  .rp-card-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .rp-card-label { font-size: 13px; font-weight: 600; color: var(--c-fg); }
+  .rp-card.is-active .rp-card-label { color: var(--c-primary); }
+  .rp-card-cycle { font-size: 11px; font-weight: 600; color: var(--c-fg-muted); flex-shrink: 0; }
+  .rp-card-caption { display: block; font-size: 12px; color: var(--c-fg-muted); line-height: 1.5; margin-top: 2px; }
+  .rp-card-desc { display: none; font-size: 11.5px; color: var(--c-fg-muted); line-height: 1.5; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--c-border); }
+  .rp-card.is-active .rp-card-desc { display: block; }
+</style>
+
+<div class="wrap">
+
+  <p class="eyebrow">Apulza design system</p>
+  <h1>Breathing exercise &rarr; interactive snippet</h1>
+  <p class="lede">
+    The guided breathing tool from <code style="font-family:var(--page-mono);background:var(--page-surface-2);padding:1px 5px;border-radius:4px;">my-breathing</code>,
+    ported to vanilla JS. It's the same phase-timing math and easing as the live app &mdash; a small state machine driving
+    CSS transform/opacity, not a canned animation loop &mdash; so it breathes at the real pace.
+  </p>
+  <div class="meta-row">
+    <span><span class="meta-dot"></span>2 snippets</span>
+    <span><span class="meta-dot"></span>fully interactive</span>
+    <span><span class="meta-dot"></span>vanilla JS, no dependencies</span>
+  </div>
+
+  <div class="note">
+    <strong>This one needs JavaScript &mdash;</strong> unlike the static dashboard/cat-cafe pieces, the orb is driven by a small
+    script (ported from the app's <code style="font-family:var(--page-mono);background:var(--page-surface);padding:1px 5px;border-radius:4px;">getPhaseInfo()</code> logic).
+    The copy button includes that script inline, so pasting the snippet anywhere just works &mdash; no build step, no imports.
+    It respects <code style="font-family:var(--page-mono);background:var(--page-surface);padding:1px 5px;border-radius:4px;">prefers-reduced-motion</code> automatically.
+  </div>
+
+  <section class="block">
+    <div class="block-head"><h2>1. Base styles &mdash; include once</h2></div>
+    <p class="block-desc">Design tokens plus the two component families used below (<code style="font-family:var(--page-mono);background:var(--page-surface-2);padding:1px 5px;border-radius:4px;">.bw-*</code> for the orb, <code style="font-family:var(--page-mono);background:var(--page-surface-2);padding:1px 5px;border-radius:4px;">.rp-*</code> for the rhythm cards) and the four keyframes they share.</p>
+    <div class="code-shell">
+      <div class="code-shell-head"><span class="code-shell-label">&lt;style&gt;</span><button class="copy-btn" data-copy-target="code-base">Copy CSS</button></div>
+      <pre class="snippet-code" id="code-base"></pre>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="block-head"><h2>2. Snippets</h2></div>
+
+    <div class="snippet">
+      <div class="snippet-head">
+        <div>
+          <p class="snippet-title">Breathing orb (interactive)</p>
+          <p class="snippet-source">source: app/(student)/my-breathing/page.tsx &mdash; box-breathing pattern, auto-playing demo</p>
+        </div>
+        <button class="snippet-copy" data-copy-target="code-orb">Copy HTML</button>
+      </div>
+      <div class="snippet-preview" data-tpl="tpl-orb" data-init="orb"></div>
+      <div class="code-shell">
+        <div class="code-shell-head"><span class="code-shell-label">breathing-orb.html</span></div>
+        <pre class="snippet-code" id="code-orb"></pre>
+      </div>
+    </div>
+
+    <div class="snippet">
+      <div class="snippet-head">
+        <div>
+          <p class="snippet-title">Rhythm picker cards</p>
+          <p class="snippet-source">source: app/(student)/my-breathing/page.tsx &mdash; the "Choose a pace" sidebar list, all 5 real patterns</p>
+        </div>
+        <button class="snippet-copy" data-copy-target="code-picker">Copy HTML</button>
+      </div>
+      <div class="snippet-preview" data-tpl="tpl-picker" data-init="picker"></div>
+      <div class="code-shell">
+        <div class="code-shell-head"><span class="code-shell-label">rhythm-picker.html</span></div>
+        <pre class="snippet-code" id="code-picker"></pre>
+      </div>
+    </div>
+
+  </section>
+
+  <footer>
+    Five patterns ship in the real tool (steady reset, box breathing, 4-7-8 calm, physiological sigh, soft start) &mdash;
+    the picker snippet includes all five with their real captions/descriptions/tips. The orb snippet is wired to box
+    breathing specifically since its four equal phases show off the hold state and phase dots; swap the
+    <code>PHASES</code> array at the top of its script for any of the other four.
+  </footer>
+
+</div>
+
+<template id="tpl-orb">
+<div class="apz bw">
+  <div class="bw-panel">
+    <div class="bw-panel-head">
+      <div>
+        <p class="apz-eyebrow" style="color:var(--c-calm)">Guided rhythm</p>
+        <p class="bw-sub">Box breathing &middot; Four equal phases to anchor your attention.</p>
+      </div>
+      <span class="bw-badge">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.6 4.6A2 2 0 1 1 11 8H2"/><path d="M12.6 11.6A2 2 0 1 0 14 15H2"/><path d="M17.7 7.7A2.5 2.5 0 1 1 19.5 12H2"/></svg>
+        Gentle pace
+      </span>
+    </div>
+
+    <div class="bw-orb-wrap">
+      <span class="bw-particle" style="width:3px;height:3px;top:19%;left:21%;animation-duration:4.5s;animation-delay:0s"></span>
+      <span class="bw-particle" style="width:5px;height:5px;top:48%;left:58%;animation-duration:5.3s;animation-delay:.6s"></span>
+      <span class="bw-particle" style="width:7px;height:7px;top:77%;left:7%;animation-duration:6.1s;animation-delay:1.2s"></span>
+      <span class="bw-particle" style="width:3px;height:3px;top:22%;left:44%;animation-duration:6.9s;animation-delay:1.8s"></span>
+      <span class="bw-particle" style="width:5px;height:5px;top:51%;left:81%;animation-duration:7.7s;animation-delay:2.4s"></span>
+      <span class="bw-particle" style="width:7px;height:7px;top:80%;left:30%;animation-duration:4.5s;animation-delay:3s"></span>
+      <span class="bw-particle" style="width:3px;height:3px;top:25%;left:67%;animation-duration:5.3s;animation-delay:3.6s"></span>
+      <span class="bw-particle" style="width:5px;height:5px;top:54%;left:16%;animation-duration:6.1s;animation-delay:.2s"></span>
+      <span class="bw-particle" style="width:7px;height:7px;top:83%;left:53%;animation-duration:6.9s;animation-delay:.8s"></span>
+      <span class="bw-particle" style="width:3px;height:3px;top:28%;left:18%;animation-duration:7.7s;animation-delay:1.4s"></span>
+      <span class="bw-particle" style="width:5px;height:5px;top:57%;left:39%;animation-duration:4.5s;animation-delay:2s"></span>
+      <span class="bw-particle" style="width:7px;height:7px;top:86%;left:76%;animation-duration:5.3s;animation-delay:2.6s"></span>
+
+      <div class="bw-ring bw-ring-outer"></div>
+      <div class="bw-ring bw-ring-4"></div>
+      <div class="bw-ring bw-ring-3"></div>
+      <div class="bw-ring bw-ring-2"></div>
+      <div class="bw-ripple"></div>
+      <div class="bw-orb"></div>
+
+      <div class="bw-center">
+        <p class="bw-phase-label">Ready</p>
+        <p class="bw-countdown"></p>
+      </div>
+    </div>
+
+    <div class="bw-dots">
+      <span class="bw-dot"></span><span class="bw-dot"></span><span class="bw-dot"></span><span class="bw-dot"></span>
+    </div>
+
+    <div class="bw-instruction">
+      <p class="bw-instruction-title">Ready when you are</p>
+      <p class="bw-instruction-body">Start whenever you want a small reset.</p>
+    </div>
+
+    <div class="bw-stats">
+      <div class="bw-stat"><p class="bw-stat-num bw-cycles">0</p><p class="bw-stat-label">cycles</p></div>
+      <div class="bw-stat-divider"></div>
+      <div class="bw-stat"><p class="bw-stat-num bw-elapsed" style="color:var(--c-calm)">0:00</p><p class="bw-stat-label bw-goal-label">/ 2 min</p></div>
+      <div class="bw-goal-reached">
+        <div class="bw-stat-divider"></div>
+        <svg class="bw-goal-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+        <div><p class="bw-goal-title">Goal reached</p><p class="bw-goal-sub">Well done.</p></div>
+      </div>
+    </div>
+
+    <div class="bw-bars">
+      <div>
+        <div class="bw-bar-head"><p style="margin:0">Session</p><p class="bw-session-pct" style="margin:0;color:var(--c-calm)">0%</p></div>
+        <div class="bw-bar-track"><div class="bw-bar-fill bw-session-fill" style="background:var(--c-calm)"></div></div>
+      </div>
+      <div>
+        <div class="bw-bar-head"><p class="bw-phase-status" style="margin:0">Ready to begin</p><p style="margin:0">Current phase</p></div>
+        <div class="bw-bar-track"><div class="bw-bar-fill bw-phase-fill" style="background:hsl(var(--c-calm-h) / .5)"></div></div>
+      </div>
+    </div>
+
+    <div class="bw-controls">
+      <button type="button" class="apz-btn apz-btn-primary bw-start">
+        <svg class="bw-icon-play" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg>
+        <svg class="bw-icon-pause" width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
+        <span class="bw-start-label">Pause</span>
+      </button>
+      <button type="button" class="apz-btn apz-btn-secondary bw-reset">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 2.64-6.36L3 8"/><path d="M3 3v5h5"/></svg>
+        Reset
+      </button>
+    </div>
+  </div>
+</div>
+</template>
+
+<template id="tpl-picker">
+<div class="apz rp">
+  <div class="rp-card is-active" data-cycle="16s cycle" data-desc="Used by athletes and first responders to find calm quickly. Four equal phases create a steady, grounding rhythm.">
+    <div class="rp-card-head"><span class="rp-card-label">Box breathing</span><span class="rp-card-cycle">16s cycle</span></div>
+    <span class="rp-card-caption">Four equal phases to anchor your attention.</span>
+    <span class="rp-card-desc">Used by athletes and first responders to find calm quickly. Four equal phases create a steady, grounding rhythm.</span>
+  </div>
+  <div class="rp-card" data-cycle="10s cycle" data-desc="Simple in-out breathing to slow your heart rate and ease your nervous system. The most accessible pattern to start with.">
+    <div class="rp-card-head"><span class="rp-card-label">Steady reset</span><span class="rp-card-cycle">10s cycle</span></div>
+    <span class="rp-card-caption">A balanced rhythm for getting settled.</span>
+    <span class="rp-card-desc">Simple in-out breathing to slow your heart rate and ease your nervous system. The most accessible pattern to start with.</span>
+  </div>
+  <div class="rp-card" data-cycle="19s cycle" data-desc="The extended hold increases CO2 tolerance and reduces the stress response. Often used before sleep or during high-anxiety moments.">
+    <div class="rp-card-head"><span class="rp-card-label">4-7-8 calm</span><span class="rp-card-cycle">19s cycle</span></div>
+    <span class="rp-card-caption">A longer hold to reduce anxiety.</span>
+    <span class="rp-card-desc">The extended hold increases CO2 tolerance and reduces the stress response. Often used before sleep or during high-anxiety moments.</span>
+  </div>
+  <div class="rp-card" data-cycle="10s cycle" data-desc="Stanford research shows this pattern offloads CO2 most efficiently and triggers rapid calm. Even a single cycle helps.">
+    <div class="rp-card-head"><span class="rp-card-label">Physiological sigh</span><span class="rp-card-cycle">10s cycle</span></div>
+    <span class="rp-card-caption">Double inhale &mdash; the fastest way to reset.</span>
+    <span class="rp-card-desc">Stanford research shows this pattern offloads CO2 most efficiently and triggers rapid calm. Even a single cycle helps.</span>
+  </div>
+  <div class="rp-card" data-cycle="8s cycle" data-desc="A gentle entry point &mdash; shorter cycles let you ease in without feeling pressured. Great as a warm-up before a longer pattern.">
+    <div class="rp-card-head"><span class="rp-card-label">Soft start</span><span class="rp-card-cycle">8s cycle</span></div>
+    <span class="rp-card-caption">Shorter breaths when easing in feels right.</span>
+    <span class="rp-card-desc">A gentle entry point &mdash; shorter cycles let you ease in without feeling pressured. Great as a warm-up before a longer pattern.</span>
+  </div>
+</div>
+</template>
+
+<script>
+(function () {
+  function initOrb(root) {
+    if (!root || root.dataset.bwInit) return;
+    root.dataset.bwInit = "1";
+
+    var PHASES = [
+      { label: "Inhale", instruction: "Breathe in steadily.", durationMs: 4000, scale: 1 },
+      { label: "Hold", instruction: "Hold softly at the top.", durationMs: 4000, scale: 1 },
+      { label: "Exhale", instruction: "Breathe out fully and slowly.", durationMs: 4000, scale: 0.52 },
+      { label: "Hold", instruction: "Rest here, easy and still.", durationMs: 4000, scale: 0.52 }
+    ];
+    var CYCLE_MS = PHASES.reduce(function (s, p) { return s + p.durationMs; }, 0);
+    var GOAL_MS = 120000;
+
+    var el = {
+      orb: root.querySelector(".bw-orb"),
+      ringOuter: root.querySelector(".bw-ring-outer"),
+      ring4: root.querySelector(".bw-ring-4"),
+      ring3: root.querySelector(".bw-ring-3"),
+      ring2: root.querySelector(".bw-ring-2"),
+      ripple: root.querySelector(".bw-ripple"),
+      phaseLabel: root.querySelector(".bw-phase-label"),
+      countdown: root.querySelector(".bw-countdown"),
+      dots: Array.prototype.slice.call(root.querySelectorAll(".bw-dot")),
+      dotsWrap: root.querySelector(".bw-dots"),
+      instrTitle: root.querySelector(".bw-instruction-title"),
+      instrBody: root.querySelector(".bw-instruction-body"),
+      cycles: root.querySelector(".bw-cycles"),
+      elapsed: root.querySelector(".bw-elapsed"),
+      goalLabel: root.querySelector(".bw-goal-label"),
+      goalReached: root.querySelector(".bw-goal-reached"),
+      sessionPct: root.querySelector(".bw-session-pct"),
+      sessionFill: root.querySelector(".bw-session-fill"),
+      phaseStatus: root.querySelector(".bw-phase-status"),
+      phaseFill: root.querySelector(".bw-phase-fill"),
+      startBtn: root.querySelector(".bw-start"),
+      startLabel: root.querySelector(".bw-start-label"),
+      playIcon: root.querySelector(".bw-icon-play"),
+      pauseIcon: root.querySelector(".bw-icon-pause"),
+      resetBtn: root.querySelector(".bw-reset")
+    };
+
+    var running = true;
+    var elapsedMs = 0;
+    var prevPhaseIndex = -1;
+    var rippleTimer = null;
+
+    function phaseInfo(ms) {
+      var cycleElapsed = ms % CYCLE_MS;
+      var completedCycles = Math.floor(ms / CYCLE_MS);
+      var cursor = 0;
+      for (var i = 0; i < PHASES.length; i++) {
+        var p = PHASES[i];
+        var end = cursor + p.durationMs;
+        if (cycleElapsed < end) {
+          return { phase: p, phaseIndex: i, progress: (cycleElapsed - cursor) / p.durationMs, remainingMs: end - cycleElapsed, completedCycles: completedCycles };
+        }
+        cursor = end;
+      }
+      return { phase: PHASES[0], phaseIndex: 0, progress: 0, remainingMs: PHASES[0].durationMs, completedCycles: completedCycles };
+    }
+
+    function fmt(ms) {
+      var s = Math.floor(ms / 1000);
+      var secs = s % 60;
+      return Math.floor(s / 60) + ":" + (secs < 10 ? "0" + secs : secs);
+    }
+
+    function updateStartButton() {
+      el.startLabel.textContent = running ? "Pause" : (elapsedMs > 0 ? "Continue" : "Start");
+      el.playIcon.style.display = running ? "none" : "block";
+      el.pauseIcon.style.display = running ? "block" : "none";
+    }
+
+    function render() {
+      var hasStarted = elapsedMs > 0;
+      var info = phaseInfo(elapsedMs);
+      var phase = info.phase, phaseIndex = info.phaseIndex;
+
+      if (prevPhaseIndex !== -1 && prevPhaseIndex !== phaseIndex) {
+        el.ripple.style.display = "block";
+        el.ripple.style.animation = "none";
+        void el.ripple.offsetWidth;
+        el.ripple.style.animation = "bw-ripple-out 750ms ease-out forwards";
+        clearTimeout(rippleTimer);
+        rippleTimer = setTimeout(function () { el.ripple.style.display = "none"; }, 750);
+      }
+      prevPhaseIndex = phaseIndex;
+
+      var circleScale = hasStarted ? phase.scale : 0.62;
+      var dev = circleScale - 1;
+      var ring2Scale = 1 + dev * 0.70;
+      var ring3Scale = 1 + dev * 0.48;
+      var ring4Scale = 1 + dev * 0.28;
+      var outerScale = 1 + dev * 0.13;
+      var phaseDurMs = hasStarted ? phase.durationMs : 400;
+      var isExpand = hasStarted && circleScale >= 0.9;
+      var isHold = phase.label === "Hold";
+      var remainingSeconds = Math.ceil(info.remainingMs / 1000);
+      var tf = "transform " + phaseDurMs + "ms ease-in-out";
+
+      el.ringOuter.style.transition = tf;
+      el.ringOuter.style.transform = "scale(" + outerScale + ")";
+      el.ring4.style.transition = tf;
+      el.ring4.style.transform = "scale(" + ring4Scale + ")";
+      el.ring3.style.transition = tf + ", box-shadow " + phaseDurMs + "ms ease-in-out";
+      el.ring3.style.transform = "scale(" + ring3Scale + ")";
+      el.ring3.style.boxShadow = "0 0 " + (isExpand && running ? 42 : 16) + "px hsl(var(--c-calm-h) / " + (isExpand && running ? 0.22 : 0.07) + ")";
+      el.ring2.style.transition = tf + ", opacity " + phaseDurMs + "ms ease-in-out";
+      el.ring2.style.transform = "scale(" + ring2Scale + ")";
+      el.ring2.style.opacity = running ? (isExpand ? 0.92 : 0.5) : 0.32;
+
+      el.orb.style.transition = tf + ", box-shadow " + phaseDurMs + "ms ease-in-out";
+      el.orb.style.transform = "scale(" + circleScale + ")";
+      el.orb.style.boxShadow = "0 0 " + (isExpand && running ? 56 : 20) + "px hsl(var(--c-calm-h) / " + (isExpand && running ? 0.4 : 0.14) + ")";
+      el.orb.style.animation = (isHold && running) ? "bw-hold-breathe 2.5s ease-in-out infinite" : (!hasStarted ? "bw-idle-float 4s ease-in-out infinite" : "none");
+      el.orb.style.opacity = running ? 1 : 0.8;
+
+      el.phaseLabel.textContent = hasStarted ? phase.label : "Ready";
+      el.countdown.textContent = (hasStarted && running) ? String(remainingSeconds) : "";
+
+      var showDots = hasStarted && PHASES.length > 2;
+      el.dotsWrap.style.visibility = showDots ? "visible" : "hidden";
+      el.dots.forEach(function (d, i) {
+        var active = i === phaseIndex;
+        d.style.width = active ? "20px" : "6px";
+        d.style.background = active ? "hsl(var(--c-calm-h))" : "hsl(var(--c-calm-h) / .22)";
+      });
+
+      el.instrTitle.textContent = hasStarted ? phase.label : "Ready when you are";
+      el.instrBody.textContent = hasStarted ? phase.instruction : "Start whenever you want a small reset.";
+
+      el.cycles.textContent = String(info.completedCycles);
+      el.elapsed.textContent = fmt(elapsedMs);
+
+      var goalReached = GOAL_MS > 0 && elapsedMs >= GOAL_MS;
+      el.goalLabel.style.display = goalReached ? "none" : "";
+      el.goalReached.style.display = goalReached ? "flex" : "none";
+      if (goalReached && running) {
+        running = false;
+        updateStartButton();
+      }
+
+      el.sessionPct.textContent = Math.min(100, Math.round((elapsedMs / GOAL_MS) * 100)) + "%";
+      el.sessionFill.style.width = Math.min(100, (elapsedMs / GOAL_MS) * 100) + "%";
+
+      el.phaseStatus.textContent = running ? "Breathing with you" : (hasStarted ? "Paused gently" : "Ready to begin");
+      el.phaseFill.style.width = (hasStarted ? Math.max(2, info.progress * 100) : 0) + "%";
+    }
+
+    el.startBtn.addEventListener("click", function () {
+      running = !running;
+      updateStartButton();
+      render();
+    });
+    el.resetBtn.addEventListener("click", function () {
+      running = false;
+      elapsedMs = 0;
+      prevPhaseIndex = -1;
+      updateStartButton();
+      render();
+    });
+
+    updateStartButton();
+    render();
+    setInterval(function () {
+      if (running) {
+        elapsedMs += 100;
+        render();
+      }
+    }, 100);
+  }
+
+  function initPicker(root) {
+    if (!root || root.dataset.rpInit) return;
+    root.dataset.rpInit = "1";
+    var cards = Array.prototype.slice.call(root.querySelectorAll(".rp-card"));
+    cards.forEach(function (card) {
+      card.addEventListener("click", function () {
+        cards.forEach(function (c) { c.classList.remove("is-active"); });
+        card.classList.add("is-active");
+      });
+    });
+  }
+
+  var INIT_FNS = { orb: initOrb, picker: initPicker };
+
+  document.querySelectorAll("[data-tpl]").forEach(function (el) {
+    var tpl = document.getElementById(el.getAttribute("data-tpl"));
+    if (!tpl) return;
+    el.innerHTML = tpl.innerHTML.trim();
+    var initName = el.getAttribute("data-init");
+    if (initName && INIT_FNS[initName]) {
+      INIT_FNS[initName](el.firstElementChild);
+    }
+  });
+
+  function buildCopyCode(id, tplId, initName) {
+    var codeEl = document.getElementById(id);
+    var tpl = document.getElementById(tplId);
+    if (!codeEl || !tpl) return;
+    var markup = tpl.innerHTML.trim();
+    var fnSrc = INIT_FNS[initName].toString();
+    var scriptText =
+      "<script>\n(function () {\n  var init = " + fnSrc + ";\n  init(document.currentScript.previousElementSibling);\n})();\n<" + "/script>";
+    codeEl.textContent = markup + "\n" + scriptText;
+  }
+
+  buildCopyCode("code-orb", "tpl-orb", "orb");
+  buildCopyCode("code-picker", "tpl-picker", "picker");
+
+  var baseCssEl = document.getElementById("code-base");
+  if (baseCssEl) {
+    var sheet = document.querySelector("style");
+    var full = sheet ? sheet.textContent : "";
+    var start = full.indexOf("/* CAT-CAFE-STYLE-BASE-TOKENS");
+    var end = full.indexOf("/* RHYTHM-PICKER-CARDS-START */");
+    if (start !== -1 && end !== -1) baseCssEl.textContent = full.slice(start, end).trim();
+  }
+
+  function legacyCopy(text) {
+    var ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    var ok = false;
+    try { ok = document.execCommand("copy"); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+    return ok ? Promise.resolve() : Promise.reject(new Error("execCommand copy failed"));
+  }
+
+  function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text).catch(function () { return legacyCopy(text); });
+    }
+    return legacyCopy(text);
+  }
+
+  document.querySelectorAll("[data-copy-target]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var target = document.getElementById(btn.getAttribute("data-copy-target"));
+      if (!target) return;
+      var original = btn.textContent;
+      copyText(target.textContent).then(function () {
+        btn.textContent = "Copied";
+        btn.classList.add("is-copied");
+        setTimeout(function () { btn.textContent = original; btn.classList.remove("is-copied"); }, 1600);
+      }, function () {
+        btn.textContent = "Select & copy manually";
+        setTimeout(function () { btn.textContent = original; }, 2000);
+      });
+    });
+  });
+})();
+</script>

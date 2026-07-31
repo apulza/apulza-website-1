@@ -1,0 +1,1099 @@
+<title>Apulza Mobile Screen Snippets</title>
+<style>
+/* Figtree/JetBrains Mono are loaded by the app via next/font/google (web) and
+   expo-font (mobile) -- not linked here, so this preview falls back to the
+   system sans-serif stack below. Load the real fonts on your own site for a
+   pixel match. */
+
+:root {
+  /* Page chrome tokens -- pulled from mobile/src/constants/theme.ts Colors.dark,
+     used only for the surrounding marketing-page shell so the light-theme phone
+     screens read with more contrast against it. */
+  --page-bg: #15101E;
+  --page-card: #1F192A;
+  --page-border: #352D43;
+  --page-fg: #F0EEF6;
+  --page-muted-fg: #A9A1BA;
+  --page-subtle: #867C98;
+  --page-primary: #A677F8;
+  --page-primary-weak: #2E2145;
+
+  /* App-recreation tokens -- Colors.light from mobile/src/constants/theme.ts,
+     identical names/hex values to the web app's DESIGN.md tokens. Used only
+     inside .phone-screen content below. */
+  --color-background: #F6F3FB;
+  --color-card: #FFFFFF;
+  --color-muted: #F3EFF9;
+  --color-foreground: #1C1526;
+  --color-muted-foreground: #78708A;
+  --color-subtle: #A89CBB;
+  --color-primary: #7C3AED;
+  --color-primary-strong: #6D28D9;
+  --color-primary-weak: #F2ECFD;
+  --color-primary-foreground: #FFFFFF;
+  --color-border: #EFEAF7;
+  --color-border-strong: #DED2EE;
+  --color-success: #0F9D58;
+  --color-success-weak: #E3F6EB;
+  --color-attention: #B45309;
+  --color-attention-weak: #FBEEDD;
+  --color-calm: #2C7396;
+  --color-calm-weak: #E4F1F6;
+
+  --radius-card: 18px;
+  --radius-button: 12px;
+  --radius-badge: 8px;
+  --radius-full: 9999px;
+  --shadow-apz: 0 6px 20px rgba(30, 10, 60, 0.12);
+
+  --font-figtree: 'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--page-bg);
+  color: var(--page-fg);
+  font-family: var(--font-figtree);
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 64px 24px 40px;
+}
+
+.eyebrow {
+  font: 700 12px/1 var(--font-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--page-primary);
+  margin: 0 0 14px;
+}
+
+h1 {
+  font: 800 40px/1.15 var(--font-figtree);
+  color: var(--page-fg);
+  margin: 0 0 16px;
+  letter-spacing: -0.02em;
+}
+
+.lede {
+  font: 400 17px/1.6 var(--font-figtree);
+  color: var(--page-muted-fg);
+  max-width: 680px;
+  margin: 0 0 28px;
+}
+
+.note {
+  background: var(--page-primary-weak);
+  border: 1px solid var(--page-border);
+  border-radius: 14px;
+  padding: 18px 20px;
+  font: 500 14px/1.6 var(--font-figtree);
+  color: var(--page-fg);
+  margin: 0 0 44px;
+  max-width: 780px;
+}
+
+.note code {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+.block-head {
+  font: 700 13px/1 var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--page-subtle);
+  margin: 52px 0 18px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--page-border);
+}
+
+.token-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.token-swatch {
+  border: 1px solid var(--page-border);
+  border-radius: 12px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.token-swatch .chip {
+  width: 100%;
+  height: 36px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.token-swatch .name {
+  font: 700 12px var(--font-mono);
+  color: var(--page-fg);
+  display: block;
+}
+
+.token-swatch .hex {
+  font: 500 11px var(--font-mono);
+  color: var(--page-muted-fg);
+  display: block;
+  margin-top: 2px;
+}
+
+.snippet {
+  background: var(--page-card);
+  border: 1px solid var(--page-border);
+  border-radius: 20px;
+  padding: 28px;
+  margin-bottom: 32px;
+}
+
+.snippet-preview {
+  display: flex;
+  justify-content: center;
+  padding: 12px 0 28px;
+  overflow-x: auto;
+}
+
+.snippet-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding-top: 16px;
+  border-top: 1px solid var(--page-border);
+}
+
+.source-cap {
+  font: 500 12.5px/1.5 var(--font-mono);
+  color: var(--page-muted-fg);
+  word-break: break-all;
+}
+
+.copy-btn,
+.snippet-copy {
+  font: 600 13px var(--font-figtree);
+  color: var(--page-fg);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--page-border);
+  border-radius: 10px;
+  padding: 8px 14px;
+  min-height: 36px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+
+.copy-btn:hover,
+.snippet-copy:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--page-primary);
+}
+
+.copy-btn.copied,
+.snippet-copy.copied {
+  background: var(--page-primary);
+  border-color: var(--page-primary);
+  color: #180F24;
+}
+
+.code-shell {
+  margin-top: 14px;
+  background: #0F0B17;
+  border: 1px solid var(--page-border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.code-shell pre {
+  margin: 0;
+  padding: 18px 20px;
+  overflow-x: auto;
+  font: 400 12.5px/1.6 var(--font-mono);
+  color: #D8D0E8;
+  max-height: 360px;
+  overflow-y: auto;
+}
+
+footer {
+  margin-top: 60px;
+  padding-top: 24px;
+  border-top: 1px solid var(--page-border);
+  font: 500 13px var(--font-figtree);
+  color: var(--page-subtle);
+  text-align: center;
+}
+
+/* ---------- phone-frame mockup ---------- */
+
+.phone-frame {
+  position: relative;
+  width: 375px;
+  max-width: 100%;
+  aspect-ratio: 375 / 812;
+  border-radius: 44px;
+  background: linear-gradient(180deg, #2b2438, #0b0a10);
+  padding: 14px;
+  box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.55), 0 4px 16px rgba(0, 0, 0, 0.3);
+  margin: 0 auto;
+  flex-shrink: 0;
+}
+
+.phone-island {
+  position: absolute;
+  top: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 92px;
+  height: 26px;
+  background: #0b0a10;
+  border-radius: 16px;
+  z-index: 3;
+}
+
+.phone-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: var(--color-background);
+  border-radius: 32px;
+  overflow: hidden;
+}
+
+.phone-home-bar {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 5px;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.22);
+  z-index: 3;
+}
+
+/* ---------- app-screen re-creation classes (used inside <template>s) ---------- */
+
+.rn-screen {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 54px 24px 28px;
+  background: var(--color-background);
+  font-family: var(--font-figtree);
+  color: var(--color-foreground);
+  overflow: hidden;
+}
+
+.rn-title {
+  font: 700 40px/44px var(--font-figtree);
+  margin: 0 0 16px;
+  color: var(--color-foreground);
+  letter-spacing: -0.02em;
+}
+
+.rn-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.rn-card {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  padding: 16px;
+  box-shadow: var(--shadow-apz);
+  box-sizing: border-box;
+}
+
+/* course card */
+.rn-course-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.rn-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font: 700 14px var(--font-figtree);
+}
+
+.rn-course-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.rn-course-name {
+  font: 700 14px/20px var(--font-figtree);
+  color: var(--color-foreground);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rn-course-meta {
+  font: 500 14px/20px var(--font-figtree);
+  color: var(--color-muted-foreground);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rn-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  font: 700 14px/20px var(--font-figtree);
+}
+
+.rn-badge.success { color: var(--color-success); }
+.rn-badge.calm { color: var(--color-calm); }
+
+.rn-icon { display: block; flex-shrink: 0; }
+
+/* section / assignment card */
+.rn-section-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.rn-section-header .label {
+  font: 700 14px/20px var(--font-figtree);
+  color: var(--color-foreground);
+}
+
+.rn-section-header .note {
+  font: 500 14px/20px var(--font-figtree);
+  color: var(--color-subtle);
+}
+
+.rn-assignment-main {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+}
+
+.rn-status-btn {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.rn-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+}
+
+.rn-dot-outline {
+  width: 8px;
+  height: 8px;
+  border-radius: 4px;
+  border: 1.5px solid;
+  background: transparent;
+  box-sizing: border-box;
+}
+
+.rn-assignment-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.rn-assignment-name {
+  font: 500 14px/20px var(--font-figtree);
+  color: var(--color-foreground);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rn-assignment-name.done { text-decoration: line-through; }
+
+.rn-assignment-course {
+  font: 500 14px/20px var(--font-figtree);
+  color: var(--color-subtle);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.rn-due-label {
+  font: 500 14px/20px var(--font-figtree);
+  color: var(--color-muted-foreground);
+  flex-shrink: 0;
+}
+
+.rn-due-label.attention { color: var(--color-attention); }
+
+.rn-chevron {
+  flex-shrink: 0;
+  color: var(--color-subtle);
+}
+
+.rn-chevron.open { transform: rotate(180deg); }
+
+.rn-breakdown {
+  padding-left: 28px;
+  padding-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rn-why {
+  font: 500 14px/20px var(--font-figtree);
+  font-style: italic;
+  color: var(--color-muted-foreground);
+}
+
+.rn-steps-progress {
+  font: 500 14px/20px var(--font-figtree);
+  color: var(--color-subtle);
+  margin-bottom: 4px;
+}
+
+.rn-step-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+.rn-step-text {
+  font: 500 14px/20px var(--font-figtree);
+  color: var(--color-foreground);
+}
+
+.rn-step-text.done { text-decoration: line-through; }
+
+.rn-divider {
+  border-top: 1px solid var(--color-border);
+  margin: 4px 0 4px 28px;
+}
+
+/* notification row */
+.rn-mark-all {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  justify-content: flex-end;
+  font: 700 14px/20px var(--font-figtree);
+  color: var(--color-primary);
+  margin-bottom: 12px;
+}
+
+.rn-notif-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 18px;
+  border: 1px solid var(--color-border);
+}
+
+.rn-notif-row.unread { background: var(--color-primary-weak); }
+.rn-notif-row.read { background: var(--color-card); }
+
+.rn-notif-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.rn-notif-title-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.rn-unread-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.rn-notif-title {
+  font: 700 14px/20px var(--font-figtree);
+  color: var(--color-foreground);
+}
+
+.rn-notif-body {
+  font: 500 14px/20px var(--font-figtree);
+  color: var(--color-muted-foreground);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.rn-notif-time {
+  font: 500 14px/20px var(--font-figtree);
+  color: var(--color-subtle);
+  margin-top: 4px;
+}
+
+/* course detail */
+.rn-back-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+
+.rn-back-text {
+  font: 500 14px/20px var(--font-figtree);
+  color: var(--color-muted-foreground);
+}
+
+.rn-header-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.rn-header-title {
+  font: 700 20px/26px var(--font-figtree);
+  color: var(--color-foreground);
+  margin: 0 0 2px;
+}
+
+.rn-header-meta {
+  font: 500 14px/20px var(--font-figtree);
+  color: var(--color-muted-foreground);
+}
+
+.rn-regen-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 12px;
+  padding: 0 8px;
+  height: 40px;
+  flex-shrink: 0;
+  font: 500 14px/20px var(--font-figtree);
+  color: var(--color-muted-foreground);
+}
+
+.rn-summary-card {
+  background: var(--color-primary-weak);
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.rn-eyebrow-sm {
+  font: 500 14px/20px var(--font-figtree);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-primary);
+  margin-bottom: 4px;
+}
+
+.rn-summary-text {
+  font: 500 14px/20px var(--font-figtree);
+  color: var(--color-foreground);
+  margin-bottom: 4px;
+}
+
+.rn-generated {
+  font: 500 14px/20px var(--font-figtree);
+  color: var(--color-subtle);
+}
+
+.rn-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.rn-strategy-item {
+  padding-top: 8px;
+  border-top: 1px solid var(--color-border);
+}
+
+.rn-strategy-item:first-child {
+  padding-top: 0;
+  border-top: none;
+}
+
+.rn-strategy-title {
+  font: 700 14px/20px var(--font-figtree);
+  color: var(--color-foreground);
+}
+
+.rn-strategy-desc {
+  font: 500 14px/18px var(--font-figtree);
+  color: var(--color-muted-foreground);
+}
+
+.rn-strategy-why {
+  font: 500 14px/20px var(--font-figtree);
+  font-style: italic;
+  color: var(--color-primary);
+}
+</style>
+
+<div class="wrap">
+  <p class="eyebrow">Apulza &middot; Mobile App Snippets</p>
+  <h1>Mobile screen snippets</h1>
+  <p class="lede">
+    Four HTML/CSS re-creations of Apulza's Expo/React Native student screens, presented inside phone-frame
+    mockups for reuse on the marketing site.
+  </p>
+
+  <div class="note">
+    These are HTML and CSS re-creations of the Expo / React Native screens listed below each snippet, built
+    from the same ported design tokens defined in <code>mobile/src/constants/theme.ts</code> (identical
+    names and hex values to the web app's <code>DESIGN.md</code> tokens). They are not literal React Native
+    code and are not meant to be pasted back into the Expo app. Use them as static phone-mockup imagery in a
+    marketing features section, or copy the screen markup flat for a web layout.
+  </div>
+
+  <div class="block-head">Design tokens used (Colors.light)</div>
+  <div class="token-grid">
+    <div class="token-swatch"><div class="chip" style="background:#7C3AED"></div><span class="name">primary</span><span class="hex">#7C3AED</span></div>
+    <div class="token-swatch"><div class="chip" style="background:#F2ECFD"></div><span class="name">primaryWeak</span><span class="hex">#F2ECFD</span></div>
+    <div class="token-swatch"><div class="chip" style="background:#F6F3FB"></div><span class="name">background</span><span class="hex">#F6F3FB</span></div>
+    <div class="token-swatch"><div class="chip" style="background:#FFFFFF;border:1px solid #EFEAF7"></div><span class="name">card</span><span class="hex">#FFFFFF</span></div>
+    <div class="token-swatch"><div class="chip" style="background:#1C1526"></div><span class="name">foreground</span><span class="hex">#1C1526</span></div>
+    <div class="token-swatch"><div class="chip" style="background:#78708A"></div><span class="name">mutedForeground</span><span class="hex">#78708A</span></div>
+    <div class="token-swatch"><div class="chip" style="background:#A89CBB"></div><span class="name">subtle</span><span class="hex">#A89CBB</span></div>
+    <div class="token-swatch"><div class="chip" style="background:#0F9D58"></div><span class="name">success</span><span class="hex">#0F9D58</span></div>
+    <div class="token-swatch"><div class="chip" style="background:#B45309"></div><span class="name">attention</span><span class="hex">#B45309</span></div>
+    <div class="token-swatch"><div class="chip" style="background:#2C7396"></div><span class="name">calm</span><span class="hex">#2C7396</span></div>
+    <div class="token-swatch"><div class="chip" style="background:#EFEAF7"></div><span class="name">border</span><span class="hex">#EFEAF7</span></div>
+    <div class="token-swatch"><div class="chip" style="background:#DED2EE"></div><span class="name">borderStrong</span><span class="hex">#DED2EE</span></div>
+  </div>
+
+  <div class="block-head">1. Course list</div>
+  <div class="snippet">
+    <div class="snippet-preview">
+      <div class="phone-frame">
+        <div class="phone-island"></div>
+        <div class="phone-screen" id="screen-courses"></div>
+        <div class="phone-home-bar"></div>
+      </div>
+    </div>
+    <div class="snippet-meta">
+      <span class="source-cap">mobile/src/app/(student)/(tabs)/courses/index.tsx + mobile/src/components/courses/CourseCard.tsx</span>
+      <button class="copy-btn snippet-copy" data-target="tpl-courses" type="button">Copy HTML</button>
+    </div>
+    <div class="code-shell"><pre><code id="code-courses"></code></pre></div>
+  </div>
+
+  <template id="tpl-courses">
+    <div class="rn-screen">
+      <div class="rn-title">Courses</div>
+      <div class="rn-list">
+        <div class="rn-card rn-course-card">
+          <div class="rn-avatar" style="background:#8b5cf626;color:#8b5cf6">CP</div>
+          <div class="rn-course-info">
+            <div class="rn-course-name">Cognitive Psychology</div>
+            <div class="rn-course-meta">PSY 220 &middot; Fall 2026</div>
+          </div>
+          <div class="rn-badge success">
+            <svg class="rn-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>
+            <span>Plan ready</span>
+          </div>
+        </div>
+        <div class="rn-card rn-course-card">
+          <div class="rn-avatar" style="background:#2C739626;color:#2C7396">AC</div>
+          <div class="rn-course-info">
+            <div class="rn-course-name">Applied Calculus</div>
+            <div class="rn-course-meta">MATH 150 &middot; Fall 2026</div>
+          </div>
+          <div class="rn-badge calm">
+            <svg class="rn-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l1.7 5.8L19 9l-5.3 1.2L12 16l-1.7-5.8L5 9l5.3-1.2L12 2z"></path></svg>
+            <span>Set up a plan</span>
+          </div>
+        </div>
+        <div class="rn-card rn-course-card">
+          <div class="rn-avatar" style="background:#0f9d5826;color:#0f9d58">AL</div>
+          <div class="rn-course-info">
+            <div class="rn-course-name">American Literature</div>
+            <div class="rn-course-meta">ENGL 210 &middot; Fall 2026</div>
+          </div>
+          <div class="rn-badge success">
+            <svg class="rn-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>
+            <span>Plan ready</span>
+          </div>
+        </div>
+        <div class="rn-card rn-course-card">
+          <div class="rn-avatar" style="background:#A3306026;color:#A33060">OC</div>
+          <div class="rn-course-info">
+            <div class="rn-course-name">Organic Chemistry</div>
+            <div class="rn-course-meta">CHEM 241 &middot; Fall 2026</div>
+          </div>
+          <div class="rn-badge calm">
+            <svg class="rn-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l1.7 5.8L19 9l-5.3 1.2L12 16l-1.7-5.8L5 9l5.3-1.2L12 2z"></path></svg>
+            <span>Set up a plan</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <div class="block-head">2. Course detail &mdash; plan summary and strategies</div>
+  <div class="snippet">
+    <div class="snippet-preview">
+      <div class="phone-frame">
+        <div class="phone-island"></div>
+        <div class="phone-screen" id="screen-course-detail"></div>
+        <div class="phone-home-bar"></div>
+      </div>
+    </div>
+    <div class="snippet-meta">
+      <span class="source-cap">mobile/src/app/(student)/(tabs)/courses/[id].tsx + mobile/src/components/course-detail/PlanContent.tsx</span>
+      <button class="copy-btn snippet-copy" data-target="tpl-course-detail" type="button">Copy HTML</button>
+    </div>
+    <div class="code-shell"><pre><code id="code-course-detail"></code></pre></div>
+  </div>
+
+  <template id="tpl-course-detail">
+    <div class="rn-screen">
+      <div class="rn-back-row">
+        <svg class="rn-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#78708A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"></path><path d="m12 19-7-7 7-7"></path></svg>
+        <span class="rn-back-text">Courses</span>
+      </div>
+
+      <div class="rn-card rn-header-card">
+        <div>
+          <div class="rn-header-title">Cognitive Psychology</div>
+          <div class="rn-header-meta">PSY 220 &middot; Fall 2026</div>
+        </div>
+        <div class="rn-regen-btn">
+          <svg class="rn-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#78708A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"></path><path d="M16 16h5v5"></path></svg>
+          <span>Regenerate</span>
+        </div>
+      </div>
+
+      <div class="rn-summary-card">
+        <div class="rn-eyebrow-sm">Your plan</div>
+        <div class="rn-summary-text">Cognitive Psychology moves fast through dense reading and new terminology. This plan focuses on spaced review and active recall to help concepts stick.</div>
+        <div class="rn-generated">Generated Jul 24, 2026</div>
+      </div>
+
+      <div class="rn-card">
+        <div class="rn-card-header">
+          <svg class="rn-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.5 2A2.5 2.5 0 0 0 7 4.5v.16A3 3 0 0 0 4 7.5a3 3 0 0 0-1 4.5A3 3 0 0 0 4 14.24V15a3 3 0 0 0 3 3h.5A2.5 2.5 0 0 0 10 15.5v-9A2.5 2.5 0 0 0 9.5 2z"></path><path d="M14.5 2A2.5 2.5 0 0 1 17 4.5v.16a3 3 0 0 1 3 2.84 3 3 0 0 1 1 4.5 3 3 0 0 1-1 2.24V15a3 3 0 0 1-3 3h-.5a2.5 2.5 0 0 1-2.5-2.5v-9A2.5 2.5 0 0 1 14.5 2z"></path></svg>
+          <span style="font:700 14px/20px var(--font-figtree);color:var(--color-foreground)">Study strategies</span>
+        </div>
+        <div class="rn-strategy-item">
+          <div class="rn-strategy-title">Spaced retrieval practice</div>
+          <div class="rn-strategy-desc">Review key terms in short bursts across several days instead of one long session.</div>
+          <div class="rn-strategy-why">Spacing out review strengthens long-term memory more than cramming.</div>
+        </div>
+        <div class="rn-strategy-item">
+          <div class="rn-strategy-title">Concept mapping</div>
+          <div class="rn-strategy-desc">Sketch how theories connect before reading the next chapter in detail.</div>
+          <div class="rn-strategy-why">Seeing the relationships first makes new terms easier to place.</div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <div class="block-head">3. Assignments list</div>
+  <div class="snippet">
+    <div class="snippet-preview">
+      <div class="phone-frame">
+        <div class="phone-island"></div>
+        <div class="phone-screen" id="screen-assignments"></div>
+        <div class="phone-home-bar"></div>
+      </div>
+    </div>
+    <div class="snippet-meta">
+      <span class="source-cap">mobile/src/app/(student)/(tabs)/assignments.tsx + mobile/src/components/assignments/AssignmentRow.tsx</span>
+      <button class="copy-btn snippet-copy" data-target="tpl-assignments" type="button">Copy HTML</button>
+    </div>
+    <div class="code-shell"><pre><code id="code-assignments"></code></pre></div>
+  </div>
+
+  <template id="tpl-assignments">
+    <div class="rn-screen">
+      <div class="rn-title">Assignments</div>
+      <div class="rn-list">
+
+        <div class="rn-card">
+          <div class="rn-section-header">
+            <svg class="rn-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v4"></path><path d="M12 16h.01"></path></svg>
+            <div>
+              <div class="label">Needs attention</div>
+              <div class="note">Past due &mdash; ready to continue whenever you are</div>
+            </div>
+          </div>
+          <div class="rn-assignment-main">
+            <div class="rn-status-btn"><div class="rn-dot-outline" style="border-color:#A33060"></div></div>
+            <div class="rn-assignment-info">
+              <div class="rn-assignment-name">Vocabulary Quiz Prep</div>
+              <div class="rn-assignment-course">Organic Chemistry</div>
+            </div>
+            <div class="rn-due-label attention">Needs attention</div>
+            <svg class="rn-icon rn-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A89CBB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
+          </div>
+        </div>
+
+        <div class="rn-card">
+          <div class="rn-section-header">
+            <svg class="rn-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>
+            <div>
+              <div class="label">This week</div>
+              <div class="note">The next 7 days</div>
+            </div>
+          </div>
+
+          <div class="rn-assignment-main">
+            <div class="rn-status-btn"><div class="rn-dot" style="background:#2C7396"></div></div>
+            <div class="rn-assignment-info">
+              <div class="rn-assignment-name">Problem Set 4: Derivatives</div>
+              <div class="rn-assignment-course">Applied Calculus</div>
+            </div>
+            <div class="rn-due-label">In 2 days</div>
+            <svg class="rn-icon rn-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A89CBB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
+          </div>
+
+          <div class="rn-assignment-main">
+            <div class="rn-status-btn"><div class="rn-dot-outline" style="border-color:#8b5cf6"></div></div>
+            <div class="rn-assignment-info">
+              <div class="rn-assignment-name">Reading Response: Chapter 6</div>
+              <div class="rn-assignment-course">Cognitive Psychology</div>
+            </div>
+            <div class="rn-due-label">Tomorrow</div>
+            <svg class="rn-icon rn-chevron open" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A89CBB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
+          </div>
+          <div class="rn-breakdown">
+            <div class="rn-why">Why this order: starting with the shortest section builds momentum before the dense parts.</div>
+            <div class="rn-steps-progress">Steps &middot; 1 of 3</div>
+            <div class="rn-step-row">
+              <svg class="rn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0F9D58" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>
+              <span class="rn-step-text done">Skim the section headings and figures</span>
+            </div>
+            <div class="rn-step-row">
+              <svg class="rn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A89CBB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>
+              <span class="rn-step-text">Read the first two subsections</span>
+            </div>
+            <div class="rn-step-row">
+              <svg class="rn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A89CBB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>
+              <span class="rn-step-text">Draft three sentence takeaways</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="rn-card">
+          <div class="rn-section-header">
+            <svg class="rn-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg>
+            <div>
+              <div class="label">Next week</div>
+              <div class="note">Plenty of runway</div>
+            </div>
+          </div>
+          <div class="rn-assignment-main">
+            <div class="rn-status-btn"><div class="rn-dot-outline" style="border-color:#0f9d58"></div></div>
+            <div class="rn-assignment-info">
+              <div class="rn-assignment-name">Essay Outline: Frost's Nature Imagery</div>
+              <div class="rn-assignment-course">American Literature</div>
+            </div>
+            <div class="rn-due-label">In 9 days</div>
+            <svg class="rn-icon rn-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A89CBB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
+          </div>
+        </div>
+
+        <div class="rn-card">
+          <span style="font:700 14px/20px var(--font-figtree);color:var(--color-foreground)">Completed</span>
+          <div class="rn-assignment-main">
+            <div class="rn-status-btn"><svg class="rn-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0F9D58" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg></div>
+            <div class="rn-assignment-info">
+              <div class="rn-assignment-name done">Lab Report: Titration Results</div>
+              <div class="rn-assignment-course">Organic Chemistry</div>
+            </div>
+            <svg class="rn-icon rn-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#A89CBB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </template>
+
+  <div class="block-head">4. Notifications feed</div>
+  <div class="snippet">
+    <div class="snippet-preview">
+      <div class="phone-frame">
+        <div class="phone-island"></div>
+        <div class="phone-screen" id="screen-notifications"></div>
+        <div class="phone-home-bar"></div>
+      </div>
+    </div>
+    <div class="snippet-meta">
+      <span class="source-cap">mobile/src/app/(student)/(tabs)/notifications.tsx + mobile/src/components/notifications/NotificationRow.tsx</span>
+      <button class="copy-btn snippet-copy" data-target="tpl-notifications" type="button">Copy HTML</button>
+    </div>
+    <div class="code-shell"><pre><code id="code-notifications"></code></pre></div>
+  </div>
+
+  <template id="tpl-notifications">
+    <div class="rn-screen">
+      <div class="rn-title" style="margin-bottom:4px">Notifications</div>
+      <div class="rn-mark-all">
+        <svg class="rn-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg>
+        <span>Mark all as read</span>
+      </div>
+      <div class="rn-list">
+        <div class="rn-notif-row unread">
+          <svg class="rn-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.7 5.8L19 10.5l-5.3 1.2L12 18l-1.7-6.3L5 10.5l5.3-1.7L12 3z"></path></svg>
+          <div class="rn-notif-text">
+            <div class="rn-notif-title-row">
+              <div class="rn-unread-dot"></div>
+              <div class="rn-notif-title">Time for a quick study session?</div>
+            </div>
+            <div class="rn-notif-body">You have 25 minutes free before your next class. Want to review Cognitive Psychology?</div>
+            <div class="rn-notif-time">2h ago</div>
+          </div>
+        </div>
+
+        <div class="rn-notif-row unread">
+          <svg class="rn-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="14" height="16" rx="2"></rect><path d="M13 2v4M7 2v4M3 10h14"></path><circle cx="18" cy="18" r="4"></circle><path d="M18 16.5V18l1 1"></path></svg>
+          <div class="rn-notif-text">
+            <div class="rn-notif-title-row">
+              <div class="rn-unread-dot"></div>
+              <div class="rn-notif-title">Study session starting soon</div>
+            </div>
+            <div class="rn-notif-body">Applied Calculus review starts in 30 minutes.</div>
+            <div class="rn-notif-time">3h ago</div>
+          </div>
+        </div>
+
+        <div class="rn-notif-row read">
+          <svg class="rn-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#A89CBB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+          <div class="rn-notif-text">
+            <div class="rn-notif-title-row">
+              <div class="rn-notif-title">New assignment added</div>
+            </div>
+            <div class="rn-notif-body">Essay Outline: Frost's Nature Imagery was added to American Literature.</div>
+            <div class="rn-notif-time">1d ago</div>
+          </div>
+        </div>
+
+        <div class="rn-notif-row read">
+          <svg class="rn-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#A89CBB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v2M14 2v2M16 8a3 3 0 0 1 0 6h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4z"></path></svg>
+          <div class="rn-notif-text">
+            <div class="rn-notif-title-row">
+              <div class="rn-notif-title">Cafe session complete</div>
+            </div>
+            <div class="rn-notif-body">Nice work, you completed a 20 minute focus session yesterday.</div>
+            <div class="rn-notif-time">2d ago</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <footer>Apulza &middot; mobile screen snippets &middot; generated for internal marketing-site use</footer>
+</div>
+
+<script>
+(function () {
+  function dedent(str) {
+    var lines = str.replace(/^\n/, '').replace(/\s+$/, '').split('\n');
+    var minIndent = Infinity;
+    lines.forEach(function (line) {
+      if (line.trim().length === 0) return;
+      var m = line.match(/^(\s*)/);
+      minIndent = Math.min(minIndent, m[1].length);
+    });
+    if (!isFinite(minIndent)) minIndent = 0;
+    return lines.map(function (line) { return line.slice(minIndent); }).join('\n');
+  }
+
+  var keys = ['courses', 'course-detail', 'assignments', 'notifications'];
+  keys.forEach(function (key) {
+    var tpl = document.getElementById('tpl-' + key);
+    var screen = document.getElementById('screen-' + key);
+    var code = document.getElementById('code-' + key);
+    if (!tpl || !screen || !code) return;
+    screen.appendChild(document.importNode(tpl.content, true));
+    code.textContent = dedent(tpl.innerHTML);
+  });
+
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'absolute';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+
+  function markCopied(btn) {
+    var original = btn.textContent;
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(function () {
+      btn.textContent = original;
+      btn.classList.remove('copied');
+    }, 2200);
+  }
+
+  function copyText(text, btn) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(
+        function () { markCopied(btn); },
+        function () { fallbackCopy(text); markCopied(btn); }
+      );
+    } else {
+      fallbackCopy(text);
+      markCopied(btn);
+    }
+  }
+
+  var buttons = document.querySelectorAll('.snippet-copy');
+  for (var i = 0; i < buttons.length; i++) {
+    buttons[i].addEventListener('click', function () {
+      var targetId = this.getAttribute('data-target');
+      var tpl = document.getElementById(targetId);
+      if (!tpl) return;
+      copyText(dedent(tpl.innerHTML), this);
+    });
+  }
+})();
+</script>
