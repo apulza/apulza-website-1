@@ -52,11 +52,8 @@ function loadAccessibilitySettings(): AccessibilitySettings {
 
 const navItems = [
   { label: 'How it works', href: '#how' },
-  { label: 'Inside Apulza', href: '#inside' },
-  { label: 'Safety & privacy', href: '#privacy' },
+  { label: 'Features', href: '#inside' },
   { label: 'For schools', href: '#schools' },
-  { label: 'Request a demo', href: '#demo' },
-  { label: 'Contact', href: '#contact' },
 ]
 
 const socialLinks = [
@@ -1420,6 +1417,7 @@ function AccessibilityMenu({ isOpen, onToggle, settings, onChange }: Accessibili
       <button
         className="accessibility-trigger"
         type="button"
+        aria-label="Accessibility settings"
         aria-expanded={isOpen}
         aria-controls="accessibility-menu"
         aria-haspopup="dialog"
@@ -1627,7 +1625,7 @@ function App() {
             onChange={setAccessibilitySettings}
           />
           <a className="nav-cta" href="#try" onClick={() => setMobileMenuOpen(false)}>
-            Try it now
+            Try Apulza
           </a>
         </nav>
         <button
