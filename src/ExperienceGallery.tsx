@@ -302,15 +302,22 @@ function ExactSnippetFrame({
       doc.head.append(style)
 
       const syncHeight = () => {
-        const height = Math.max(220, Math.ceil(doc.documentElement.scrollHeight))
-        frame.style.height = `${height}px`
+        const height = Math.max(220, Math.ceil(host.scrollHeight))
+        const currentHeight = Math.round(frame.getBoundingClientRect().height)
+        if (Math.abs(currentHeight - height) > 1) {
+          frame.style.height = `${height}px`
+        }
       }
 
       syncHeight()
-      const observer = new ResizeObserver(syncHeight)
-      observer.observe(doc.body)
+      fontLink.addEventListener('load', syncHeight, { once: true })
+      doc.addEventListener('click', () => {
+        childWindow.setTimeout(syncHeight, 0)
+        childWindow.setTimeout(syncHeight, 240)
+      })
       childWindow.setTimeout(syncHeight, 50)
       childWindow.setTimeout(syncHeight, 300)
+      childWindow.setTimeout(syncHeight, 900)
     } catch {
       setError(true)
     }
