@@ -185,13 +185,72 @@ function ExactSnippetFrame({
 
       if (!preview) throw new Error(`Preview not found: ${snippet.selector}`)
 
+      doc.documentElement.dataset.theme = 'light'
+
+      const colorReplacements: Record<string, string> = {
+        '#7c3aed': '#611a9f',
+        '#6d28d9': '#4e1583',
+        '#f2ecfd': '#f2eafb',
+        '#f6f3fb': '#fbf7ff',
+        '#1c1526': '#241f2b',
+        '#78708a': '#6e6676',
+        '#a89cbb': '#9c94a2',
+        '#efeaf7': '#ece6e0',
+        '#ded2ee': '#ded6cd',
+      }
+
+      preview.querySelectorAll<HTMLElement>('[style], [fill], [stroke]').forEach((element) => {
+        ;['style', 'fill', 'stroke'].forEach((attribute) => {
+          const value = element.getAttribute(attribute)
+          if (!value) return
+
+          const harmonized = Object.entries(colorReplacements).reduce(
+            (current, [source, replacement]) => current.replace(new RegExp(source, 'gi'), replacement),
+            value,
+          )
+          element.setAttribute(attribute, harmonized)
+        })
+      })
+
       const host = doc.createElement('main')
       host.className = 'apulza-exact-embed'
       host.append(preview)
       doc.body.replaceChildren(host)
 
+      const fontLink = doc.createElement('link')
+      fontLink.rel = 'stylesheet'
+      fontLink.href = 'https://fonts.googleapis.com/css2?family=Figtree:wght@300..800&family=Lexend:wght@300..800&display=swap'
+      doc.head.append(fontLink)
+
       const style = doc.createElement('style')
       style.textContent = `
+        html {
+          color-scheme: light !important;
+          --page-bg: #fbf7ff !important;
+          --page-surface: #ffffff !important;
+          --page-surface-2: #f5effa !important;
+          --page-border: #e4d3f6 !important;
+          --page-fg: #241f2b !important;
+          --page-fg-muted: #6e6676 !important;
+          --page-fg-subtle: #9c94a2 !important;
+          --page-accent: #611a9f !important;
+          --page-card: #ffffff !important;
+          --page-muted-fg: #6e6676 !important;
+          --page-subtle: #9c94a2 !important;
+          --page-primary: #611a9f !important;
+          --page-primary-weak: #f2eafb !important;
+          --color-background: #fbf7ff !important;
+          --color-card: #ffffff !important;
+          --color-muted: #f5effa !important;
+          --color-foreground: #241f2b !important;
+          --color-muted-foreground: #6e6676 !important;
+          --color-subtle: #9c94a2 !important;
+          --color-primary: #611a9f !important;
+          --color-primary-strong: #4e1583 !important;
+          --color-primary-weak: #f2eafb !important;
+          --color-border: #ece6e0 !important;
+          --color-border-strong: #ded6cd !important;
+        }
         html, body {
           width: 100%;
           min-width: 0 !important;
@@ -199,6 +258,20 @@ function ExactSnippetFrame({
           margin: 0 !important;
           overflow: hidden !important;
           background: transparent !important;
+        }
+        .apz {
+          --c-bg: #fbf7ff !important;
+          --c-card: #ffffff !important;
+          --c-muted: #f5effa !important;
+          --c-fg: #241f2b !important;
+          --c-fg-muted: #6e6676 !important;
+          --c-fg-subtle: #9c94a2 !important;
+          --c-subtle: #9c94a2 !important;
+          --c-primary: #611a9f !important;
+          --c-primary-strong: #4e1583 !important;
+          --c-primary-weak: #f2eafb !important;
+          --c-border: #ece6e0 !important;
+          --c-border-strong: #ded6cd !important;
         }
         .apulza-exact-embed {
           display: block;
@@ -213,6 +286,10 @@ function ExactSnippetFrame({
           width: 100% !important;
           max-width: none !important;
           margin: 0 !important;
+          border-color: #e4d3f6 !important;
+          background:
+            radial-gradient(circle at 86% 10%, rgba(97, 26, 159, .08), transparent 30%),
+            linear-gradient(145deg, #fbf7ff, #f5effa) !important;
         }
         @media (prefers-reduced-motion: reduce) {
           *, *::before, *::after {
@@ -288,8 +365,8 @@ export default function ExperienceGallery() {
             <h2 id="experience-gallery-title">The real Apulza experience, down to the details.</h2>
           </div>
           <p>
-            These are the original product components—same markup, tokens, artwork, animations,
-            data, and interactions—presented inside the marketing site without redesigning them.
+            These are the original product components—same markup, artwork, animations, data, and
+            interactions—with their color tokens harmonized to the Apulza marketing site.
           </p>
         </div>
 
@@ -364,7 +441,7 @@ export default function ExperienceGallery() {
           <strong>36 original components</strong>
           <span>10 supplied source collections</span>
           <span>Desktop + mobile + counselor</span>
-          <span>No visual reinterpretation</span>
+          <span>Original structure preserved</span>
         </div>
       </div>
     </section>
