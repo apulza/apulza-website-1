@@ -54,6 +54,7 @@ const navItems = [
   { label: 'How it works', href: '#how' },
   { label: 'Features', href: '#inside' },
   { label: 'For schools', href: '#schools' },
+  { label: 'Contact', href: '#contact' },
 ]
 
 const socialLinks = [
