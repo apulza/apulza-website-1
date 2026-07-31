@@ -622,9 +622,9 @@ function EditorialHero() {
         <div className="hero-scenic-visual">
           <div className="hero-orbit hero-orbit-one" aria-hidden="true"><i /></div>
           <div className="hero-orbit hero-orbit-two" aria-hidden="true"><i /></div>
-          <span className="hero-preview-shape hero-school-shape-note" aria-hidden="true" />
-          <span className="hero-preview-shape hero-school-shape-pencil" aria-hidden="true" />
-          <span className="hero-preview-shape hero-school-shape-book" aria-hidden="true" />
+          <span className="hero-preview-shape hero-warm-shape-circle" aria-hidden="true" />
+          <span className="hero-preview-shape hero-warm-shape-triangle" aria-hidden="true" />
+          <span className="hero-preview-shape hero-warm-shape-rounded" aria-hidden="true" />
           <article className="hero-focus-card" aria-label="A glimpse inside Apulza">
             <div className="hero-focus-head">
               <span><IconHeart size={15} /> Ready when you are</span>
