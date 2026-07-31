@@ -85,16 +85,33 @@
 }
 
 .mobile-platform-badge b {
-  display: grid;
+  display: flex;
+  box-sizing: border-box;
   min-width: 48px;
   min-height: 24px;
-  place-items: center;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
   border-radius: 999px;
+  padding-inline: 7px;
   background: var(--primary);
   color: #fff;
   font-size: 0.64rem;
   font-weight: 820;
   letter-spacing: 0.03em;
+}
+
+.mobile-platform-icon {
+  display: block;
+  width: 13px;
+  height: 13px;
+  flex: none;
+}
+
+.mobile-platform-icon-android {
+  width: 15px;
+  height: 10px;
+  transform: translateY(-0.5px);
 }
 
 .mobile-screen-list {
@@ -478,6 +495,14 @@
 @media (max-width: 560px) {
   .mobile-app-section {
     padding: 80px 16px;
+  }
+
+  .mobile-platforms {
+    gap: 6px;
+  }
+
+  .mobile-platform-badge b {
+    padding-inline: 4px;
   }
 
   .mobile-app-copy h2 {

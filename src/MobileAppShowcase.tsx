@@ -53,6 +53,32 @@ const mobileScreens: MobileScreen[] = [
   },
 ]
 
+function ApplePlatformIcon() {
+  return (
+    <svg className="mobile-platform-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        fill="currentColor"
+        d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.22-.07 2.09.67 2.81.73 1.07-.22 2.09-.85 3.23-.76 1.37.11 2.4.65 3.08 1.64-2.82 1.69-2.15 5.41.44 6.45-.52 1.36-1.19 2.7-2.17 3.7l.61 1.21ZM12.03 7.25c-.15-2.02 1.51-3.69 3.39-3.85.26 2.34-2.12 4.09-3.39 3.85Z"
+      />
+    </svg>
+  )
+}
+
+function AndroidPlatformIcon() {
+  return (
+    <svg
+      className="mobile-platform-icon mobile-platform-icon-android"
+      viewBox="0 5 24 13"
+      aria-hidden="true"
+    >
+      <path
+        fill="currentColor"
+        d="m17.6 9.48 1.84-3.18a.37.37 0 0 0-.14-.5.37.37 0 0 0-.49.13l-1.86 3.21A11.9 11.9 0 0 0 12 8.05c-1.74 0-3.43.4-4.95 1.09L5.19 5.93a.37.37 0 0 0-.49-.13.37.37 0 0 0-.14.5L6.4 9.48A9.92 9.92 0 0 0 1 18h22a9.92 9.92 0 0 0-5.4-8.52ZM7 15.25A1.25 1.25 0 1 1 7 12.75a1.25 1.25 0 0 1 0 2.5Zm10 0A1.25 1.25 0 1 1 17 12.75a1.25 1.25 0 0 1 0 2.5Z"
+      />
+    </svg>
+  )
+}
+
 function MobilePreview({ screen }: { screen: MobileScreen }) {
   const frameRef = useRef<HTMLIFrameElement>(null)
   const [error, setError] = useState(false)
@@ -190,11 +216,13 @@ function MobilePreview({ screen }: { screen: MobileScreen }) {
           padding-top: 52px !important;
         }
         .phone-scroll,
-        .apz-screen {
+        .apz-screen,
+        .apz-course-list {
           scrollbar-width: none;
         }
         .phone-scroll::-webkit-scrollbar,
-        .apz-screen::-webkit-scrollbar {
+        .apz-screen::-webkit-scrollbar,
+        .apz-course-list::-webkit-scrollbar {
           display: none;
         }
         .apz button.apz-tab {
@@ -293,8 +321,12 @@ export default function MobileAppShowcase() {
 
           <div className="mobile-platforms" aria-label="Apulza works on iOS and Android">
             <span className="mobile-platforms-label">Made for your phone</span>
-            <span className="mobile-platform-badge"><b>iOS</b> iPhone &amp; iPad</span>
-            <span className="mobile-platform-badge"><b>Android</b> phones &amp; tablets</span>
+            <span className="mobile-platform-badge">
+              <b><ApplePlatformIcon /> iOS</b> iPhone &amp; iPad
+            </span>
+            <span className="mobile-platform-badge">
+              <b><AndroidPlatformIcon /> Android</b> phones &amp; tablets
+            </span>
           </div>
 
           <div className="mobile-screen-list" role="tablist" aria-label="Mobile support screens">
