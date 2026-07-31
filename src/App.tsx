@@ -11,6 +11,7 @@ type IconProps = {
 type TextSize = 'small' | 'default' | 'large'
 
 type AccessibilitySettings = {
+  darkMode: boolean
   lowStimulation: boolean
   textSize: TextSize
   dyslexiaFriendly: boolean
@@ -19,6 +20,7 @@ type AccessibilitySettings = {
 }
 
 const defaultAccessibilitySettings: AccessibilitySettings = {
+  darkMode: false,
   lowStimulation: false,
   textSize: 'default',
   dyslexiaFriendly: false,
@@ -39,6 +41,7 @@ function loadAccessibilitySettings(): AccessibilitySettings {
       : 'default'
 
     return {
+      darkMode: Boolean(parsed.darkMode),
       lowStimulation: Boolean(parsed.lowStimulation),
       textSize,
       dyslexiaFriendly: Boolean(parsed.dyslexiaFriendly),
@@ -430,6 +433,41 @@ function IconAccessibility({ className, size = 20 }: IconProps) {
       <path d="m9.5 10-.8 4.3L6 20" />
       <path d="m14.5 10 .8 4.3L18 20" />
       <path d="M12 10v10" />
+    </svg>
+  )
+}
+
+function IconTheme({ className, dark, size = 18 }: IconProps & { dark: boolean }) {
+  return dark ? (
+    <svg
+      className={className}
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+    >
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42" />
+    </svg>
+  ) : (
+    <svg
+      className={className}
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+    >
+      <path d="M20.6 15.2A8.5 8.5 0 0 1 8.8 3.4 8.5 8.5 0 1 0 20.6 15.2Z" />
     </svg>
   )
 }
@@ -1480,6 +1518,7 @@ function AccessibilityMenu({ isOpen, onToggle, settings, onChange }: Accessibili
   ) => onChange({ ...settings, [key]: value })
 
   const activeCount = [
+    settings.darkMode,
     settings.lowStimulation,
     settings.textSize !== 'default',
     settings.dyslexiaFriendly,
@@ -1488,6 +1527,11 @@ function AccessibilityMenu({ isOpen, onToggle, settings, onChange }: Accessibili
   ].filter(Boolean).length
 
   const toggleRows = [
+    {
+      key: 'darkMode' as const,
+      label: 'Dark mode',
+      description: 'Use a softer low-light palette across the site.',
+    },
     {
       key: 'lowStimulation' as const,
       label: 'Low stimulation',
@@ -1622,6 +1666,14 @@ function App() {
   }, [accessibilitySettings.textSize])
 
   useEffect(() => {
+    document.documentElement.style.colorScheme = accessibilitySettings.darkMode ? 'dark' : 'light'
+
+    return () => {
+      document.documentElement.style.removeProperty('color-scheme')
+    }
+  }, [accessibilitySettings.darkMode])
+
+  useEffect(() => {
     const progress = document.querySelector<HTMLElement>('.scroll-progress')
     let animationFrame = 0
 
@@ -1698,6 +1750,7 @@ function App() {
   }, [mobileMenuOpen, accessibilityOpen])
 
   const accessibilityClasses = [
+    accessibilitySettings.darkMode && 'theme-dark',
     accessibilitySettings.lowStimulation && 'is-low-stim',
     `accessibility-text-${accessibilitySettings.textSize}`,
     accessibilitySettings.dyslexiaFriendly && 'accessibility-lexend',
@@ -1730,6 +1783,19 @@ function App() {
               {item.label}
             </a>
           ))}
+          <button
+            className="theme-toggle"
+            type="button"
+            aria-pressed={accessibilitySettings.darkMode}
+            aria-label={accessibilitySettings.darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+            onClick={() => setAccessibilitySettings((current) => ({
+              ...current,
+              darkMode: !current.darkMode,
+            }))}
+          >
+            <IconTheme dark={accessibilitySettings.darkMode} />
+            <span>{accessibilitySettings.darkMode ? 'Light mode' : 'Dark mode'}</span>
+          </button>
           <AccessibilityMenu
             isOpen={accessibilityOpen}
             onToggle={() => setAccessibilityOpen((current) => !current)}
