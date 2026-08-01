@@ -11,6 +11,7 @@ type IconProps = {
 type TextSize = 'small' | 'default' | 'large'
 
 type AccessibilitySettings = {
+  darkMode: boolean
   lowStimulation: boolean
   textSize: TextSize
   dyslexiaFriendly: boolean
@@ -19,6 +20,7 @@ type AccessibilitySettings = {
 }
 
 const defaultAccessibilitySettings: AccessibilitySettings = {
+  darkMode: false,
   lowStimulation: false,
   textSize: 'default',
   dyslexiaFriendly: false,
@@ -39,6 +41,7 @@ function loadAccessibilitySettings(): AccessibilitySettings {
       : 'default'
 
     return {
+      darkMode: Boolean(parsed.darkMode),
       lowStimulation: Boolean(parsed.lowStimulation),
       textSize,
       dyslexiaFriendly: Boolean(parsed.dyslexiaFriendly),
@@ -52,9 +55,8 @@ function loadAccessibilitySettings(): AccessibilitySettings {
 
 const navItems = [
   { label: 'How it works', href: '#how' },
-  { label: 'Features', href: '#inside' },
+  { label: 'Inside Apulza', href: '#inside' },
   { label: 'For schools', href: '#schools' },
-  { label: 'Contact', href: '#contact' },
 ]
 
 const socialLinks = [
@@ -227,6 +229,42 @@ function resetTileTilt(event: ReactPointerEvent<HTMLElement>) {
   event.currentTarget.style.setProperty('--tilt-y', '0deg')
 }
 
+function handleHeroCardPointerMove(event: ReactPointerEvent<HTMLElement>) {
+  if (event.pointerType !== 'mouse' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    return
+  }
+
+  const card = event.currentTarget
+  const bounds = card.getBoundingClientRect()
+  const x = (event.clientX - bounds.left) / bounds.width
+  const y = (event.clientY - bounds.top) / bounds.height
+  const strength = Number(card.dataset.hoverStrength ?? '1')
+
+  card.style.setProperty('--hero-shift-x', `${(x - 0.5) * 12 * strength}px`)
+  card.style.setProperty('--hero-shift-y', `${((y - 0.5) * 8 - 2) * strength}px`)
+}
+
+function resetHeroCardPosition(event: ReactPointerEvent<HTMLElement>) {
+  const nextTarget = event.relatedTarget
+  if (nextTarget instanceof Node && event.currentTarget.contains(nextTarget)) {
+    return
+  }
+
+  event.currentTarget.style.setProperty('--hero-shift-x', '0px')
+  event.currentTarget.style.setProperty('--hero-shift-y', '0px')
+}
+
+function resetUnhoveredHeroCards(event: ReactPointerEvent<HTMLElement>) {
+  if (event.pointerType !== 'mouse') return
+
+  const hoveredCard = event.target instanceof Element ? event.target.closest('.hero-hover-card') : null
+  event.currentTarget.querySelectorAll<HTMLElement>('.hero-hover-card').forEach((card) => {
+    if (card === hoveredCard) return
+    card.style.setProperty('--hero-shift-x', '0px')
+    card.style.setProperty('--hero-shift-y', '0px')
+  })
+}
+
 function IconCheck({ className, size = 15 }: IconProps) {
   return (
     <svg
@@ -395,6 +433,41 @@ function IconAccessibility({ className, size = 20 }: IconProps) {
       <path d="m9.5 10-.8 4.3L6 20" />
       <path d="m14.5 10 .8 4.3L18 20" />
       <path d="M12 10v10" />
+    </svg>
+  )
+}
+
+function IconTheme({ className, dark, size = 18 }: IconProps & { dark: boolean }) {
+  return dark ? (
+    <svg
+      className={className}
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+    >
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.65 17.65l1.42 1.42M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.65 6.35l1.42-1.42" />
+    </svg>
+  ) : (
+    <svg
+      className={className}
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="2"
+    >
+      <path d="M20.6 15.2A8.5 8.5 0 0 1 8.8 3.4 8.5 8.5 0 1 0 20.6 15.2Z" />
     </svg>
   )
 }
@@ -580,48 +653,110 @@ function StepDemo({ kind }: { kind: (typeof steps)[number]['demo'] }) {
 
 function EditorialHero() {
   return (
-    <section className="hero hero-editorial" id="top">
-      <img src="/assets/hero-landscape.png" alt="" aria-hidden="true" />
+    <section
+      className="hero hero-editorial"
+      id="top"
+      onPointerMove={resetUnhoveredHeroCards}
+    >
+      <img
+        className="hero-background"
+        src="/assets/hero-landscape.png"
+        alt=""
+        aria-hidden="true"
+      />
       <div className="hero-scrim" aria-hidden="true" />
+      <div className="hero-aurora hero-aurora-two" aria-hidden="true" />
       <div className="hero-inner">
-        <p className="eyebrow">A supportive study buddy</p>
-        <h1>
-          A calm place
-          <br />
-          to keep going.
-        </h1>
-        <p className="hero-lede">
-          Apulza is an AI-powered study companion for students who carry ADHD, anxiety, or low
-          days. It turns courses and assignments into manageable next steps—with no streaks to
-          lose and no pressure to perform.
-        </p>
-        <div className="hero-actions">
-          <ButtonLink href="#try">
-            <IconPlay />
-            Try a small step
-          </ButtonLink>
-          <ButtonLink href="#how" variant="secondary">
-            See how it works
-          </ButtonLink>
+        <div className="hero-copy">
+          <p className="eyebrow hero-kicker"><span /> A calmer way forward</p>
+          <h1>
+            Make space
+            <br />
+            for your <em>next</em>
+            <br />
+            small step.
+          </h1>
+          <p className="hero-lede">
+            Apulza turns courses, assignments, and heavy days into a calmer way forward—with no
+            streaks to lose and no pressure to perform.
+          </p>
+          <div className="hero-actions hero-actions-left">
+            <ButtonLink href="#try">
+              Try a small step
+              <IconArrow />
+            </ButtonLink>
+            <ButtonLink href="#inside" variant="secondary">
+              <IconPlay />
+              Explore Apulza
+            </ButtonLink>
+          </div>
+          <div className="hero-proof" aria-label="Apulza product qualities">
+            <span><IconCheck /> Free to start</span>
+            <span><IconCheck /> No card needed</span>
+            <span><IconCheck /> Motion optional</span>
+          </div>
         </div>
-        <div className="audience-paths" aria-label="Choose your path">
-          <a href="#try">
-            <span>For students</span>
-            Start with what is on your mind <IconArrow size={14} />
-          </a>
-          <a href="#schools">
-            <span>For schools & counselors</span>
-            See how Apulza supports your students <IconArrow size={14} />
-          </a>
-        </div>
-        <div className="pulse-note">
-          <PulseLine />
-          <span>Try it here — no account needed</span>
+
+        <div className="hero-scenic-visual">
+          <div className="hero-orbit hero-orbit-one" aria-hidden="true"><i /></div>
+          <div className="hero-orbit hero-orbit-two" aria-hidden="true"><i /></div>
+          <div
+            className="hero-rhythm-card hero-hover-card"
+            data-hover-strength="1.1"
+            aria-hidden="true"
+            onPointerMove={handleHeroCardPointerMove}
+            onPointerLeave={resetHeroCardPosition}
+            onPointerOut={resetHeroCardPosition}
+          >
+            <div className="hero-rhythm-head">
+              <span><IconSpark size={14} /> Today&apos;s rhythm</span>
+              <i>Flexible</i>
+            </div>
+            <div className="hero-rhythm-step is-complete">
+              <span><IconCheck size={12} /></span>
+              <p><strong>Open your notes</strong><small>2 min · a soft start</small></p>
+            </div>
+            <div className="hero-rhythm-step is-current">
+              <span>2</span>
+              <p><strong>Choose one passage</strong><small>Your next small step</small></p>
+              <em>Now</em>
+            </div>
+            <div className="hero-rhythm-rest">
+              <IconHeart size={13} /> Pause whenever you need.
+            </div>
+          </div>
+          <article
+            className="hero-focus-card hero-hover-card"
+            data-hover-strength="0.75"
+            aria-label="A glimpse inside Apulza"
+            onPointerMove={handleHeroCardPointerMove}
+            onPointerLeave={resetHeroCardPosition}
+            onPointerOut={resetHeroCardPosition}
+          >
+            <div className="hero-focus-head">
+              <span><IconHeart size={15} /> Ready when you are</span>
+              <i>Today</i>
+            </div>
+            <h2>Rhetorical analysis</h2>
+            <p>One small step is enough.</p>
+            <div className="hero-task-row">
+              <span className="hero-task-check"><IconCheck size={13} /></span>
+              <span><strong>Choose one passage</strong><small>About 8 minutes</small></span>
+              <button type="button" aria-label="Start this small step"><IconArrow size={14} /></button>
+            </div>
+            <div className="hero-progress"><span /></div>
+            <small className="hero-progress-note">1 of 3 gentle steps · Half still counts</small>
+          </article>
+          <div className="hero-float-chip hero-float-chip-bottom">
+            <span><IconSpark size={16} /></span>
+            <p><small>Plan adjusted</small><strong>For a lower-energy day</strong></p>
+          </div>
         </div>
       </div>
-      <a className="hero-scroll-cue" href="#promises" aria-label="Scroll to learn more">
-        <IconChevron open />
-      </a>
+      <div className="hero-bottom-line">
+        <span>Built for the day you're actually having.</span>
+        <a href="#promises">Scroll to explore <IconChevron open /></a>
+      </div>
     </section>
   )
 }
@@ -1383,6 +1518,7 @@ function AccessibilityMenu({ isOpen, onToggle, settings, onChange }: Accessibili
   ) => onChange({ ...settings, [key]: value })
 
   const activeCount = [
+    settings.darkMode,
     settings.lowStimulation,
     settings.textSize !== 'default',
     settings.dyslexiaFriendly,
@@ -1391,6 +1527,11 @@ function AccessibilityMenu({ isOpen, onToggle, settings, onChange }: Accessibili
   ].filter(Boolean).length
 
   const toggleRows = [
+    {
+      key: 'darkMode' as const,
+      label: 'Dark mode',
+      description: 'Use a softer low-light palette across the site.',
+    },
     {
       key: 'lowStimulation' as const,
       label: 'Low stimulation',
@@ -1418,7 +1559,6 @@ function AccessibilityMenu({ isOpen, onToggle, settings, onChange }: Accessibili
       <button
         className="accessibility-trigger"
         type="button"
-        aria-label="Accessibility settings"
         aria-expanded={isOpen}
         aria-controls="accessibility-menu"
         aria-haspopup="dialog"
@@ -1526,11 +1666,33 @@ function App() {
   }, [accessibilitySettings.textSize])
 
   useEffect(() => {
-    const updateHeader = () => setHeaderScrolled(window.scrollY > 24)
+    document.documentElement.style.colorScheme = accessibilitySettings.darkMode ? 'dark' : 'light'
+
+    return () => {
+      document.documentElement.style.removeProperty('color-scheme')
+    }
+  }, [accessibilitySettings.darkMode])
+
+  useEffect(() => {
+    const progress = document.querySelector<HTMLElement>('.scroll-progress')
+    let animationFrame = 0
+
+    const updateHeader = () => {
+      setHeaderScrolled(window.scrollY > 24)
+      cancelAnimationFrame(animationFrame)
+      animationFrame = requestAnimationFrame(() => {
+        const scrollable = document.documentElement.scrollHeight - window.innerHeight
+        const ratio = scrollable > 0 ? Math.min(window.scrollY / scrollable, 1) : 0
+        progress?.style.setProperty('--scroll-progress', String(ratio))
+      })
+    }
 
     updateHeader()
     window.addEventListener('scroll', updateHeader, { passive: true })
-    return () => window.removeEventListener('scroll', updateHeader)
+    return () => {
+      cancelAnimationFrame(animationFrame)
+      window.removeEventListener('scroll', updateHeader)
+    }
   }, [])
 
   useEffect(() => {
@@ -1588,6 +1750,7 @@ function App() {
   }, [mobileMenuOpen, accessibilityOpen])
 
   const accessibilityClasses = [
+    accessibilitySettings.darkMode && 'theme-dark',
     accessibilitySettings.lowStimulation && 'is-low-stim',
     `accessibility-text-${accessibilitySettings.textSize}`,
     accessibilitySettings.dyslexiaFriendly && 'accessibility-lexend',
@@ -1604,6 +1767,7 @@ function App() {
 
   return (
     <main className={`app ${accessibilityClasses}`}>
+      <div className="scroll-progress" aria-hidden="true" />
       <header className={`site-header${headerScrolled ? ' is-scrolled' : ''}`}>
         <Brand />
         <nav
@@ -1619,6 +1783,19 @@ function App() {
               {item.label}
             </a>
           ))}
+          <button
+            className="theme-toggle"
+            type="button"
+            aria-pressed={accessibilitySettings.darkMode}
+            aria-label={accessibilitySettings.darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+            title={accessibilitySettings.darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+            onClick={() => setAccessibilitySettings((current) => ({
+              ...current,
+              darkMode: !current.darkMode,
+            }))}
+          >
+            <IconTheme dark={accessibilitySettings.darkMode} />
+          </button>
           <AccessibilityMenu
             isOpen={accessibilityOpen}
             onToggle={() => setAccessibilityOpen((current) => !current)}
@@ -1626,7 +1803,7 @@ function App() {
             onChange={setAccessibilitySettings}
           />
           <a className="nav-cta" href="#try" onClick={() => setMobileMenuOpen(false)}>
-            Try Apulza
+            Try it now
           </a>
         </nav>
         <button
@@ -1650,7 +1827,7 @@ function App() {
         {trustPoints.map((point) => (
           <span key={point.label}>
             {point.icon}
-            {point.label}
+            <b>{point.label}</b>
           </span>
         ))}
       </section>
@@ -1905,6 +2082,7 @@ function App() {
               next small step.
             </p>
             <nav className="footer-links" aria-label="Footer navigation">
+              <a href="#privacy">Safety & privacy</a>
               <a href="#demo">Request a demo</a>
               <a href="#contact">Contact us</a>
             </nav>
