@@ -4912,6 +4912,30 @@ p {
 }
 
 @media (max-width: 480px) {
+  .accessibility-menu {
+    padding: 14px;
+  }
+
+  .accessibility-text-control {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .text-size-options {
+    width: 100%;
+  }
+
+  .text-size-options button {
+    width: auto;
+    min-width: 0;
+    height: 44px;
+    flex: 1;
+  }
+
+  .accessibility-option {
+    gap: 12px;
+  }
+
   .footer-socials > div,
   .footer-socials a {
     width: 100%;
