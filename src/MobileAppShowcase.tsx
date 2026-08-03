@@ -14,7 +14,7 @@ const mobileScreens: MobileScreen[] = [
   {
     id: 'dashboard',
     label: 'Dashboard',
-    src: '/snippets/apulza-mobile-dashboard-breathing-snippets.html',
+    src: '/snippets/apulza-mobile-dashboard-breathing-snippets',
     selector: '.snippet-preview[data-tpl="tpl-dashboard"]',
     eyebrow: 'See what matters now',
     note: 'Return to one calm home base for today’s work, upcoming deadlines, and real progress.',
@@ -22,7 +22,7 @@ const mobileScreens: MobileScreen[] = [
   {
     id: 'support',
     label: 'ApulzaBot',
-    src: '/snippets/apulza-mobile-account-support-snippets.html',
+    src: '/snippets/apulza-mobile-account-support-snippets',
     selector: '.snippet-preview[data-tpl="tpl-support"]',
     eyebrow: 'Ask in the moment',
     note: 'Get calm, course-aware guidance without leaving the task in front of you.',
@@ -30,7 +30,7 @@ const mobileScreens: MobileScreen[] = [
   {
     id: 'settings',
     label: 'Settings',
-    src: '/snippets/apulza-mobile-account-support-snippets.html',
+    src: '/snippets/apulza-mobile-account-support-snippets',
     selector: '.snippet-preview[data-tpl="tpl-settings"]',
     eyebrow: 'Make it comfortable',
     note: 'Adjust reading and display preferences around the way your brain works.',
@@ -38,7 +38,7 @@ const mobileScreens: MobileScreen[] = [
   {
     id: 'profile',
     label: 'Profile',
-    src: '/snippets/apulza-mobile-account-support-snippets.html',
+    src: '/snippets/apulza-mobile-account-support-snippets',
     selector: '.snippet-preview[data-tpl="tpl-profile"]',
     eyebrow: 'Keep context close',
     note: 'Carry the preferences and support context that make guidance feel personal.',
@@ -46,7 +46,7 @@ const mobileScreens: MobileScreen[] = [
   {
     id: 'onboarding',
     label: 'Onboarding',
-    src: '/snippets/apulza-mobile-account-support-snippets.html',
+    src: '/snippets/apulza-mobile-account-support-snippets',
     selector: '.snippet-preview[data-tpl="tpl-onboarding"]',
     eyebrow: 'Start without friction',
     note: 'Add a first course with a short, low-pressure setup built for mobile.',
