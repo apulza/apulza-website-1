@@ -3353,9 +3353,9 @@ p {
 
 .team-card {
   overflow: hidden;
-  border: 1px solid rgba(97, 26, 159, 0.14);
+  border: 1px solid var(--border);
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.84);
+  background: var(--surface);
   box-shadow: var(--shadow-sm);
   transition:
     opacity 0.7s ease,
@@ -3365,7 +3365,7 @@ p {
 }
 
 .team-card:hover {
-  border-color: rgba(97, 26, 159, 0.3);
+  border-color: var(--primary-weak-bd);
   box-shadow: 0 22px 44px -28px rgba(67, 24, 99, 0.48);
   transform: translateY(-4px);
 }
@@ -6919,6 +6919,14 @@ h2 { letter-spacing: -0.045em; }
 
 .theme-dark .faq-band {
   background: rgba(38, 30, 44, 0.7);
+}
+
+.theme-dark .team-band {
+  border-color: var(--border);
+  background:
+    radial-gradient(circle at 15% 18%, rgba(139, 92, 187, 0.22), transparent 28%),
+    radial-gradient(circle at 88% 84%, rgba(199, 120, 148, 0.2), transparent 26%),
+    linear-gradient(135deg, rgba(28, 22, 34, 0.96), rgba(24, 19, 28, 0.94));
 }
 
 .theme-dark .faq-item {
