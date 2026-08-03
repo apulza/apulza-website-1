@@ -3347,6 +3347,7 @@ p {
 .team-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: start;
   gap: 16px;
 }
 
@@ -3430,6 +3431,16 @@ p {
   line-height: 0.8;
 }
 
+.team-portrait-photo {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
 .team-portrait > small {
   position: absolute;
   bottom: 18px;
@@ -3470,6 +3481,38 @@ p {
   color: var(--text-muted);
   font-size: 0.87rem;
   line-height: 1.55;
+}
+
+.team-card-copy > span[hidden] {
+  display: none;
+}
+
+.team-card-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 11px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--primary);
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.team-card-toggle:hover {
+  color: var(--primary-strong);
+}
+
+.team-card-toggle svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.2s ease;
+}
+
+.team-card-toggle svg[data-open='true'] {
+  transform: rotate(180deg);
 }
 
 .cat-trail-toast {

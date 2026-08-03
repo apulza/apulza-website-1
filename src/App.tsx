@@ -166,6 +166,7 @@ const teamMembers = [
     focus:
       'Duke Diamond is Apulza’s CTO, bringing sharp technical leadership and a deep passion for using software to improve education. With experience in Duolingo-style adaptive learning and gamified engagement, he shapes Apulza’s platform to be intuitive, motivating, and built for neurodivergent learners. His work ensures our technology stays human-centered and genuinely supportive for every student.',
     accent: 'lilac',
+    photo: '/assets/duke.jpg',
   },
   {
     name: 'Sid Patel',
@@ -173,6 +174,7 @@ const teamMembers = [
     focus:
       'Sid Patel guides Apulza with a clear product vision and a steady focus on building technology that genuinely improves how students learn. As CEO, he leads strategy, long-term direction, and the development of our core learning platform. His background in software engineering, data-driven product design, and ed-tech innovation shapes how Apulza grows, how we communicate with investors, and how we deliver tools that feel intuitive and supportive for every learner. Sid is committed to using thoughtful software to make education more accessible, motivating, and human-centered.',
     accent: 'rose',
+    photo: '/assets/siddharth.jpg',
   },
   {
     name: 'Holden Riley',
@@ -180,14 +182,57 @@ const teamMembers = [
     focus:
       'Holden Riley brings the momentum that keeps Apulza growing with intention. As COO, he turns vision into practical systems that strengthen our operations, refine our product delivery, and support long-term scalability. His background in marketing, organizational leadership, and ed-tech strategy, along with his experience working with the Ireland-based Axis Education Group, shapes how Apulza communicates with partners and investors and ensures our mission and impact remain clear, credible, and compelling. Holden is driven by the belief that thoughtful software can make education calmer, more accessible, and more empowering for every learner.',
     accent: 'sky',
+    photo: '/assets/holden.jpg',
   },
   {
     name: 'Arin',
     role: 'Research',
     focus: 'Bio coming soon.',
     accent: 'sage',
+    photo: '/assets/arin.jpg',
   },
 ] as const
+
+type TeamMember = (typeof teamMembers)[number]
+
+function TeamCard({ member, index }: { member: TeamMember; index: number }) {
+  const [isOpen, setIsOpen] = useState(false)
+  const bioId = `team-bio-${index}`
+
+  return (
+    <article className="team-card motion-reveal">
+      <div
+        className="team-portrait"
+        data-accent={member.accent}
+        {...(member.photo ? {} : { role: 'img', 'aria-label': `Profile photo placeholder for ${member.name}` })}
+      >
+        {member.photo ? (
+          <img className="team-portrait-photo" src={member.photo} alt={`Portrait of ${member.name}`} />
+        ) : (
+          <>
+            <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+            <small>Photo coming soon</small>
+          </>
+        )}
+      </div>
+      <div className="team-card-copy">
+        <p>{member.role}</p>
+        <h3>{member.name}</h3>
+        <button
+          type="button"
+          className="team-card-toggle"
+          aria-expanded={isOpen}
+          aria-controls={bioId}
+          onClick={() => setIsOpen((current) => !current)}
+        >
+          <span>{isOpen ? 'Show less' : 'Learn more'}</span>
+          <IconChevron open={isOpen} />
+        </button>
+        <span id={bioId} hidden={!isOpen}>{member.focus}</span>
+      </div>
+    </article>
+  )
+}
 
 const trustEvidence = [
   {
@@ -1979,22 +2024,7 @@ function App() {
           </div>
           <div className="team-grid" aria-label="Apulza team profiles">
             {teamMembers.map((member, index) => (
-              <article className="team-card motion-reveal" key={member.name}>
-                <div
-                  className="team-portrait"
-                  data-accent={member.accent}
-                  role="img"
-                  aria-label={`Profile photo placeholder for ${member.name}`}
-                >
-                  <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-                  <small>Photo coming soon</small>
-                </div>
-                <div className="team-card-copy">
-                  <p>{member.role}</p>
-                  <h3>{member.name}</h3>
-                  <span>{member.focus}</span>
-                </div>
-              </article>
+              <TeamCard member={member} index={index} key={member.name} />
             ))}
           </div>
         </div>
