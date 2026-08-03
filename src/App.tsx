@@ -161,27 +161,30 @@ const clearPrinciples = [
 
 const teamMembers = [
   {
-    name: 'Team member 01',
-    role: 'Founder & product',
-    focus: 'Shaping the vision and keeping every product decision grounded in student needs.',
+    name: 'Duke Diamond',
+    role: 'CTO',
+    focus:
+      'Duke Diamond is Apulza’s CTO, bringing sharp technical leadership and a deep passion for using software to improve education. With experience in Duolingo-style adaptive learning and gamified engagement, he shapes Apulza’s platform to be intuitive, motivating, and built for neurodivergent learners. His work ensures our technology stays human-centered and genuinely supportive for every student.',
     accent: 'lilac',
   },
   {
-    name: 'Team member 02',
-    role: 'Learning experience',
-    focus: 'Turning evidence-informed ideas into support that feels practical, gentle, and clear.',
+    name: 'Sid Patel',
+    role: 'CEO',
+    focus:
+      'Sid Patel guides Apulza with a clear product vision and a steady focus on building technology that genuinely improves how students learn. As CEO, he leads strategy, long-term direction, and the development of our core learning platform. His background in software engineering, data-driven product design, and ed-tech innovation shapes how Apulza grows, how we communicate with investors, and how we deliver tools that feel intuitive and supportive for every learner. Sid is committed to using thoughtful software to make education more accessible, motivating, and human-centered.',
     accent: 'rose',
   },
   {
-    name: 'Team member 03',
-    role: 'Engineering',
-    focus: 'Building a reliable, accessible experience that stays calm on every kind of day.',
+    name: 'Holden Riley',
+    role: 'COO',
+    focus:
+      'Holden Riley brings the momentum that keeps Apulza growing with intention. As COO, he turns vision into practical systems that strengthen our operations, refine our product delivery, and support long-term scalability. His background in marketing, organizational leadership, and ed-tech strategy, along with his experience working with the Ireland-based Axis Education Group, shapes how Apulza communicates with partners and investors and ensures our mission and impact remain clear, credible, and compelling. Holden is driven by the belief that thoughtful software can make education calmer, more accessible, and more empowering for every learner.',
     accent: 'sky',
   },
   {
-    name: 'Team member 04',
-    role: 'Community & partnerships',
-    focus: 'Listening to students, educators, and counselors—and bringing those voices into the work.',
+    name: 'Arin',
+    role: 'Research',
+    focus: 'Bio coming soon.',
     accent: 'sage',
   },
 ] as const
