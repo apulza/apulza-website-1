@@ -56,6 +56,8 @@ function loadAccessibilitySettings(): AccessibilitySettings {
 const navItems = [
   { label: 'How it works', href: '#how' },
   { label: 'Inside Apulza', href: '#inside' },
+  { label: 'Meet the team', href: '#team' },
+  { label: 'Safety & privacy', href: '#privacy' },
   { label: 'For schools', href: '#schools' },
 ]
 
@@ -156,6 +158,33 @@ const clearPrinciples = [
     body: 'Externalize time and autosave. Assume nothing is remembered.',
   },
 ]
+
+const teamMembers = [
+  {
+    name: 'Team member 01',
+    role: 'Founder & product',
+    focus: 'Shaping the vision and keeping every product decision grounded in student needs.',
+    accent: 'lilac',
+  },
+  {
+    name: 'Team member 02',
+    role: 'Learning experience',
+    focus: 'Turning evidence-informed ideas into support that feels practical, gentle, and clear.',
+    accent: 'rose',
+  },
+  {
+    name: 'Team member 03',
+    role: 'Engineering',
+    focus: 'Building a reliable, accessible experience that stays calm on every kind of day.',
+    accent: 'sky',
+  },
+  {
+    name: 'Team member 04',
+    role: 'Community & partnerships',
+    focus: 'Listening to students, educators, and counselors—and bringing those voices into the work.',
+    accent: 'sage',
+  },
+] as const
 
 const trustEvidence = [
   {
@@ -1927,6 +1956,41 @@ function App() {
                 <span>{principle.letter}</span>
                 <h3>{principle.title}</h3>
                 <p>{principle.body}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="team-band" id="team" aria-labelledby="team-title">
+        <div className="section team-section">
+          <div className="team-intro motion-reveal">
+            <div>
+              <p className="eyebrow">Meet the team</p>
+              <h2 id="team-title">The people behind the calmer way to study.</h2>
+            </div>
+            <p>
+              Apulza is shaped by a small, thoughtful team bringing together product, learning,
+              technology, and community care. We’ll introduce everyone properly soon.
+            </p>
+          </div>
+          <div className="team-grid" aria-label="Apulza team profiles">
+            {teamMembers.map((member, index) => (
+              <article className="team-card motion-reveal" key={member.name}>
+                <div
+                  className="team-portrait"
+                  data-accent={member.accent}
+                  role="img"
+                  aria-label={`Profile photo placeholder for ${member.name}`}
+                >
+                  <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                  <small>Photo coming soon</small>
+                </div>
+                <div className="team-card-copy">
+                  <p>{member.role}</p>
+                  <h3>{member.name}</h3>
+                  <span>{member.focus}</span>
+                </div>
               </article>
             ))}
           </div>
