@@ -159,7 +159,15 @@ const clearPrinciples = [
   },
 ]
 
-const teamMembers = [
+type TeamMember = {
+  name: string
+  role: string
+  focus: string
+  accent: string
+  photo?: string
+}
+
+const teamMembers: readonly TeamMember[] = [
   {
     name: 'Duke Diamond',
     role: 'CTO',
@@ -191,9 +199,7 @@ const teamMembers = [
     accent: 'sage',
     photo: '/assets/arin.jpg',
   },
-] as const
-
-type TeamMember = (typeof teamMembers)[number]
+]
 
 function TeamCard({ member, index }: { member: TeamMember; index: number }) {
   const [isOpen, setIsOpen] = useState(false)
