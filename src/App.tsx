@@ -56,7 +56,6 @@ function loadAccessibilitySettings(): AccessibilitySettings {
 const navItems = [
   { label: 'How it works', href: '#how' },
   { label: 'Inside Apulza', href: '#inside' },
-  { label: 'Meet the team', href: '#team' },
   { label: 'Safety & privacy', href: '#privacy' },
   { label: 'For schools', href: '#schools' },
 ]
@@ -158,87 +157,6 @@ const clearPrinciples = [
     body: 'Externalize time and autosave. Assume nothing is remembered.',
   },
 ]
-
-type TeamMember = {
-  name: string
-  role: string
-  focus: string
-  accent: string
-  photo?: string
-}
-
-const teamMembers: readonly TeamMember[] = [
-  {
-    name: 'Duke Diamond',
-    role: 'CTO',
-    focus:
-      'Duke Diamond is Apulza’s CTO, bringing sharp technical leadership and a deep passion for using software to improve education. With experience in Duolingo-style adaptive learning and gamified engagement, he shapes Apulza’s platform to be intuitive, motivating, and built for neurodivergent learners. His work ensures our technology stays human-centered and genuinely supportive for every student.',
-    accent: 'lilac',
-    photo: '/assets/duke.jpg',
-  },
-  {
-    name: 'Sid Patel',
-    role: 'CEO',
-    focus:
-      'Sid Patel guides Apulza with a clear product vision and a steady focus on building technology that genuinely improves how students learn. As CEO, he leads strategy, long-term direction, and the development of our core learning platform. His background in software engineering, data-driven product design, and ed-tech innovation shapes how Apulza grows, how we communicate with investors, and how we deliver tools that feel intuitive and supportive for every learner. Sid is committed to using thoughtful software to make education more accessible, motivating, and human-centered.',
-    accent: 'rose',
-    photo: '/assets/siddharth.jpg',
-  },
-  {
-    name: 'Holden Riley',
-    role: 'COO',
-    focus:
-      'Holden Riley brings the momentum that keeps Apulza growing with intention. As COO, he turns vision into practical systems that strengthen our operations, refine our product delivery, and support long-term scalability. His background in marketing, organizational leadership, and ed-tech strategy, along with his experience working with the Ireland-based Axis Education Group, shapes how Apulza communicates with partners and investors and ensures our mission and impact remain clear, credible, and compelling. Holden is driven by the belief that thoughtful software can make education calmer, more accessible, and more empowering for every learner.',
-    accent: 'sky',
-    photo: '/assets/holden.jpg',
-  },
-  {
-    name: 'Arin',
-    role: 'Research',
-    focus: 'Bio coming soon.',
-    accent: 'sage',
-    photo: '/assets/arin.jpg',
-  },
-]
-
-function TeamCard({ member, index }: { member: TeamMember; index: number }) {
-  const [isOpen, setIsOpen] = useState(false)
-  const bioId = `team-bio-${index}`
-
-  return (
-    <article className="team-card motion-reveal">
-      <div
-        className="team-portrait"
-        data-accent={member.accent}
-        {...(member.photo ? {} : { role: 'img', 'aria-label': `Profile photo placeholder for ${member.name}` })}
-      >
-        {member.photo ? (
-          <img className="team-portrait-photo" src={member.photo} alt={`Portrait of ${member.name}`} />
-        ) : (
-          <>
-            <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
-            <small>Photo coming soon</small>
-          </>
-        )}
-      </div>
-      <div className="team-card-copy">
-        <p>{member.role}</p>
-        <h3>{member.name}</h3>
-        <button
-          type="button"
-          className="team-card-toggle"
-          aria-expanded={isOpen}
-          aria-controls={bioId}
-          onClick={() => setIsOpen((current) => !current)}
-        >
-          <span>{isOpen ? 'Show less' : 'Learn more'}</span>
-          <IconChevron open={isOpen} />
-        </button>
-        <span id={bioId} hidden={!isOpen}>{member.focus}</span>
-      </div>
-    </article>
-  )
-}
 
 const trustEvidence = [
   {
@@ -2011,26 +1929,6 @@ function App() {
                 <h3>{principle.title}</h3>
                 <p>{principle.body}</p>
               </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="team-band" id="team" aria-labelledby="team-title">
-        <div className="section team-section">
-          <div className="team-intro motion-reveal">
-            <div>
-              <p className="eyebrow">Meet the team</p>
-              <h2 id="team-title">The people behind the calmer way to study.</h2>
-            </div>
-            <p>
-              Apulza is shaped by a small, thoughtful team bringing together product, learning,
-              technology, and community care. We’ll introduce everyone properly soon.
-            </p>
-          </div>
-          <div className="team-grid" aria-label="Apulza team profiles">
-            {teamMembers.map((member, index) => (
-              <TeamCard member={member} index={index} key={member.name} />
             ))}
           </div>
         </div>
