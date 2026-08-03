@@ -5798,7 +5798,7 @@ h2 { letter-spacing: -0.045em; }
 
 @media (min-width: 901px) {
   .site-header {
-    width: min(980px, calc(100% - 36px));
+    width: min(1180px, calc(100% - 36px));
   }
 }
 
