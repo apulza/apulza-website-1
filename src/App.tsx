@@ -1581,20 +1581,9 @@ function BetaSignupForm() {
         </label>
       </div>
 
-      <fieldset className="form-choices">
-        <legend>I'm joining as a...</legend>
-        <div className="choice-row">
-          <label className="choice">
-            <input type="radio" name="role" value="student" required />
-            <span>Student</span>
-          </label>
-          <label className="choice">
-            <input type="radio" name="role" value="counselor" />
-            <span>Counselor</span>
-          </label>
-        </div>
-        <p className="choice-hint">Counselor accounts are approved by our team before they open.</p>
-      </fieldset>
+      {/* Round 1 of the beta is students only. The Worker and database still accept
+          "counselor", so a role choice can come back for a later round. */}
+      <input type="hidden" name="role" value="student" />
 
       <details className="beta-optional">
         <summary>
@@ -2167,7 +2156,7 @@ function App() {
             <p className="eyebrow">Beta testers</p>
             <h2 id="beta-title">Help shape Apulza.</h2>
             <p>
-              We're inviting a small group of students and counselors to try the beta and tell us
+              We're inviting a small group of students to try the student dashboard and tell us
               what works and what doesn't. It takes about a minute to sign up.
             </p>
             <div className="contact-paths" aria-label="What beta testing involves">
@@ -2189,7 +2178,7 @@ function App() {
                 <span><IconShield /></span>
                 <div>
                   <h3>Leave anytime</h3>
-                  <p>Export or delete your account yourself. Read the <a href="/beta-terms.html" target="_blank" rel="noopener">beta terms</a>.</p>
+                  <p>Stop whenever you like, and ask us to delete your data. Read the <a href="/beta-terms.html" target="_blank" rel="noopener">beta terms</a>.</p>
                 </div>
               </article>
             </div>
