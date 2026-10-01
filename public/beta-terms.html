@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Apulza Beta Terms</title>
+    <meta name="description" content="What to expect, what we store, and how to leave the Apulza beta." />
+    <style>
+      :root {
+        --bg: #fbf7ff;
+        --surface: #ffffff;
+        --text: #241f2b;
+        --muted: #6e6676;
+        --border: #ece6e0;
+        --primary: #611a9f;
+        color-scheme: light dark;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #19151e;
+          --surface: #221c27;
+          --text: #f1ebf4;
+          --muted: #b7adbd;
+          --border: #3a3140;
+          --primary: #cfa6ec;
+        }
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font: 16px/1.65 system-ui, -apple-system, "Segoe UI", sans-serif;
+      }
+      main {
+        width: min(720px, calc(100% - 32px));
+        margin: 48px auto 72px;
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: clamp(24px, 5vw, 48px);
+        background: var(--surface);
+      }
+      h1 { margin: 0 0 4px; font-size: 2rem; line-height: 1.2; }
+      h2 { margin: 32px 0 8px; font-size: 1.15rem; }
+      p, li { color: var(--text); }
+      ul { padding-left: 1.2em; }
+      li + li { margin-top: 6px; }
+      a { color: var(--primary); font-weight: 600; }
+      .meta { margin: 0 0 24px; color: var(--muted); font-size: 0.9rem; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Apulza beta terms</h1>
+      <p class="meta">Version 2026-09-30 · <a href="/#beta">Back to sign-up</a></p>
+
+      <p>
+        Thanks for helping us test Apulza. This page explains, in plain language, what joining the
+        beta means. You must be 18 or older to take part.
+      </p>
+
+      <h2>It's a test version</h2>
+      <ul>
+        <li>Things may break, look unfinished, or change without notice.</li>
+        <li>We may reset beta data, including study plans and chats, as we improve the app.</li>
+        <li>Please don't rely on Apulza as your only way to track important deadlines during the beta.</li>
+      </ul>
+
+      <h2>What the app stores</h2>
+      <ul>
+        <li><strong>Account info:</strong> your name, email, and role (student or counselor).</li>
+        <li><strong>Study plans</strong> you create in the app.</li>
+        <li><strong>Tutoring chats</strong> with the AI study helper.</li>
+        <li><strong>Usage events</strong>, such as which features you open, so we can see what works.</li>
+      </ul>
+      <p>
+        Your answers on the sign-up form are stored separately and used only to choose and contact
+        beta testers. Your contact details and basic answers are also copied to a Google Sheet that
+        only the Apulza beta team can open. We never ask for diagnoses, medical history, student ID
+        numbers, grades, or school login details.
+      </p>
+
+      <h2>Who can see it</h2>
+      <ul>
+        <li>The Apulza team, to run the beta and fix problems.</li>
+        <li>
+          A counselor, only if one is assigned to you. Counselors see summaries of your progress,
+          not the content of your tutoring chats.
+        </li>
+      </ul>
+
+      <h2>AI features</h2>
+      <p>
+        When you use the AI features, your messages are sent to an outside AI service (Groq) to
+        generate a response. Avoid sharing private health details or other sensitive information
+        in chats.
+      </p>
+
+      <h2>How to leave</h2>
+      <p>
+        You can leave the beta at any time. In the app, you can export your data and delete your
+        account yourself. To also remove your sign-up form answers, email us at the address below.
+      </p>
+
+      <h2>Questions</h2>
+      <p>
+        Contact the Apulza team at <a href="mailto:apulzaai@outlook.com">apulzaai@outlook.com</a>.
+      </p>
+    </main>
+  </body>
+</html>
