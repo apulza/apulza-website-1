@@ -1,6 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "apulza-website",
+  "account_id": "77152d7bda3e22c4b6cf16dd2860346e",
   "main": "./src/worker.ts",
   "compatibility_date": "2026-07-12",
   "observability": {
@@ -16,7 +17,7 @@
     {
       "binding": "DB",
       "database_name": "apulza-beta",
-      "database_id": "00000000-0000-0000-0000-000000000000",
+      "database_id": "248c21ab-98f3-4228-a4f9-ed922b61bf6f",
       "migrations_dir": "migrations"
     }
   ],
