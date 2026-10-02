@@ -1,0 +1,6 @@
+# Copy to .dev.vars for local testing (gitignored). In production, set these with:
+#   npx wrangler secret put SHEETS_WEBHOOK_URL
+#   npx wrangler secret put SHEETS_WEBHOOK_SECRET
+# Leave them unset to store beta sign-ups in D1 only.
+SHEETS_WEBHOOK_URL=https://script.google.com/macros/s/your-deployment-id/exec
+SHEETS_WEBHOOK_SECRET=the-same-value-as-SHARED_SECRET-in-the-apps-script

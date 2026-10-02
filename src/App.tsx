@@ -58,6 +58,7 @@ const navItems = [
   { label: 'Inside Apulza', href: '#inside' },
   { label: 'Safety & privacy', href: '#privacy' },
   { label: 'For schools', href: '#schools' },
+  { label: 'Join the beta', href: '#beta' },
 ]
 
 const socialLinks = [
@@ -1505,6 +1506,186 @@ function ContactForm() {
   )
 }
 
+type BetaSignupState = 'idle' | 'submitting' | 'success' | 'duplicate' | 'error'
+
+const supportNeedOptions = [
+  { value: 'focus', label: 'I sometimes find it hard to focus' },
+  { value: 'time', label: 'I sometimes find it hard to manage my time' },
+  { value: 'deadlines', label: 'I sometimes find it hard to stay on top of deadlines' },
+  { value: 'starting', label: 'I sometimes find it hard to get started on tasks' },
+]
+
+function BetaSignupForm() {
+  const [submissionState, setSubmissionState] = useState<BetaSignupState>('idle')
+  const [errorMessage, setErrorMessage] = useState('')
+  const [feedbackPref, setFeedbackPref] = useState('')
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    const formElement = event.currentTarget
+    setSubmissionState('submitting')
+
+    try {
+      const response = await fetch('/api/beta-signup', {
+        method: 'POST',
+        body: new FormData(formElement),
+        headers: { Accept: 'application/json' },
+      })
+
+      if (response.ok) {
+        formElement.reset()
+        setFeedbackPref('')
+        setSubmissionState('success')
+        return
+      }
+
+      if (response.status === 409) {
+        setSubmissionState('duplicate')
+        return
+      }
+
+      const body = (await response.json().catch(() => null)) as { error?: string } | null
+      setErrorMessage(body?.error ?? '')
+      setSubmissionState('error')
+    } catch {
+      setErrorMessage('')
+      setSubmissionState('error')
+    }
+  }
+
+  const statusMessages: Record<Exclude<BetaSignupState, 'idle' | 'submitting'>, string> = {
+    success: "Thanks—you're on the beta list. We'll email you when your invite is ready.",
+    duplicate: "That email is already on the beta list. Email apulzaai@outlook.com if you'd like to change your details.",
+    error: `${errorMessage || 'Something went wrong.'} You can also email apulzaai@outlook.com.`,
+  }
+
+  return (
+    <form className="demo-form beta-form" onSubmit={handleSubmit}>
+      <input
+        className="form-honeypot"
+        name="_gotcha"
+        type="text"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+      />
+      <div className="field-row">
+        <label>
+          <span>Name (or preferred name)</span>
+          <input name="name" type="text" autoComplete="name" placeholder="Alex" maxLength={100} required />
+        </label>
+        <label>
+          <span>Email you'll sign up with</span>
+          <input name="email" type="email" autoComplete="email" placeholder="alex@example.com" maxLength={254} required />
+        </label>
+      </div>
+
+      {/* Round 1 of the beta is students only. The Worker and database still accept
+          "counselor", so a role choice can come back for a later round. */}
+      <input type="hidden" name="role" value="student" />
+
+      <details className="beta-optional">
+        <summary>
+          A few optional questions <em>(help us invite a varied group)</em>
+        </summary>
+        <div className="beta-optional-body">
+          <div className="field-row">
+            <label>
+              <span>School <em>(optional)</em></span>
+              <input name="school" type="text" placeholder="e.g. community college" maxLength={150} />
+            </label>
+            <label>
+              <span>Year or level <em>(optional)</em></span>
+              <input name="year_level" type="text" placeholder="e.g. 2nd year" maxLength={80} />
+            </label>
+          </div>
+
+          <fieldset className="form-choices">
+            <legend>How would you like to give feedback? <em>(optional)</em></legend>
+            <div className="choice-row">
+              {[
+                { value: 'survey', label: 'Short survey' },
+                { value: 'call', label: 'Quick call' },
+                { value: 'in_app', label: 'In the app only' },
+              ].map((option) => (
+                <label className="choice" key={option.value}>
+                  <input
+                    type="radio"
+                    name="feedback_pref"
+                    value={option.value}
+                    checked={feedbackPref === option.value}
+                    onChange={() => setFeedbackPref(option.value)}
+                  />
+                  <span>{option.label}</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          {feedbackPref === 'call' ? (
+            <label>
+              <span>Phone number <em>(optional—leave blank and we'll email to set up a video call)</em></span>
+              <input name="phone" type="tel" autoComplete="tel" maxLength={30} />
+            </label>
+          ) : null}
+
+          <fieldset className="form-choices">
+            <legend>Anything you'd like the app to help with? <em>(optional, skip anytime)</em></legend>
+            <p className="choice-hint">
+              We ask so we can include people with different study needs. This isn't a diagnosis,
+              and you never have to answer.
+            </p>
+            <div className="choice-stack">
+              {supportNeedOptions.map((option) => (
+                <label className="choice" key={option.value}>
+                  <input type="checkbox" name="support_needs" value={option.value} />
+                  <span>{option.label}</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+        </div>
+      </details>
+
+      <div className="choice-stack">
+        <label className="choice">
+          <input type="checkbox" name="confirm_18_plus" value="yes" required />
+          <span>I'm 18 or older.</span>
+        </label>
+        <label className="choice">
+          <input type="checkbox" name="accept_terms" value="yes" required />
+          <span>
+            I've read and agree to the{' '}
+            <a href="/beta-terms.html" target="_blank" rel="noopener">beta terms</a>.
+          </span>
+        </label>
+      </div>
+
+      <button
+        className="button demo-submit"
+        type="submit"
+        disabled={submissionState === 'submitting'}
+      >
+        {submissionState === 'submitting' ? 'Signing you up…' : 'Join the beta'}
+        <IconArrow />
+      </button>
+      <p className="form-note">
+        Please don't share diagnoses, medical details, student ID numbers, or school passwords.
+      </p>
+      {submissionState !== 'idle' && submissionState !== 'submitting' ? (
+        <p
+          className="form-status"
+          data-state={submissionState === 'success' ? 'success' : 'error'}
+          role="status"
+        >
+          {statusMessages[submissionState]}
+        </p>
+      ) : null}
+    </form>
+  )
+}
+
 type AccessibilityMenuProps = {
   isOpen: boolean
   onToggle: () => void
@@ -1969,6 +2150,45 @@ function App() {
         </div>
       </section>
 
+      <section className="contact-section beta-section" id="beta" aria-labelledby="beta-title">
+        <div className="contact-inner">
+          <div className="contact-copy motion-reveal">
+            <p className="eyebrow">Beta testers</p>
+            <h2 id="beta-title">Help shape Apulza.</h2>
+            <p>
+              We're inviting a small group of students to try the student dashboard and tell us
+              what works and what doesn't. It takes about a minute to sign up.
+            </p>
+            <div className="contact-paths" aria-label="What beta testing involves">
+              <article>
+                <span><IconSpark /></span>
+                <div>
+                  <h3>It's a test version</h3>
+                  <p>Things may break, and beta data may be reset as we improve the app.</p>
+                </div>
+              </article>
+              <article>
+                <span><IconHeart /></span>
+                <div>
+                  <h3>Feedback about the app, not you</h3>
+                  <p>Short check-ins asking what was confusing or helpful, never how productive you were.</p>
+                </div>
+              </article>
+              <article>
+                <span><IconShield /></span>
+                <div>
+                  <h3>Leave anytime</h3>
+                  <p>Stop whenever you like, and ask us to delete your data. Read the <a href="/beta-terms.html" target="_blank" rel="noopener">beta terms</a>.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+          <div className="motion-reveal">
+            <BetaSignupForm />
+          </div>
+        </div>
+      </section>
+
       <section className="section-band faq-band" id="faq">
         <div className="section faq-section">
           <div className="section-intro centered">
@@ -2085,6 +2305,7 @@ function App() {
             <nav className="footer-links" aria-label="Footer navigation">
               <a href="#privacy">Safety & privacy</a>
               <a href="#demo">Request a demo</a>
+              <a href="#beta">Join the beta</a>
               <a href="#contact">Contact us</a>
             </nav>
             <div className="footer-socials" aria-label="Follow Apulza">

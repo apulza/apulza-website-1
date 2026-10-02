@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Apulza Beta Terms</title>
+    <meta name="description" content="What to expect, what we store, and how to leave the Apulza beta." />
+    <style>
+      :root {
+        --bg: #fbf7ff;
+        --surface: #ffffff;
+        --text: #241f2b;
+        --muted: #6e6676;
+        --border: #ece6e0;
+        --primary: #611a9f;
+        color-scheme: light dark;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #19151e;
+          --surface: #221c27;
+          --text: #f1ebf4;
+          --muted: #b7adbd;
+          --border: #3a3140;
+          --primary: #cfa6ec;
+        }
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font: 16px/1.65 system-ui, -apple-system, "Segoe UI", sans-serif;
+      }
+      main {
+        width: min(720px, calc(100% - 32px));
+        margin: 48px auto 72px;
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: clamp(24px, 5vw, 48px);
+        background: var(--surface);
+      }
+      h1 { margin: 0 0 4px; font-size: 2rem; line-height: 1.2; }
+      h2 { margin: 32px 0 8px; font-size: 1.15rem; }
+      p, li { color: var(--text); }
+      ul { padding-left: 1.2em; }
+      li + li { margin-top: 6px; }
+      a { color: var(--primary); font-weight: 600; }
+      .meta { margin: 0 0 24px; color: var(--muted); font-size: 0.9rem; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Apulza beta terms</h1>
+      <p class="meta">Version 2026-09-30 · <a href="/#beta">Back to sign-up</a></p>
+
+      <p>
+        Thanks for helping us test Apulza. This page explains, in plain language, what joining the
+        beta means. You must be 18 or older to take part.
+      </p>
+      <p>
+        <strong>This first round is for students only.</strong> You'll be testing the student
+        dashboard. No counselors take part, and Apulza doesn't calculate risk scores for anyone
+        during this round. If a later round adds counselors or risk scores, we'll update these terms
+        and tell you before it applies to you.
+      </p>
+
+      <h2>It's a test version</h2>
+      <ul>
+        <li>Things may break, look unfinished, or change without notice.</li>
+        <li>We may reset beta data, including study plans and chats, as we improve the app.</li>
+        <li>Please don't rely on Apulza as your only way to track important deadlines during the beta.</li>
+      </ul>
+
+      <h2>What the app stores</h2>
+      <ul>
+        <li><strong>Account info:</strong> your name and email.</li>
+        <li><strong>Study plans</strong> you create, and <strong>assignments</strong> you track in the app.</li>
+        <li>
+          <strong>Your course list from Canvas</strong>, if you choose to connect it. Apulza reads
+          your courses and enrollments only, not your grades or submissions.
+        </li>
+        <li><strong>Tutoring chats</strong> with the AI study helper.</li>
+        <li>
+          <strong>Usage events</strong>, such as which features you open, so we can see what works.
+          This includes a note when a tutoring message is redirected by our safety checks.
+        </li>
+        <li>
+          <strong>Disabilities you choose to add to your profile.</strong> Your profile offers a list
+          of disabilities (for example dyslexia or ADHD) that you can select if you believe they apply
+          to you. No proof or diagnosis is needed, and you can skip this entirely.
+        </li>
+      </ul>
+
+      <h2>Disability information in your profile</h2>
+      <ul>
+        <li>It's optional. You can skip it, and change or remove it anytime in your profile.</li>
+        <li>
+          If you add it, Apulza uses it to adapt your study plans, MyTutor, and AI recommendations.
+          For example, it may suggest a dyslexia-friendly font, or the Pomodoro technique for ADHD.
+        </li>
+        <li>Only you and the Apulza team can see it.</li>
+        <li>It is sent to Groq, our outside AI provider, to generate these recommendations (see below).</li>
+      </ul>
+
+      <h2>Who can see it</h2>
+      <p>
+        Only the Apulza team, to run the beta and fix problems. No counselors or schools have access
+        during this round.
+      </p>
+
+      <h2>AI features</h2>
+      <p>
+        Apulza's AI features use an outside AI service, Groq. When you use them, your messages are
+        sent to Groq to generate a response. If you've added disability information to your
+        profile, it is sent too, so the recommendations can be adapted to you. Avoid sharing other
+        private health details in chats.
+      </p>
+
+      <h2>About this sign-up form</h2>
+      <p>
+        Your answers on the beta sign-up form are stored separately and used only to choose and
+        contact beta testers. Your contact details and basic answers are also copied to a Google
+        Sheet that only the Apulza beta team can open. The sign-up form doesn't ask for diagnoses,
+        medical history, student ID numbers, grades, or school login details.
+      </p>
+
+      <h2>How to leave</h2>
+      <ul>
+        <li>You can leave the beta at any time, and you can export your data from the app.</li>
+        <li>
+          Deleting your account in the app turns it off, but doesn't yet erase your data. To have
+          everything permanently deleted, including your profile, study plans, chats, and sign-up
+          form answers, email us at the address below.
+        </li>
+      </ul>
+
+      <h2>Questions</h2>
+      <p>
+        Contact the Apulza team at <a href="mailto:apulzaai@outlook.com">apulzaai@outlook.com</a>.
+      </p>
+    </main>
+  </body>
+</html>
