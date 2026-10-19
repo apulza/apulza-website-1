@@ -1856,6 +1856,34 @@ function App() {
   }, [accessibilitySettings.darkMode])
 
   useEffect(() => {
+    // The browser looks for a #section before React has rendered it, so links like
+    // apulza-ai.com/#beta (and the /beta QR redirect) would otherwise land at the top.
+    const id = decodeURIComponent(window.location.hash.slice(1))
+    const target = id ? document.getElementById(id) : null
+    if (!target) return
+
+    // 'instant', not 'auto': the page sets scroll-behavior: smooth, and a long smooth
+    // scroll on load gets interrupted before it arrives.
+    const jump = () => target.scrollIntoView({ behavior: 'instant', block: 'start' })
+    jump()
+    if (document.readyState === 'complete') return
+
+    // Images above the section can push it down while they load; jump again once
+    // they're done, unless the visitor has already started scrolling.
+    const stop = () => {
+      window.removeEventListener('load', jump)
+      window.removeEventListener('wheel', stop)
+      window.removeEventListener('touchstart', stop)
+      window.removeEventListener('keydown', stop)
+    }
+    window.addEventListener('load', jump, { once: true })
+    window.addEventListener('wheel', stop, { once: true, passive: true })
+    window.addEventListener('touchstart', stop, { once: true, passive: true })
+    window.addEventListener('keydown', stop, { once: true })
+    return stop
+  }, [])
+
+  useEffect(() => {
     const progress = document.querySelector<HTMLElement>('.scroll-progress')
     let animationFrame = 0
 
