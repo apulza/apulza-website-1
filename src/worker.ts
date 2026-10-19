@@ -192,6 +192,12 @@ export default {
   fetch(request: Request, env: Env, ctx: ExecutionContext) {
     const url = new URL(request.url)
 
+    // Short link printed on the beta QR code. A temporary (302) redirect so it can be
+    // pointed somewhere else later without browsers caching the old target.
+    if (url.pathname === '/beta' || url.pathname === '/beta/') {
+      return Response.redirect(new URL('/#beta', url).toString(), 302)
+    }
+
     if (url.pathname === '/api/beta-signup') {
       if (request.method !== 'POST') return json({ error: 'Method not allowed.' }, 405)
       return handleBetaSignup(request, env, ctx)
