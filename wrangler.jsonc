@@ -10,9 +10,9 @@
   "assets": {
     "binding": "ASSETS",
     "not_found_handling": "single-page-application",
-    // In SPA mode, page visits to unknown paths get index.html without running the
-    // Worker. These paths need the Worker (see src/worker.ts).
-    "run_worker_first": ["/beta", "/beta/"]
+    // Paths the Worker must handle (see src/worker.ts). Once this list is set, every
+    // other path goes only to the static files, so new Worker routes must be added here.
+    "run_worker_first": ["/beta", "/beta/", "/api/*"]
   },
   // Beta sign-ups. For local dev the id below is a placeholder; after running
   // `npx wrangler d1 create apulza-beta`, replace it with the real database_id.

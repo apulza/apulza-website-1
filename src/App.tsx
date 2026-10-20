@@ -1556,8 +1556,8 @@ function BetaSignupForm() {
 
   const statusMessages: Record<Exclude<BetaSignupState, 'idle' | 'submitting'>, string> = {
     success: "Thanks—you're on the beta list. We'll email you when your invite is ready.",
-    duplicate: "That email is already on the beta list. Email apulzaai@outlook.com if you'd like to change your details.",
-    error: `${errorMessage || 'Something went wrong.'} You can also email apulzaai@outlook.com.`,
+    duplicate: "You're already on the beta list with that email. To change your details, write to our team at apulzaai@outlook.com.",
+    error: `${errorMessage || "We couldn't save your sign-up."} Please try again. If it keeps happening, let our team know at apulzaai@outlook.com.`,
   }
 
   return (
