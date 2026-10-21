@@ -58,7 +58,6 @@ const navItems = [
   { label: 'Inside Apulza', href: '#inside' },
   { label: 'Safety & privacy', href: '#privacy' },
   { label: 'For schools', href: '#schools' },
-  { label: 'Join the beta', href: '#beta' },
 ]
 
 const socialLinks = [
@@ -75,32 +74,6 @@ const socialLinks = [
     icon: <IconInstagram />,
   },
 ]
-
-const formEndpoint = (import.meta.env.VITE_FORMSPREE_ENDPOINT as string | undefined)?.trim()
-
-type SubmissionState = 'idle' | 'submitting' | 'success' | 'error' | 'email'
-
-async function submitInquiry(form: HTMLFormElement) {
-  if (!formEndpoint) return false
-
-  const response = await fetch(formEndpoint, {
-    method: 'POST',
-    body: new FormData(form),
-    headers: { Accept: 'application/json' },
-  })
-
-  if (!response.ok) {
-    throw new Error('The form service could not accept this submission.')
-  }
-
-  return true
-}
-
-function openEmailFallback(subject: string, lines: string[]) {
-  const emailSubject = encodeURIComponent(subject)
-  const emailBody = encodeURIComponent(['Hi Apulza team,', '', ...lines].join('\n'))
-  window.location.href = `mailto:apulzaai@outlook.com?subject=${emailSubject}&body=${emailBody}`
-}
 
 const trustPoints = [
   { label: 'No streaks to lose', icon: <IconHeart /> },
@@ -614,14 +587,6 @@ function ButtonLink({
     <a className={`button ${variant === 'secondary' ? 'button-secondary' : ''}`} href={href}>
       {children}
     </a>
-  )
-}
-
-function PulseLine({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 160 28" aria-hidden="true">
-      <polyline points="0,14 50,14 64,14 74,4 86,24 96,8 106,17 118,14 160,14" />
-    </svg>
   )
 }
 
@@ -1298,214 +1263,6 @@ function TinyDemo({
   )
 }
 
-function DemoRequestForm() {
-  const [submissionState, setSubmissionState] = useState<SubmissionState>('idle')
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-
-    const formElement = event.currentTarget
-    const form = new FormData(formElement)
-    const name = String(form.get('name') || '')
-    const email = String(form.get('email') || '')
-    const role = String(form.get('role') || '')
-
-    setSubmissionState('submitting')
-
-    try {
-      const collected = await submitInquiry(formElement)
-
-      if (collected) {
-        formElement.reset()
-        setSubmissionState('success')
-        return
-      }
-
-      openEmailFallback(`Apulza walkthrough request from ${name}`, [
-        "I'd like to request an Apulza walkthrough.",
-        '',
-        `Name: ${name}`,
-        `Email: ${email}`,
-        `I am a: ${role}`,
-      ])
-      setSubmissionState('email')
-    } catch {
-      setSubmissionState('error')
-    }
-  }
-
-  return (
-    <form className="demo-form" onSubmit={handleSubmit}>
-      <input type="hidden" name="form_type" value="Demo request" />
-      <input type="hidden" name="_subject" value="New Apulza demo request" />
-      <input
-        className="form-honeypot"
-        name="_gotcha"
-        type="text"
-        tabIndex={-1}
-        autoComplete="off"
-        aria-hidden="true"
-      />
-      <div className="field-row">
-        <label>
-          <span>Your name</span>
-          <input name="name" type="text" autoComplete="name" placeholder="Alex Morgan" required />
-        </label>
-        <label>
-          <span>Email address</span>
-          <input
-            name="email"
-            type="email"
-            autoComplete="email"
-            placeholder="alex@school.edu"
-            required
-          />
-        </label>
-      </div>
-      <label>
-        <span>I am a...</span>
-        <select name="role" defaultValue="" required>
-          <option value="" disabled>Select your role</option>
-          <option>Parent or guardian</option>
-          <option>Teacher or counselor</option>
-          <option>School leader</option>
-          <option>Other</option>
-        </select>
-      </label>
-      <button
-        className="button demo-submit"
-        type="submit"
-        disabled={submissionState === 'submitting'}
-      >
-        {submissionState === 'submitting' ? 'Sending request…' : 'Request a walkthrough'}
-        <IconArrow />
-      </button>
-      <p className="form-note">
-        No commitment. We’ll only use these details to respond to your request.
-      </p>
-      <FormStatus state={submissionState} successMessage="Thanks—your walkthrough request is in. We’ll be in touch soon." />
-    </form>
-  )
-}
-
-function FormStatus({ state, successMessage }: { state: SubmissionState; successMessage: string }) {
-  if (state === 'idle' || state === 'submitting') return null
-
-  const messages: Record<Exclude<SubmissionState, 'idle' | 'submitting'>, string> = {
-    success: successMessage,
-    error: 'Something went wrong. Please try again or email apulzaai@outlook.com.',
-    email: "Your message is ready in your email app. Send it when you're ready.",
-  }
-
-  return (
-    <p className="form-status" data-state={state} role="status">
-      {messages[state]}
-    </p>
-  )
-}
-
-function ContactForm() {
-  const [submissionState, setSubmissionState] = useState<SubmissionState>('idle')
-
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-
-    const formElement = event.currentTarget
-    const form = new FormData(formElement)
-    const name = String(form.get('name') || '')
-    const email = String(form.get('email') || '')
-    const inquiryType = String(form.get('inquiry_type') || '')
-    const organization = String(form.get('organization') || '')
-    const message = String(form.get('message') || '')
-
-    setSubmissionState('submitting')
-
-    try {
-      const collected = await submitInquiry(formElement)
-
-      if (collected) {
-        formElement.reset()
-        setSubmissionState('success')
-        return
-      }
-
-      openEmailFallback(`${inquiryType || 'Website'} inquiry from ${name}`, [
-        `Name: ${name}`,
-        `Email: ${email}`,
-        `Inquiry: ${inquiryType}`,
-        `Organization: ${organization || 'Not provided'}`,
-        '',
-        message,
-      ])
-      setSubmissionState('email')
-    } catch {
-      setSubmissionState('error')
-    }
-  }
-
-  return (
-    <form className="demo-form contact-form" onSubmit={handleSubmit}>
-      <input type="hidden" name="form_type" value="Contact inquiry" />
-      <input type="hidden" name="_subject" value="New Apulza contact inquiry" />
-      <input
-        className="form-honeypot"
-        name="_gotcha"
-        type="text"
-        tabIndex={-1}
-        autoComplete="off"
-        aria-hidden="true"
-      />
-      <div className="field-row">
-        <label>
-          <span>Your name</span>
-          <input name="name" type="text" autoComplete="name" placeholder="Alex Morgan" required />
-        </label>
-        <label>
-          <span>Email address</span>
-          <input name="email" type="email" autoComplete="email" placeholder="alex@example.com" required />
-        </label>
-      </div>
-      <div className="field-row">
-        <label>
-          <span>What can we help with?</span>
-          <select name="inquiry_type" defaultValue="" required>
-            <option value="" disabled>Select a topic</option>
-            <option>General question</option>
-            <option>Jobs & collaboration</option>
-            <option>Partnership</option>
-            <option>Press or media</option>
-            <option>Something else</option>
-          </select>
-        </label>
-        <label>
-          <span>Organization <em>(optional)</em></span>
-          <input name="organization" type="text" autoComplete="organization" placeholder="School, company, or group" />
-        </label>
-      </div>
-      <label>
-        <span>Your message</span>
-        <textarea
-          name="message"
-          placeholder="Tell us what you have in mind. For job inquiries, you can include a LinkedIn or portfolio link."
-          required
-        />
-      </label>
-      <button
-        className="button demo-submit"
-        type="submit"
-        disabled={submissionState === 'submitting'}
-      >
-        {submissionState === 'submitting' ? 'Sending message…' : 'Send message'}
-        <IconArrow />
-      </button>
-      <p className="form-note">
-        Please don’t include private health or student information. We’ll use your details only to reply.
-      </p>
-      <FormStatus state={submissionState} successMessage="Thanks—your message has been sent. We’ll get back to you soon." />
-    </form>
-  )
-}
-
 type BetaSignupState = 'idle' | 'submitting' | 'success' | 'duplicate' | 'error'
 
 const supportNeedOptions = [
@@ -2012,8 +1769,8 @@ function App() {
             settings={accessibilitySettings}
             onChange={setAccessibilitySettings}
           />
-          <a className="nav-cta" href="#try" onClick={() => setMobileMenuOpen(false)}>
-            Try it now
+          <a className="nav-cta" href="#beta" onClick={() => setMobileMenuOpen(false)}>
+            Join the beta
           </a>
         </nav>
         <button
@@ -2167,7 +1924,7 @@ function App() {
                 </li>
               ))}
             </ul>
-            <ButtonLink href="#demo">Request a school demo</ButtonLink>
+            <ButtonLink href="#contact">Contact us for a school demo</ButtonLink>
           </div>
           <div className="school-image">
             <img
@@ -2248,70 +2005,18 @@ function App() {
         </div>
       </section>
 
-      <section className="closing" id="demo">
-        <div className="closing-inner">
-          <div className="demo-copy motion-reveal">
-            <PulseLine />
-            <p className="eyebrow">A closer look</p>
-            <h2>Bring calmer study support to your students.</h2>
-            <p>
-              Schools, counselors, and families can request a calm, personal walkthrough. Students
-              can try the small-step experience above without filling out a form.
-            </p>
-            <ul className="demo-promises">
-              <li>
-                <IconCheck /> A calm, personal walkthrough
-              </li>
-              <li>
-                <IconCheck /> Time for your questions
-              </li>
-              <li>
-                <IconCheck /> No pressure or commitment
-              </li>
-            </ul>
-          </div>
-          <div className="motion-reveal">
-            <DemoRequestForm />
-          </div>
-        </div>
-      </section>
-
-      <section className="contact-section" id="contact" aria-labelledby="contact-title">
-        <div className="contact-inner">
-          <div className="contact-copy motion-reveal">
+      <section className="contact-section contact-section-simple" id="contact" aria-labelledby="contact-title">
+        <div className="contact-inner motion-reveal">
+          <div className="contact-copy">
             <p className="eyebrow">Contact us</p>
-            <h2 id="contact-title">Have something else in mind?</h2>
+            <h2 id="contact-title">Let’s talk.</h2>
             <p>
-              Demo requests have their own path above. For questions, job inquiries, collaborations,
-              partnerships, or press, send us a note here.
+              For school demos, questions, collaborations, and press, email our team directly.
             </p>
-            <div className="contact-paths" aria-label="Types of contact inquiries">
-              <article>
-                <span><IconHeart /></span>
-                <div>
-                  <h3>General questions</h3>
-                  <p>Ask about Apulza, accessibility, or anything we have not covered.</p>
-                </div>
-              </article>
-              <article>
-                <span><IconSpark /></span>
-                <div>
-                  <h3>Jobs & collaboration</h3>
-                  <p>Introduce yourself and share a portfolio or LinkedIn link if you have one.</p>
-                </div>
-              </article>
-              <article>
-                <span><IconBookmark /></span>
-                <div>
-                  <h3>Partnerships & press</h3>
-                  <p>Tell us about your organization, audience, or idea.</p>
-                </div>
-              </article>
-            </div>
           </div>
-          <div className="motion-reveal">
-            <ContactForm />
-          </div>
+          <a className="button contact-email" href="mailto:apulzaai@outlook.com?subject=Apulza%20inquiry">
+            apulzaai@outlook.com <IconArrow />
+          </a>
         </div>
       </section>
 
@@ -2332,10 +2037,10 @@ function App() {
             </p>
             <nav className="footer-links" aria-label="Footer navigation">
               <a href="#privacy">Safety & privacy</a>
-              <a href="#demo">Request a demo</a>
               <a href="#beta">Join the beta</a>
               <a href="#contact">Contact us</a>
             </nav>
+            <p className="footer-contact">Email us at <a href="mailto:apulzaai@outlook.com">apulzaai@outlook.com</a></p>
             <div className="footer-socials" aria-label="Follow Apulza">
               <span>Follow along</span>
               <div>

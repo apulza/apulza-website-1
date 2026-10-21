@@ -6830,3 +6830,46 @@ h2 { letter-spacing: -0.045em; }
   --primary-strong: #a85fd2;
   --primary-weak-bd: rgba(225, 184, 246, 0.58);
 }
+
+/* One compact contact path keeps the beta form as the page's primary signup. */
+.contact-section-simple .contact-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 72px 0;
+  text-align: center;
+}
+
+.contact-section-simple .contact-copy h2 {
+  max-width: none;
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+}
+
+.contact-section-simple .contact-copy > p:not(.eyebrow) {
+  max-width: 52ch;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.contact-email {
+  max-width: 100%;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+
+.footer-brand .footer-contact {
+  margin-top: 18px;
+}
+
+.footer-contact a {
+  color: var(--primary);
+  font-weight: 750;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 680px) {
+  .contact-section-simple .contact-inner {
+    padding: 56px 0;
+  }
+}
