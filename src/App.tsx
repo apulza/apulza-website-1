@@ -635,13 +635,8 @@ function EditorialHero() {
       <div className="hero-aurora hero-aurora-two" aria-hidden="true" />
       <div className="hero-inner">
         <div className="hero-copy">
-          <p className="eyebrow hero-kicker"><span /> A calmer way forward</p>
           <h1>
-            Make space
-            <br />
-            for your <em>next</em>
-            <br />
-            small step.
+            When studying gets hard, <em>start here.</em>
           </h1>
           <p className="hero-lede">
             Apulza turns courses, assignments, and heavy days into a calmer way forward—with no
