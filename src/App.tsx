@@ -111,7 +111,7 @@ const showcasePoints = [
 const schoolPoints = [
   'Course-aware tutoring stays within academic-integrity boundaries.',
   'Each support score explains the contribution of attendance, grades, assignments, LMS activity, and missed deadlines.',
-  'Support profiles can adjust how signals are weighted for an individual student.',
+  'Support profiles can change factor weights—for example, attendance when a student has an accommodation.',
   'Counselors work from their assigned caseload with trends, notes, and follow-ups.',
 ]
 
@@ -1025,8 +1025,8 @@ function ProductSnippets({
             <p className="eyebrow">AI study plans</p>
             <h3>A study plan built for your course and your needs.</h3>
             <p>
-              Plans combine course context with the support you choose: strategies with a reason,
-              timed focus blocks, breaks, and accommodations to consider.
+              When focus is scattered, try a short block. When anxiety rises, choose clear structure
+              and a grounding reset. On low-energy days, move a session without losing progress.
             </p>
             <ul className="snippet-benefits">
               <li><IconCheck /> Course-specific strategies, each with a purpose</li>
@@ -1078,7 +1078,7 @@ function ProductSnippets({
               <span className="support-tool-icon"><IconHeart /></span>
               <p className="eyebrow">Breathing & grounding</p>
               <h4>A short reset for overwhelmed moments.</h4>
-              <p>Quick regulation exercises can come before a task, between steps, or not at all.</p>
+              <p>Choose the pace and length of a guided reset before a task or between steps.</p>
               <div className="breathing-preview"><i /> Breathe in <em>4 seconds</em></div>
             </article>
             <article>
