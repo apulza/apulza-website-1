@@ -24,8 +24,8 @@ const mobileScreens: MobileScreen[] = [
     label: 'ApulzaBot',
     src: '/snippets/apulza-mobile-account-support-snippets',
     selector: '.snippet-preview[data-tpl="tpl-support"]',
-    eyebrow: 'Ask in the moment',
-    note: 'Get calm, course-aware guidance without leaving the task in front of you.',
+    eyebrow: 'Find support',
+    note: 'Get help using Apulza and find the right support resource when you need one.',
   },
   {
     id: 'settings',
@@ -315,8 +315,8 @@ export default function MobileAppShowcase() {
           <p className="eyebrow">Support that goes with you</p>
           <h2 id="mobile-app-title">A calmer next step, right from your phone.</h2>
           <p className="mobile-app-lede">
-            Apulza keeps support close when starting feels hard. Open your dashboard, ask for
-            guidance, and shape the experience around your needs—without returning to a desk.
+            Open your dashboard, find platform support, and adjust how Apulza looks and feels—all
+            from your phone.
           </p>
 
           <div className="mobile-platforms" aria-label="Apulza works on iOS and Android">
