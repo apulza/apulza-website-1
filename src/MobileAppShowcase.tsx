@@ -20,28 +20,12 @@ const mobileScreens: MobileScreen[] = [
     note: 'See upcoming assignments, resume your last course, and track this month’s progress.',
   },
   {
-    id: 'support',
-    label: 'ApulzaBot',
-    src: '/snippets/apulza-mobile-account-support-snippets',
-    selector: '.snippet-preview[data-tpl="tpl-support"]',
-    eyebrow: 'Find support',
-    note: 'Get help using Apulza and find the right support resource when you need one.',
-  },
-  {
     id: 'settings',
     label: 'Settings',
     src: '/snippets/apulza-mobile-account-support-snippets',
     selector: '.snippet-preview[data-tpl="tpl-settings"]',
     eyebrow: 'Make it comfortable',
     note: 'Adjust reading and display preferences around the way your brain works.',
-  },
-  {
-    id: 'profile',
-    label: 'Profile',
-    src: '/snippets/apulza-mobile-account-support-snippets',
-    selector: '.snippet-preview[data-tpl="tpl-profile"]',
-    eyebrow: 'Keep context close',
-    note: 'Carry the preferences and support context that make guidance feel personal.',
   },
   {
     id: 'onboarding',
@@ -52,32 +36,6 @@ const mobileScreens: MobileScreen[] = [
     note: 'Add a first course with a short, low-pressure setup built for mobile.',
   },
 ]
-
-function ApplePlatformIcon() {
-  return (
-    <svg className="mobile-platform-icon" viewBox="0 0 24 24" aria-hidden="true">
-      <path
-        fill="currentColor"
-        d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.22-.07 2.09.67 2.81.73 1.07-.22 2.09-.85 3.23-.76 1.37.11 2.4.65 3.08 1.64-2.82 1.69-2.15 5.41.44 6.45-.52 1.36-1.19 2.7-2.17 3.7l.61 1.21ZM12.03 7.25c-.15-2.02 1.51-3.69 3.39-3.85.26 2.34-2.12 4.09-3.39 3.85Z"
-      />
-    </svg>
-  )
-}
-
-function AndroidPlatformIcon() {
-  return (
-    <svg
-      className="mobile-platform-icon mobile-platform-icon-android"
-      viewBox="0 5 24 13"
-      aria-hidden="true"
-    >
-      <path
-        fill="currentColor"
-        d="m17.6 9.48 1.84-3.18a.37.37 0 0 0-.14-.5.37.37 0 0 0-.49.13l-1.86 3.21A11.9 11.9 0 0 0 12 8.05c-1.74 0-3.43.4-4.95 1.09L5.19 5.93a.37.37 0 0 0-.49-.13.37.37 0 0 0-.14.5L6.4 9.48A9.92 9.92 0 0 0 1 18h22a9.92 9.92 0 0 0-5.4-8.52ZM7 15.25A1.25 1.25 0 1 1 7 12.75a1.25 1.25 0 0 1 0 2.5Zm10 0A1.25 1.25 0 1 1 17 12.75a1.25 1.25 0 0 1 0 2.5Z"
-      />
-    </svg>
-  )
-}
 
 function MobilePreview({ screen }: { screen: MobileScreen }) {
   const frameRef = useRef<HTMLIFrameElement>(null)
@@ -275,7 +233,7 @@ function MobilePreview({ screen }: { screen: MobileScreen }) {
       key={screen.id}
       className={`mobile-app-frame${isReady ? ' is-ready' : ''}`}
       src={screen.src}
-      title={`Apulza mobile app: ${screen.label}`}
+      title={`Apulza mobile screen preview: ${screen.label}`}
       loading="eager"
       aria-busy={!isReady}
       style={{ colorScheme: 'light' }}
@@ -315,21 +273,17 @@ export default function MobileAppShowcase() {
           <p className="eyebrow">Support that goes with you</p>
           <h2 id="mobile-app-title">Your dashboard and support, on your phone.</h2>
           <p className="mobile-app-lede">
-            Check upcoming work, pick up your last course, reach ApulzaBot, and adjust your display
-            preferences from your phone.
+            Explore mobile-sized previews of your dashboard, display settings, and first-course setup.
+            Your beta invitation will explain how to access the test version.
           </p>
 
-          <div className="mobile-platforms" aria-label="Apulza works on iOS and Android">
-            <span className="mobile-platforms-label">Made for your phone</span>
-            <span className="mobile-platform-badge">
-              <b><ApplePlatformIcon /> iOS</b> iPhone &amp; iPad
-            </span>
-            <span className="mobile-platform-badge">
-              <b><AndroidPlatformIcon /> Android</b> phones &amp; tablets
-            </span>
+          <div className="mobile-platforms" aria-label="Mobile preview features">
+            <span className="mobile-platforms-label">Designed for smaller screens</span>
+            <span className="mobile-platform-badge"><b>Dashboard</b> at a glance</span>
+            <span className="mobile-platform-badge"><b>Preferences</b> in reach</span>
           </div>
 
-          <div className="mobile-screen-list" role="tablist" aria-label="Mobile support screens">
+          <div className="mobile-screen-list" role="tablist" aria-label="Mobile screen previews">
             {mobileScreens.map((screen, index) => (
               <button
                 type="button"
@@ -365,7 +319,7 @@ export default function MobileAppShowcase() {
 
           <div className="mobile-stage-header">
             <div>
-              <span>Live mobile preview</span>
+              <span>Mobile screen preview</span>
               <strong className="mobile-stage-screen-name" key={activeScreen.id}>
                 {activeScreen.label}
               </strong>

@@ -14,5 +14,8 @@ A simple React + TypeScript marketing page powered by Vite.
 
 ## Beta signup
 
-The beta signup form posts to `/api/beta-signup` and is handled by the Cloudflare Worker in
-`src/worker.ts`. General questions and school demo requests use the contact email shown on the site.
+The student beta form posts to `/api/beta-signup`. The school conversation form posts to
+`/api/school-inquiry`. Both are handled by the Cloudflare Worker in `src/worker.ts` and stored
+in D1. Apply the migrations before deploying the Worker. When the optional Sheets webhook is
+configured, both kinds of requests are copied to the `Sign-ups` sheet with a `Lead type` column.
+General questions use the contact email shown on the site.

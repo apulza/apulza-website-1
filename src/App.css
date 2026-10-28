@@ -6879,3 +6879,654 @@ h2 { letter-spacing: -0.045em; }
     padding: 56px 0;
   }
 }
+
+/* Marketing page refinement --------------------------------------------- */
+.section {
+  padding-block: 96px;
+}
+
+#how.section-band {
+  margin-top: 48px;
+}
+
+#how .section {
+  padding-block: 82px;
+}
+
+.inside-inner {
+  padding-top: 88px;
+  padding-bottom: 92px;
+}
+
+.inside-inner > .section-intro {
+  margin-bottom: 56px;
+}
+
+.snippet-feature {
+  gap: 48px;
+}
+
+.snippet-feature + .snippet-feature {
+  margin-top: 76px;
+  padding-top: 76px;
+}
+
+.tiny-demo {
+  padding-block: 96px;
+}
+
+.clear-inner .section-intro {
+  margin-bottom: 40px;
+}
+
+.clear-card {
+  min-height: 190px;
+}
+
+.contact-inner {
+  padding-block: 82px;
+}
+
+.dash-card-label,
+.dash-continue-row small {
+  font-size: 0.69rem;
+}
+
+.dash-stat-card > p,
+.dash-courses-head p,
+.dash-continue-row em {
+  font-size: 0.76rem;
+}
+
+.dash-courses-head h3,
+.dash-course-row > strong,
+.dash-continue-row strong {
+  font-size: 0.86rem;
+}
+
+.dash-course-row > em,
+.dash-continue-row b,
+.dash-course-code {
+  font-size: 0.7rem;
+}
+
+.plan-summary > span,
+.plan-summary small,
+.snippet-card-head em {
+  font-size: 0.75rem;
+}
+
+.plan-summary p,
+.strategy-row p,
+.session-block {
+  font-size: 0.84rem;
+}
+
+.snippet-card-head h3,
+.strategy-row strong,
+.session-block strong {
+  font-size: 0.88rem;
+}
+
+.school-section {
+  padding-top: 52px;
+}
+
+.school-card {
+  grid-template-columns: minmax(0, 0.98fr) minmax(0, 1.02fr);
+  border-color: rgba(111, 44, 167, 0.14);
+  background: linear-gradient(140deg, #f9f3ec, #f2eafa 74%, #eef3f8);
+}
+
+.school-copy {
+  padding: clamp(32px, 4vw, 56px);
+}
+
+.school-copy h2 {
+  max-width: 11ch;
+}
+
+.school-copy .check-list {
+  margin-top: 24px;
+}
+
+.school-copy .check-list li {
+  line-height: 1.45;
+}
+
+.school-copy .button {
+  margin-top: 24px;
+}
+
+.school-copy .school-current-note {
+  margin-top: 14px;
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.school-visual {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: center;
+  gap: 18px;
+  border-left: 1px solid rgba(111, 44, 167, 0.12);
+  padding: clamp(24px, 3vw, 42px);
+  background: radial-gradient(circle at 85% 15%, rgba(182, 132, 220, 0.2), transparent 42%), #f8f4fa;
+}
+
+.school-concept {
+  overflow: hidden;
+  border: 1px solid rgba(111, 44, 167, 0.16);
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 24px 58px -34px rgba(64, 35, 79, 0.38);
+}
+
+.school-concept-topline,
+.school-concept-heading,
+.school-concept-row,
+.school-concept-explanation {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-inline: 20px;
+}
+
+.school-concept-topline {
+  min-height: 48px;
+  justify-content: space-between;
+  border-bottom: 1px solid #eee8f3;
+  background: #fbf9fd;
+  color: #6f2ca7;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.school-concept-topline span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.school-concept-topline small {
+  border-radius: 999px;
+  padding: 5px 8px;
+  background: #eee4f6;
+  color: #653085;
+  font-size: 0.65rem;
+  font-weight: 800;
+}
+
+.school-concept-heading {
+  min-height: 95px;
+  justify-content: space-between;
+}
+
+.school-concept-heading small {
+  color: #766c80;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+}
+
+.school-concept-heading h3 {
+  margin: 3px 0 0;
+  color: #241b2e;
+  font-family: Newsreader, Georgia, serif;
+  font-size: 1.7rem;
+  font-weight: 500;
+}
+
+.school-concept-heading > span {
+  border: 1px solid #e7deeb;
+  border-radius: 999px;
+  padding: 7px 10px;
+  color: #5b4c65;
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.school-concept-row {
+  min-height: 72px;
+  border-top: 1px solid #f0ebf4;
+}
+
+.school-avatar {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  flex: none;
+  place-items: center;
+  border-radius: 11px;
+  background: #efe5f7;
+  color: #6f2ca7;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+.school-avatar-blue {
+  background: #e6f1f6;
+  color: #2c7396;
+}
+
+.school-concept-row > div {
+  min-width: 0;
+  flex: 1;
+}
+
+.school-concept-row strong,
+.school-concept-row small {
+  display: block;
+}
+
+.school-concept-row strong {
+  color: #241b2e;
+  font-size: 0.82rem;
+}
+
+.school-concept-row small {
+  margin-top: 3px;
+  color: #766c80;
+  font-size: 0.72rem;
+}
+
+.school-concept-row em {
+  color: #6f2ca7;
+  font-size: 0.74rem;
+  font-style: normal;
+  font-weight: 750;
+}
+
+.school-concept-explanation {
+  align-items: flex-start;
+  margin: 14px;
+  border: 1px solid #e5d9ec;
+  border-radius: 14px;
+  padding: 14px;
+  background: #f8f2fb;
+}
+
+.school-concept-explanation > span {
+  color: #6f2ca7;
+}
+
+.school-concept-explanation strong {
+  color: #2b1d36;
+  font-size: 0.78rem;
+}
+
+.school-concept-explanation p {
+  margin: 4px 0 0;
+  color: #65556e;
+  font-size: 0.72rem;
+  line-height: 1.45;
+}
+
+.school-photo-strip {
+  height: 94px;
+  border: 1px solid rgba(111, 44, 167, 0.1);
+  border-radius: 17px;
+  background: linear-gradient(90deg, rgba(40, 25, 48, 0.25), transparent 60%), url('/assets/school-study-room.png') center 43% / cover;
+}
+
+.school-interest {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(32px, 6vw, 80px);
+  scroll-margin-top: 104px;
+  padding: 58px clamp(12px, 4vw, 50px) 0;
+}
+
+.school-interest h3 {
+  max-width: 13ch;
+  margin: 12px 0 0;
+  color: var(--ink);
+  font-family: Newsreader, Georgia, serif;
+  font-size: clamp(2.5rem, 4.2vw, 4rem);
+  font-weight: 500;
+  letter-spacing: -0.05em;
+  line-height: 0.98;
+}
+
+.school-interest > div > p:last-child {
+  max-width: 43ch;
+  margin-top: 20px;
+  color: var(--text-muted);
+  line-height: 1.65;
+}
+
+.school-demo-form {
+  max-width: 490px;
+  width: 100%;
+  margin-left: auto;
+}
+
+.clear-band .evidence-note a {
+  color: var(--primary);
+  font-weight: 750;
+  text-underline-offset: 3px;
+}
+
+.theme-dark .school-card {
+  background: #28211e;
+}
+
+.theme-dark .school-visual {
+  border-color: var(--border);
+  background: #211a26;
+}
+
+.theme-dark .school-demo-form {
+  background: var(--surface);
+}
+
+@media (max-width: 900px) {
+  .school-card,
+  .school-interest {
+    grid-template-columns: 1fr;
+  }
+
+  .school-visual {
+    border-top: 1px solid rgba(111, 44, 167, 0.12);
+    border-left: 0;
+  }
+
+  .school-demo-form {
+    max-width: none;
+  }
+}
+
+@media (max-width: 680px) {
+  .section {
+    padding-block: 72px;
+  }
+
+  #how .section,
+  .inside-inner {
+    padding-block: 66px;
+  }
+
+  .snippet-feature + .snippet-feature {
+    margin-top: 58px;
+    padding-top: 58px;
+  }
+
+  .tiny-demo {
+    padding-block: 70px;
+  }
+
+  .school-section {
+    padding-top: 40px;
+  }
+
+  .school-copy,
+  .school-visual {
+    padding: 24px;
+  }
+
+  .school-interest {
+    gap: 26px;
+    padding: 44px 0 0;
+  }
+
+  .school-photo-strip {
+    height: 70px;
+  }
+
+  .school-concept-topline,
+  .school-concept-heading,
+  .school-concept-row {
+    padding-inline: 13px;
+  }
+
+  .school-concept-heading h3 {
+    font-size: 1.45rem;
+  }
+
+  .school-concept-row small {
+    font-size: 0.68rem;
+  }
+
+  .contact-inner {
+    padding-block: 64px;
+  }
+}
+
+/* School audience: a quiet home teaser and a dedicated page. */
+.school-teaser {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.82fr);
+  align-items: stretch;
+  gap: 0;
+  overflow: hidden;
+  border: 1px solid rgba(111, 44, 167, 0.12);
+  border-radius: 32px;
+  margin-block: 82px;
+  padding: 0;
+  background: linear-gradient(125deg, #f6eee6, #f2eaf8);
+  box-shadow: 0 28px 76px -52px rgba(55, 34, 65, 0.38);
+}
+
+.school-teaser-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: clamp(32px, 4.6vw, 64px);
+}
+
+.school-teaser h2,
+.school-copy h2,
+.school-interest h3 {
+  color: var(--ink);
+  font-family: Newsreader, Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  line-height: 1.03;
+}
+
+.school-teaser h2 {
+  max-width: 15ch;
+  margin-top: 10px;
+  font-size: clamp(2.55rem, 4vw, 3.7rem);
+}
+
+.school-teaser-copy > p:not(.eyebrow) {
+  max-width: 48ch;
+  margin-top: 20px;
+  color: var(--text-muted);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.school-teaser .button {
+  margin-top: 26px;
+}
+
+.school-teaser small,
+.school-page-hero-copy > small {
+  display: block;
+  margin-top: 16px;
+  color: var(--text-muted);
+  font-size: 0.76rem;
+  line-height: 1.5;
+}
+
+.school-teaser-image {
+  min-height: 390px;
+  background: linear-gradient(90deg, rgba(43, 26, 52, 0.12), transparent 30%), url('/assets/school-study-room.png') center / cover;
+}
+
+.school-page-hero {
+  padding: 138px 32px 42px;
+  background: radial-gradient(circle at 5% 10%, rgba(188, 139, 220, 0.22), transparent 35%), linear-gradient(145deg, #fbf7f3, #f5edf8 70%, #edf3f8);
+}
+
+.school-page-hero-inner {
+  display: grid;
+  width: min(1160px, 100%);
+  min-height: 525px;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.9fr);
+  align-items: center;
+  gap: clamp(40px, 6vw, 86px);
+  margin-inline: auto;
+}
+
+.school-page-hero-copy {
+  padding-block: 30px;
+}
+
+.school-back-link {
+  display: inline-flex;
+  margin-bottom: 30px;
+  color: var(--primary);
+  font-size: 0.83rem;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.school-back-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.school-page-hero h1 {
+  max-width: 12ch;
+  margin-top: 12px;
+  color: var(--ink);
+  font-family: Newsreader, Georgia, serif;
+  font-size: clamp(3.35rem, 5.4vw, 5.5rem);
+  font-weight: 400;
+  letter-spacing: -0.045em;
+  line-height: 0.99;
+}
+
+.school-page-hero-copy > p:not(.eyebrow) {
+  max-width: 54ch;
+  margin-top: 26px;
+  color: var(--text-muted);
+  font-size: clamp(1rem, 1.3vw, 1.14rem);
+  line-height: 1.65;
+}
+
+.school-page-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px 28px;
+  margin-top: 30px;
+}
+
+.school-page-actions .text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--primary);
+  font-size: 0.9rem;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.school-page-actions .text-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.school-page-hero-image {
+  min-height: 510px;
+  border: 1px solid rgba(111, 44, 167, 0.1);
+  border-radius: 32px;
+  background: url('/assets/school-study-room.png') center / cover;
+  box-shadow: 0 35px 75px -42px rgba(49, 31, 53, 0.48);
+}
+
+.school-section {
+  padding-top: 76px;
+}
+
+.school-copy h2 {
+  max-width: 15ch;
+  font-size: clamp(2.5rem, 3.8vw, 3.6rem);
+}
+
+.school-interest h3 {
+  max-width: 15ch;
+  font-size: clamp(2.4rem, 3.9vw, 3.55rem);
+}
+
+.nav a[aria-current='page'] {
+  background: var(--primary-weak);
+  color: var(--primary);
+}
+
+.theme-dark .school-teaser,
+.theme-dark .school-page-hero {
+  border-color: var(--border);
+  background: linear-gradient(135deg, #28211f, #241b2b);
+}
+
+@media (max-width: 900px) {
+  .school-teaser,
+  .school-page-hero-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .school-teaser-image {
+    min-height: 260px;
+  }
+
+  .school-page-hero-image {
+    min-height: 340px;
+  }
+}
+
+@media (max-width: 680px) {
+  .school-teaser {
+    width: min(100% - 32px, 1160px);
+    border-radius: 26px;
+    margin-block: 56px;
+  }
+
+  .school-teaser-copy {
+    padding: 30px 25px;
+  }
+
+  .school-teaser h2 {
+    font-size: clamp(2.45rem, 11vw, 3.3rem);
+  }
+
+  .school-teaser-image {
+    min-height: 210px;
+  }
+
+  .school-page-hero {
+    padding: 112px 16px 22px;
+  }
+
+  .school-page-hero-inner {
+    gap: 24px;
+  }
+
+  .school-page-hero-copy {
+    padding-block: 10px;
+  }
+
+  .school-back-link {
+    margin-bottom: 24px;
+  }
+
+  .school-page-hero h1 {
+    font-size: clamp(3.2rem, 13vw, 4.5rem);
+  }
+
+  .school-page-hero-image {
+    min-height: 250px;
+    border-radius: 23px;
+  }
+
+  .school-section {
+    padding-top: 52px;
+  }
+}

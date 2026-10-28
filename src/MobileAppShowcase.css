@@ -581,3 +581,13 @@
     transition: none;
   }
 }
+
+.mobile-app-section {
+  padding-block: 88px;
+}
+
+@media (max-width: 680px) {
+  .mobile-app-section {
+    padding-block: 68px;
+  }
+}

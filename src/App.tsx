@@ -57,7 +57,7 @@ const navItems = [
   { label: 'How it works', href: '#how' },
   { label: 'Inside Apulza', href: '#inside' },
   { label: 'Safety & privacy', href: '#privacy' },
-  { label: 'For schools', href: '#schools' },
+  { label: 'For schools', href: '/schools' },
 ]
 
 const socialLinks = [
@@ -85,13 +85,13 @@ const steps = [
   {
     number: '1',
     title: 'Bring in a course',
-    body: 'Add a course by hand or connect Canvas, then keep its assignments and context in one place.',
+    body: 'Add a course yourself or bring in your course list from Canvas. Track assignments in Apulza.',
     demo: 'account',
   },
   {
     number: '2',
     title: 'Get a plan that fits',
-    body: 'Turn that course into practical strategies, focus blocks, breaks, and a rhythm you can adjust.',
+    body: 'Use your course and assignment details to shape focus blocks, breaks, and a rhythm you can adjust.',
     demo: 'courses',
   },
   {
@@ -109,10 +109,9 @@ const showcasePoints = [
 ]
 
 const schoolPoints = [
-  'Course-aware tutoring stays within academic-integrity boundaries.',
-  'Each support score explains the contribution of attendance, grades, assignments, LMS activity, and missed deadlines.',
-  'Support profiles can change factor weights—for example, attendance when a student has an accommodation.',
-  'Counselors work from their assigned caseload with trends, notes, and follow-ups.',
+  'Students can work with course-specific plans and hints that support their own learning.',
+  'The proposed counselor view would explain why a student may benefit from a check-in.',
+  'A school pilot would define data sources, staff access, and student notice before launch.',
 ]
 
 const clearPrinciples = [
@@ -133,18 +132,18 @@ const clearPrinciples = [
 
 const trustEvidence = [
   {
-    title: 'Sensitive by default',
-    body: 'Course, study, and mental-health preferences are treated as sensitive information and used to personalize support.',
+    title: 'Student beta first',
+    body: 'This first round is for students 18 and older. Schools and counselors have no access to their beta data.',
     icon: <IconShield />,
   },
   {
-    title: 'Clear counselor access',
-    body: 'Partner-school counselors see explainable support signals for students in their assigned caseload.',
+    title: 'Preferences are optional',
+    body: 'Students can skip support preferences. The beta terms explain what is stored and how AI providers are used.',
     icon: <IconHeart />,
   },
   {
-    title: 'Crisis support comes first',
-    body: 'When Apulza detects a crisis message, reviewed support resources appear before tutoring or usage limits.',
+    title: 'School access comes later',
+    body: 'A future school pilot would need its own scope, access rules, updated terms, and student notice.',
     icon: <IconBookmark />,
   },
 ]
@@ -167,12 +166,12 @@ const faqs = [
   {
     question: 'Is my data private?',
     answer:
-      'Your study and support information is sensitive. At partner schools, authorized counselors can see explainable support signals for students in their assigned caseload; the student experience does not use public rankings or leaderboards.',
+      'In the current student beta, schools and counselors cannot see your data. The beta terms explain what the Apulza team stores and which outside AI provider helps generate recommendations.',
   },
   {
     question: 'Can my school use it?',
     answer:
-      'Yes. Apulza pairs course-aware student support with an early-warning workspace that helps counselors see who may need a check-in and why.',
+      'The current beta is for students 18 and older. We are speaking with schools about a later pilot with an explainable counselor workspace.',
   },
   {
     question: 'Will MyTutor write my assignment?',
@@ -633,25 +632,25 @@ function EditorialHero() {
       <div className="hero-inner">
         <div className="hero-copy">
           <h1>
-            When studying gets hard, <em>start here.</em>
+            Course-aware study support, <em>one step at a time.</em>
           </h1>
           <p className="hero-lede">
-            Built for students managing ADHD, anxiety, or depression. Add courses or connect Canvas,
-            get a plan for each one, and use MyTutor hints that help you do your own work.
+            Bring in your courses, shape a flexible plan, and get MyTutor hints that help you do
+            your own work. Designed with ADHD, anxiety, and low-energy days in mind.
           </p>
           <div className="hero-actions hero-actions-left">
-            <ButtonLink href="#tutor">
-              See how MyTutor works
+            <ButtonLink href="#beta">
+              Join the student beta
               <IconArrow />
             </ButtonLink>
-            <ButtonLink href="#beta" variant="secondary">
-              Join the beta
+            <ButtonLink href="#how" variant="secondary">
+              Explore how it works
             </ButtonLink>
           </div>
           <div className="hero-proof" aria-label="Apulza product qualities">
             <span><IconCheck /> Free to start</span>
             <span><IconCheck /> No card needed</span>
-            <span><IconCheck /> Canvas course import</span>
+            <span><IconCheck /> Student beta · 18+</span>
           </div>
         </div>
 
@@ -712,8 +711,8 @@ function EditorialHero() {
         </div>
       </div>
       <div className="hero-bottom-line">
-        <span>Course-aware support for students. Earlier signals for counselors.</span>
-        <a href="#promises">Scroll to explore <IconChevron open /></a>
+        <span>Helping students now. Exploring a future pilot with schools.</span>
+        <a href="/schools">Explore the school pilot <IconArrow size={14} /></a>
       </div>
     </section>
   )
@@ -1411,7 +1410,7 @@ function BetaSignupForm() {
         type="submit"
         disabled={submissionState === 'submitting'}
       >
-        {submissionState === 'submitting' ? 'Signing you up…' : 'Join the beta'}
+        {submissionState === 'submitting' ? 'Signing you up…' : 'Join the student beta'}
         <IconArrow />
       </button>
       <p className="form-note">
@@ -1427,6 +1426,169 @@ function BetaSignupForm() {
         </p>
       ) : null}
     </form>
+  )
+}
+
+type SchoolInquiryState = 'idle' | 'submitting' | 'success' | 'error'
+
+function SchoolDemoForm() {
+  const [submissionState, setSubmissionState] = useState<SchoolInquiryState>('idle')
+  const [errorMessage, setErrorMessage] = useState('')
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    const formElement = event.currentTarget
+    setSubmissionState('submitting')
+    setErrorMessage('')
+
+    try {
+      const response = await fetch('/api/school-inquiry', {
+        method: 'POST',
+        body: new FormData(formElement),
+      })
+      if (response.ok) {
+        formElement.reset()
+        setSubmissionState('success')
+        return
+      }
+      const body = (await response.json().catch(() => null)) as { error?: string } | null
+      setErrorMessage(body?.error ?? '')
+    } catch {
+      setErrorMessage('')
+    }
+    setSubmissionState('error')
+  }
+
+  return (
+    <form className="demo-form school-demo-form" onSubmit={handleSubmit}>
+      <input className="form-honeypot" name="_gotcha" type="text" tabIndex={-1} autoComplete="off" aria-hidden="true" />
+      <label>
+        <span>Your name</span>
+        <input name="name" type="text" autoComplete="name" placeholder="Alex Rivera" maxLength={100} required />
+      </label>
+      <label>
+        <span>Work email</span>
+        <input name="email" type="email" autoComplete="email" placeholder="alex@school.edu" maxLength={254} required />
+      </label>
+      <label>
+        <span>School or organization</span>
+        <input name="organization" type="text" autoComplete="organization" placeholder="Your school" maxLength={150} required />
+      </label>
+      <button className="button demo-submit" type="submit" disabled={submissionState === 'submitting'}>
+        {submissionState === 'submitting' ? 'Sending your request…' : 'Request a school conversation'}
+        <IconArrow />
+      </button>
+      <p className="form-note">We will use these details only to reply. Please do not include student information.</p>
+      {submissionState === 'success' ? (
+        <p className="form-status" data-state="success" role="status">Thanks. We will follow up by email.</p>
+      ) : null}
+      {submissionState === 'error' ? (
+        <p className="form-status" data-state="error" role="status">
+          {errorMessage || 'We could not save your request.'} Please try again or email apulzaai@outlook.com.
+        </p>
+      ) : null}
+    </form>
+  )
+}
+
+function SchoolTeaser() {
+  return (
+    <section className="section school-teaser" id="schools" aria-labelledby="school-teaser-title">
+      <div className="school-teaser-copy motion-reveal">
+        <p className="eyebrow">For schools · future pilot</p>
+        <h2 id="school-teaser-title">A calmer way to see who may need a check-in.</h2>
+        <p>
+          We are exploring a school pilot that could pair Apulza’s student tools with an
+          explainable workspace for counselors. See the concept and tell us what your school needs.
+        </p>
+        <a className="button" href="/schools">Explore Apulza for schools <IconArrow /></a>
+        <small>The current beta is for students 18 and older. School access comes later.</small>
+      </div>
+      <div className="school-teaser-image motion-reveal" role="img" aria-label="Sunlit school study space" />
+    </section>
+  )
+}
+
+function SchoolPageHero() {
+  return (
+    <section className="school-page-hero" id="top" aria-labelledby="school-page-title">
+      <div className="school-page-hero-inner">
+        <div className="school-page-hero-copy motion-reveal">
+          <a className="school-back-link" href="/">← Student experience</a>
+          <p className="eyebrow">Apulza for schools · future pilot</p>
+          <h1 id="school-page-title">Support between check-ins.</h1>
+          <p>
+            We are exploring a school experience that helps counselors understand when a student
+            may benefit from a conversation, while keeping people in charge of every decision.
+          </p>
+          <div className="school-page-actions">
+            <a className="button" href="#school-demo">Discuss a school pilot <IconArrow /></a>
+            <a className="text-link" href="#schools-overview">See the concept <IconArrow /></a>
+          </div>
+          <small>Concept only. The current student beta is for ages 18+ and has no school access.</small>
+        </div>
+        <div className="school-page-hero-image motion-reveal" role="img" aria-label="Students studying together in a bright school space" />
+      </div>
+    </section>
+  )
+}
+
+function SchoolSection() {
+  return (
+    <section className="section school-section" id="schools-overview" aria-labelledby="schools-title">
+      <div className="school-card motion-reveal">
+        <div className="school-copy">
+          <p className="eyebrow">The concept</p>
+          <h2 id="schools-title">Useful context for the people who care.</h2>
+          <p>
+            A future pilot could pair the student companion with a counselor workspace that
+            explains why a check-in may help. Staff would review the context and choose how to respond.
+          </p>
+          <ul className="check-list">
+            {schoolPoints.map((point) => (
+              <li key={point}><IconCheck /><span>{point}</span></li>
+            ))}
+          </ul>
+          <a className="button" href="#school-demo">Discuss a school pilot <IconArrow /></a>
+          <p className="school-current-note">No schools or counselors have access to the current student beta.</p>
+        </div>
+        <div className="school-visual" aria-label="Illustrative concept of a future counselor workspace">
+          <div className="school-concept">
+            <div className="school-concept-topline">
+              <span><IconSpark size={16} /> Apulza for schools</span>
+              <small>Concept preview</small>
+            </div>
+            <div className="school-concept-heading">
+              <div><small>ASSIGNED CASELOAD</small><h3>Support overview</h3></div>
+              <span>12 students</span>
+            </div>
+            <div className="school-concept-row">
+              <span className="school-avatar">MK</span>
+              <div><strong>Maya K.</strong><small>Check-in suggested · English 201</small></div>
+              <em>Review</em>
+            </div>
+            <div className="school-concept-row">
+              <span className="school-avatar school-avatar-blue">JL</span>
+              <div><strong>Jordan L.</strong><small>Follow-up recorded · Biology</small></div>
+              <em>View</em>
+            </div>
+            <div className="school-concept-explanation">
+              <span><IconShield size={17} /></span>
+              <div><strong>Context before action</strong><p>A staff member reviews the reasons for a suggested check-in and decides what to do next.</p></div>
+            </div>
+          </div>
+          <div className="school-photo-strip" aria-hidden="true" />
+        </div>
+      </div>
+      <div className="school-interest" id="school-demo">
+        <div>
+          <p className="eyebrow">Start a conversation</p>
+          <h3>Help shape a responsible school pilot.</h3>
+          <p>Tell us where you work. We will share what students can try now and discuss data, access, and setup before any future pilot.</p>
+        </div>
+        <SchoolDemoForm />
+      </div>
+    </section>
   )
 }
 
@@ -1569,6 +1731,7 @@ function AccessibilityMenu({ isOpen, onToggle, settings, onChange }: Accessibili
 }
 
 function App() {
+  const isSchoolsPage = window.location.pathname.replace(/\/+$/, '') === '/schools'
   const [openFaq, setOpenFaq] = useState(0)
   const [accessibilitySettings, setAccessibilitySettings] = useState(loadAccessibilitySettings)
   const [accessibilityOpen, setAccessibilityOpen] = useState(false)
@@ -1582,6 +1745,15 @@ function App() {
   useEffect(() => {
     window.localStorage.setItem(accessibilityStorageKey, JSON.stringify(accessibilitySettings))
   }, [accessibilitySettings])
+
+  useEffect(() => {
+    if (!isSchoolsPage) return
+    document.title = 'Apulza for schools — Explore a future pilot'
+    document.querySelector<HTMLMetaElement>('meta[name="description"]')?.setAttribute(
+      'content',
+      'Explore a future Apulza school pilot: student study support paired with an explainable counselor workspace and human-led check-ins.',
+    )
+  }, [isSchoolsPage])
 
   useEffect(() => {
     document.documentElement.dataset.apulzaTextSize = accessibilitySettings.textSize
@@ -1730,7 +1902,7 @@ function App() {
           aria-label="Primary navigation"
         >
           {navItems.map((item) => (
-            <a href={item.href} key={item.href} onClick={() => {
+            <a href={isSchoolsPage && item.href.startsWith('#') ? `/${item.href}` : item.href} key={item.href} aria-current={isSchoolsPage && item.href === '/schools' ? 'page' : undefined} onClick={() => {
               setMobileMenuOpen(false)
               setAccessibilityOpen(false)
             }}>
@@ -1756,8 +1928,8 @@ function App() {
             settings={accessibilitySettings}
             onChange={setAccessibilitySettings}
           />
-          <a className="nav-cta" href="#beta" onClick={() => setMobileMenuOpen(false)}>
-            Join the beta
+          <a className="nav-cta" href={isSchoolsPage ? '/#beta' : '#beta'} onClick={() => setMobileMenuOpen(false)}>
+            Join beta
           </a>
         </nav>
         <button
@@ -1775,6 +1947,13 @@ function App() {
         </button>
       </header>
 
+      {isSchoolsPage ? (
+        <>
+          <SchoolPageHero />
+          <SchoolSection />
+        </>
+      ) : (
+        <>
       <EditorialHero />
 
       <section className="trust-strip" id="promises" aria-label="Product promises">
@@ -1798,8 +1977,8 @@ function App() {
           <p className="eyebrow motion-reveal">How it works</p>
           <h2 className="motion-reveal">Three small steps to get started.</h2>
           <p className="section-lede motion-reveal">
-            Add a course manually or connect Canvas. Apulza carries its assignments and syllabus
-            into your plan and the help you get from MyTutor.
+            Add a course yourself or bring in your course list from Canvas. Track assignments in
+            Apulza, then use that context to plan your work and ask MyTutor for help.
           </p>
           <div className="step-grid">
             {steps.map((step) => (
@@ -1845,9 +2024,9 @@ function App() {
               <p className="eyebrow">Safety & privacy</p>
               <h2 id="privacy-title">Support works better when its boundaries are clear.</h2>
               <p>
-                Apulza uses course and support context to help students learn. At partner schools,
-                authorized counselors can also see explainable signals for students on their caseload,
-                so they can reach out earlier.
+                The current beta is for adult students. Schools and counselors do not receive
+                access or risk scores in this round. A future school pilot would be introduced
+                with updated terms and notice before it applies to students.
               </p>
             </div>
             <div className="evidence-grid" aria-label="Safety and privacy commitments">
@@ -1860,7 +2039,8 @@ function App() {
               ))}
             </div>
             <p className="evidence-note">
-              Apulza is a study support tool, not medical care or a replacement for a counselor.
+              Apulza is study support, not medical care or a replacement for a counselor. Read the{' '}
+              <a href="/beta-terms.html" target="_blank" rel="noopener">current beta terms</a> for data details.
             </p>
           </section>
           <div className="section-intro motion-reveal">
@@ -1888,40 +2068,7 @@ function App() {
         </div>
       </section>
 
-      <section className="section school-section" id="schools">
-        <CatEasterEgg
-          cat="cloud"
-          className="school-cat-egg"
-          found={foundCats.includes('cloud')}
-          message="Cloud says calm support belongs in every study space."
-          onDiscover={discoverCat}
-        />
-        <div className="school-card motion-reveal">
-          <div className="school-copy">
-            <p className="eyebrow">For schools and counselors</p>
-            <h2>See who needs a check-in before the transcript does.</h2>
-            <p>
-              Students get course-specific plans and guided tutoring. Counselors get a nightly,
-              explainable early-warning view and a place to record check-ins and follow-ups.
-            </p>
-            <ul className="check-list">
-              {schoolPoints.map((point) => (
-                <li key={point}>
-                  <IconCheck />
-                  <span>{point}</span>
-                </li>
-              ))}
-            </ul>
-            <ButtonLink href="mailto:apulzaai@outlook.com?subject=Apulza%20school%20demo">Request a school demo</ButtonLink>
-          </div>
-          <div className="school-image">
-            <img
-              src="/assets/school-study-room.png"
-              alt="A calm, sunlit study space with students working quietly."
-            />
-          </div>
-        </div>
-      </section>
+      <SchoolTeaser />
 
       <section className="contact-section beta-section" id="beta" aria-labelledby="beta-title">
         <div className="contact-inner">
@@ -1929,8 +2076,9 @@ function App() {
             <p className="eyebrow">Beta testers</p>
             <h2 id="beta-title">Try Apulza with your courses.</h2>
             <p>
-              We're inviting a small group of students to test course plans, MyTutor hints, and
-              the dashboard. Tell us what helps and what gets in the way. Signing up takes about a minute.
+              We're inviting students 18 and older to test the dashboard, course plans, and
+              MyTutor. Schools and counselors are not part of this first round. Signing up takes
+              about a minute.
             </p>
             <div className="contact-paths" aria-label="What beta testing involves">
               <article>
@@ -1999,7 +2147,8 @@ function App() {
             <p className="eyebrow">Contact us</p>
             <h2 id="contact-title">Let’s talk.</h2>
             <p>
-              For school demos, questions, collaborations, and press, email our team directly.
+              For questions, collaborations, and press, email our team directly. Schools can{' '}
+              <a href="/schools#school-demo">request a pilot conversation</a>.
             </p>
           </div>
           <a className="button contact-email" href="mailto:apulzaai@outlook.com?subject=Apulza%20inquiry">
@@ -2007,26 +2156,29 @@ function App() {
           </a>
         </div>
       </section>
+        </>
+      )}
 
       <footer className="footer">
-        <CatEasterEgg
+        {!isSchoolsPage && <CatEasterEgg
           cat="feather"
           className="footer-cat-egg"
           found={foundCats.includes('feather')}
           message="Feather waited here in case you needed quiet company."
           onDiscover={discoverCat}
-        />
+        />}
         <div className="footer-inner">
           <div className="footer-brand">
             <Brand />
             <p>
               Course-specific plans, guided tutoring, and a dashboard that remembers where you left off.
-              Partner schools also get explainable signals for earlier support.
+              We're exploring a future school pilot for earlier, explainable support.
             </p>
             <nav className="footer-links" aria-label="Footer navigation">
-              <a href="#privacy">Safety & privacy</a>
-              <a href="#beta">Join the beta</a>
-              <a href="#contact">Contact us</a>
+              <a href={isSchoolsPage ? '/#privacy' : '#privacy'}>Safety & privacy</a>
+              <a href={isSchoolsPage ? '/#beta' : '#beta'}>Student beta</a>
+              <a href="/schools">For schools</a>
+              <a href={isSchoolsPage ? '/#contact' : '#contact'}>Contact us</a>
             </nav>
             <p className="footer-contact">Email us at <a href="mailto:apulzaai@outlook.com">apulzaai@outlook.com</a></p>
             <div className="footer-socials" aria-label="Follow Apulza">
@@ -2053,7 +2205,7 @@ function App() {
         </div>
         <div className="footer-bottom">
           <span>© 2026 Apulza - Built on CLEAR</span>
-          <span>Course-aware plans. Guided hints. Earlier support.</span>
+          <span>Course-aware plans. Guided hints. A future school pilot.</span>
         </div>
       </footer>
 

@@ -71,7 +71,7 @@ function pickAllowed<T extends string>(values: FormDataEntryValue[], allowed: re
 
 type SheetRow = Record<string, string>
 
-async function copyToSheet(env: Env, signupId: number, row: SheetRow) {
+async function copyToSheet(env: Env, table: 'beta_signups' | 'school_inquiries', rowId: number, row: SheetRow) {
   if (!env.SHEETS_WEBHOOK_URL || !env.SHEETS_WEBHOOK_SECRET) return
 
   try {
@@ -84,16 +84,16 @@ async function copyToSheet(env: Env, signupId: number, row: SheetRow) {
     const result = (await response.json().catch(() => null)) as { ok?: boolean; error?: string } | null
 
     if (!response.ok || !result?.ok) {
-      console.error('beta signup sheet copy rejected', signupId, response.status, result?.error)
+      console.error('sheet copy rejected', table, rowId, response.status, result?.error)
       return
     }
 
-    await env.DB.prepare(`UPDATE beta_signups SET sheet_synced_at = datetime('now') WHERE id = ?`)
-      .bind(signupId)
+    await env.DB.prepare(`UPDATE ${table} SET sheet_synced_at = datetime('now') WHERE id = ?`)
+      .bind(rowId)
       .run()
   } catch (error) {
     // The sign-up is still safe in D1; rows with sheet_synced_at IS NULL can be re-sent.
-    console.error('beta signup sheet copy failed', signupId, error)
+    console.error('sheet copy failed', table, rowId, error)
   }
 }
 
@@ -169,6 +169,7 @@ async function handleBetaSignup(request: Request, env: Env, ctx: ExecutionContex
 
   const sheetRow: SheetRow = {
     'Signed up (UTC)': new Date().toISOString().slice(0, 16).replace('T', ' '),
+    'Lead type': 'Student beta',
     Name: name,
     Email: email,
     Role: roleLabels[role],
@@ -183,8 +184,52 @@ async function handleBetaSignup(request: Request, env: Env, ctx: ExecutionContex
     'Signup ID': String(signupId),
   }
   // Don't make the person wait on Google; the Worker finishes this after responding.
-  ctx.waitUntil(copyToSheet(env, signupId, sheetRow))
+  ctx.waitUntil(copyToSheet(env, 'beta_signups', signupId, sheetRow))
 
+  return json({ ok: true }, 201)
+}
+
+async function handleSchoolInquiry(request: Request, env: Env, ctx: ExecutionContext) {
+  if (Number(request.headers.get('content-length') ?? 0) > 10_000) {
+    return json({ error: 'Submission is too large.' }, 413)
+  }
+
+  let form: FormData
+  try {
+    form = await request.formData()
+  } catch {
+    return json({ error: 'Could not read the form.' }, 400)
+  }
+
+  if (String(form.get('_gotcha') ?? '').trim()) return json({ ok: true })
+
+  const name = text(form, 'name', 100)
+  const email = text(form, 'email', 254)?.toLowerCase()
+  const organization = text(form, 'organization', 150)
+  if (!name || !email || !emailPattern.test(email) || !organization) {
+    return json({ error: 'Please add your name, work email, and school or organization.' }, 400)
+  }
+
+  let inquiryId: number
+  try {
+    const result = await env.DB.prepare(
+      `INSERT INTO school_inquiries (name, email, organization) VALUES (?, ?, ?)`,
+    ).bind(name, email, organization).run()
+    inquiryId = result.meta.last_row_id
+  } catch (error) {
+    console.error('school inquiry insert failed', error)
+    return json({ error: 'Something went wrong on our side.' }, 500)
+  }
+
+  const sheetRow: SheetRow = {
+    'Signed up (UTC)': new Date().toISOString().slice(0, 16).replace('T', ' '),
+    'Lead type': 'School pilot conversation',
+    Name: name,
+    Email: email,
+    School: organization,
+    'Inquiry ID': String(inquiryId),
+  }
+  ctx.waitUntil(copyToSheet(env, 'school_inquiries', inquiryId, sheetRow))
   return json({ ok: true }, 201)
 }
 
@@ -201,6 +246,11 @@ export default {
     if (url.pathname === '/api/beta-signup') {
       if (request.method !== 'POST') return json({ error: 'Method not allowed.' }, 405)
       return handleBetaSignup(request, env, ctx)
+    }
+
+    if (url.pathname === '/api/school-inquiry') {
+      if (request.method !== 'POST') return json({ error: 'Method not allowed.' }, 405)
+      return handleSchoolInquiry(request, env, ctx)
     }
 
     return env.ASSETS.fetch(request)
