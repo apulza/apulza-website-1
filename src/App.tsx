@@ -2112,7 +2112,7 @@ function App() {
 
       <section className="section-band faq-band" id="faq">
         <div className="section faq-section">
-          <div className="section-intro centered">
+          <div className="section-intro centered motion-reveal">
             <p className="eyebrow">Questions</p>
             <h2>The things people ask first.</h2>
           </div>
@@ -2129,10 +2129,12 @@ function App() {
                     onClick={() => setOpenFaq(isOpen ? -1 : index)}
                   >
                     <span>{faq.question}</span>
-                    <IconChevron open={isOpen} />
+                    <span className="faq-chevron"><IconChevron open={isOpen} /></span>
                   </button>
-                  <div id={`faq-answer-${index}`} hidden={!isOpen}>
-                    <p>{faq.answer}</p>
+                  <div className="faq-answer" id={`faq-answer-${index}`} aria-hidden={!isOpen} inert={!isOpen}>
+                    <div className="faq-answer-inner">
+                      <p>{faq.answer}</p>
+                    </div>
                   </div>
                 </div>
               )
