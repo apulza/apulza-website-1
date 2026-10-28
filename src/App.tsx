@@ -103,9 +103,9 @@ const steps = [
 ] as const
 
 const showcasePoints = [
-  'Return to the course, notes, and next step you were working on.',
-  'Arrange or hide dashboard widgets to match what helps you focus.',
-  'See this month’s progress in context, without an all-time scoreboard.',
+  'Resume the course, notes, and next step you left open.',
+  'Move, resize, or hide dashboard widgets and save your layout.',
+  'See study minutes and completed work for this month, with context.',
 ]
 
 const schoolPoints = [
@@ -205,6 +205,40 @@ function handleTilePointerMove(event: ReactPointerEvent<HTMLElement>) {
 function resetTileTilt(event: ReactPointerEvent<HTMLElement>) {
   event.currentTarget.style.setProperty('--tilt-x', '0deg')
   event.currentTarget.style.setProperty('--tilt-y', '0deg')
+}
+
+function handleHeroCardPointerMove(event: ReactPointerEvent<HTMLElement>) {
+  if (event.pointerType !== 'mouse' || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    return
+  }
+
+  const card = event.currentTarget
+  const bounds = card.getBoundingClientRect()
+  const x = (event.clientX - bounds.left) / bounds.width
+  const y = (event.clientY - bounds.top) / bounds.height
+  const strength = Number(card.dataset.hoverStrength ?? '1')
+
+  card.style.setProperty('--hero-shift-x', `${(x - 0.5) * 12 * strength}px`)
+  card.style.setProperty('--hero-shift-y', `${((y - 0.5) * 8 - 2) * strength}px`)
+}
+
+function resetHeroCardPosition(event: ReactPointerEvent<HTMLElement>) {
+  const nextTarget = event.relatedTarget
+  if (nextTarget instanceof Node && event.currentTarget.contains(nextTarget)) return
+
+  event.currentTarget.style.setProperty('--hero-shift-x', '0px')
+  event.currentTarget.style.setProperty('--hero-shift-y', '0px')
+}
+
+function resetUnhoveredHeroCards(event: ReactPointerEvent<HTMLElement>) {
+  if (event.pointerType !== 'mouse') return
+
+  const hoveredCard = event.target instanceof Element ? event.target.closest('.hero-hover-card') : null
+  event.currentTarget.querySelectorAll<HTMLElement>('.hero-hover-card').forEach((card) => {
+    if (card === hoveredCard) return
+    card.style.setProperty('--hero-shift-x', '0px')
+    card.style.setProperty('--hero-shift-y', '0px')
+  })
 }
 
 function IconCheck({ className, size = 15 }: IconProps) {
@@ -587,7 +621,7 @@ function StepDemo({ kind }: { kind: (typeof steps)[number]['demo'] }) {
 
 function EditorialHero() {
   return (
-    <section className="hero hero-editorial" id="top">
+    <section className="hero hero-editorial" id="top" onPointerMove={resetUnhoveredHeroCards}>
       <img
         className="hero-background"
         src="/assets/hero-landscape.png"
@@ -595,15 +629,15 @@ function EditorialHero() {
         aria-hidden="true"
       />
       <div className="hero-scrim" aria-hidden="true" />
+      <div className="hero-aurora hero-aurora-two" aria-hidden="true" />
       <div className="hero-inner">
         <div className="hero-copy">
-          <p className="hero-positioning">Study support designed around ADHD, anxiety, and depression</p>
           <h1>
             When studying gets hard, <em>start here.</em>
           </h1>
           <p className="hero-lede">
-            Apulza turns your courses into workable plans. When you get stuck, MyTutor guides you
-            with hints instead of doing the assignment for you.
+            Built for students managing ADHD, anxiety, or depression. Add courses or connect Canvas,
+            get a plan for each one, and use MyTutor hints that help you do your own work.
           </p>
           <div className="hero-actions hero-actions-left">
             <ButtonLink href="#tutor">
@@ -617,30 +651,68 @@ function EditorialHero() {
           <div className="hero-proof" aria-label="Apulza product qualities">
             <span><IconCheck /> Free to start</span>
             <span><IconCheck /> No card needed</span>
+            <span><IconCheck /> Canvas course import</span>
           </div>
         </div>
 
         <div className="hero-scenic-visual">
+          <div className="hero-orbit hero-orbit-one" aria-hidden="true"><i /></div>
+          <div className="hero-orbit hero-orbit-two" aria-hidden="true"><i /></div>
+          <div
+            className="hero-rhythm-card hero-hover-card"
+            data-hover-strength="1.1"
+            aria-hidden="true"
+            onPointerMove={handleHeroCardPointerMove}
+            onPointerLeave={resetHeroCardPosition}
+            onPointerOut={resetHeroCardPosition}
+          >
+            <div className="hero-rhythm-head">
+              <span><IconSpark size={14} /> English 201 plan</span>
+              <i>Move anytime</i>
+            </div>
+            <div className="hero-rhythm-step is-complete">
+              <span><IconCheck size={12} /></span>
+              <p><strong>Review the prompt</strong><small>2 min · completed</small></p>
+            </div>
+            <div className="hero-rhythm-step is-current">
+              <span>2</span>
+              <p><strong>Choose one passage</strong><small>Your next small step</small></p>
+              <em>Now</em>
+            </div>
+            <div className="hero-rhythm-rest">
+              <IconHeart size={13} /> Move or skip a session without penalty.
+            </div>
+          </div>
           <article
-            className="hero-focus-card"
+            className="hero-focus-card hero-hover-card"
+            data-hover-strength="0.75"
             aria-label="A glimpse inside Apulza"
+            onPointerMove={handleHeroCardPointerMove}
+            onPointerLeave={resetHeroCardPosition}
+            onPointerOut={resetHeroCardPosition}
           >
             <div className="hero-focus-head">
               <span><IconSpark size={15} /> MyTutor · English 201</span>
               <i>Guided hint</i>
             </div>
             <h2>Rhetorical analysis</h2>
-            <p>Work through the idea, one question at a time.</p>
+            <p>Work through the assignment without handing over the answer.</p>
             <div className="hero-task-row">
               <span className="hero-task-check"><IconSpark size={13} /></span>
-              <span><strong>What makes this passage support your point?</strong><small>A question to help you find your own answer</small></span>
+              <span><strong>What makes this passage support your point?</strong><small>Start with your own words</small></span>
+              <a href="#tutor" aria-label="See how MyTutor works"><IconArrow size={14} /></a>
             </div>
-            <small className="hero-progress-note">Course context stays with the conversation.</small>
+            <div className="hero-progress"><span /></div>
+            <small className="hero-progress-note">Hints build as you need more help.</small>
           </article>
+          <div className="hero-float-chip hero-float-chip-bottom">
+            <span><IconSpark size={16} /></span>
+            <p><small>Plan adjusted</small><strong>For a lower-energy day</strong></p>
+          </div>
         </div>
       </div>
       <div className="hero-bottom-line">
-        <span>Help that keeps the work yours.</span>
+        <span>Course-aware support for students. Earlier signals for counselors.</span>
         <a href="#promises">Scroll to explore <IconChevron open /></a>
       </div>
     </section>
@@ -998,20 +1070,20 @@ function ProductSnippets({
         />
         <div className="section-intro centered motion-reveal">
           <p className="eyebrow">Inside Apulza</p>
-          <h2 id="inside-title">Support from the first step to the next one.</h2>
+          <h2 id="inside-title">Courses, plans, and tutoring in one place.</h2>
           <p className="section-lede">
-            Your courses, plan, tutor, and focus tools stay connected—so returning to the work
-            takes less effort.
+            Assignments feed the dashboard, course-specific plans turn into movable sessions, and
+            MyTutor uses the same course context when you ask for help.
           </p>
         </div>
         <article className="snippet-feature snippet-feature-dashboard">
           <div className="snippet-copy motion-reveal">
             <span className="snippet-number">01</span>
             <p className="eyebrow">Orient</p>
-            <h3>Come back to the work already in motion.</h3>
+            <h3>See what is due and pick up where you left off.</h3>
             <p>
-              Arrange the dashboard around what helps you focus. Your next action and this month’s
-              progress are there when you return.
+              Put your assignments, next action, and study progress on one dashboard. Arrange the
+              widgets around what helps you focus; your layout is saved for next time.
             </p>
             <ul className="snippet-benefits">
               {showcasePoints.map((point) => <li key={point}><IconCheck /> {point}</li>)}
@@ -1025,12 +1097,12 @@ function ProductSnippets({
             <p className="eyebrow">AI study plans</p>
             <h3>A study plan built for your course and your needs.</h3>
             <p>
-              When focus is scattered, try a short block. When anxiety rises, choose clear structure
-              and a grounding reset. On low-energy days, move a session without losing progress.
+              Each course gets strategies with a reason, timed focus blocks with breaks, and a
+              weekly template shaped by the support needs you choose. Move or skip a session without penalty.
             </p>
             <ul className="snippet-benefits">
-              <li><IconCheck /> Course-specific strategies, each with a purpose</li>
-              <li><IconCheck /> Sessions you can move or skip without penalty</li>
+              <li><IconCheck /> Course-specific strategies and accommodations to consider</li>
+              <li><IconCheck /> Focus blocks, breaks, and sessions you control</li>
             </ul>
           </div>
           <div className="snippet-frame motion-reveal"><StudyPlanSnippet /></div>
@@ -1041,12 +1113,12 @@ function ProductSnippets({
             <p className="eyebrow">MyTutor · guided learning</p>
             <h3>A tutor that teaches, one hint at a time.</h3>
             <p>
-              MyTutor knows the course and assignment. It answers factual questions directly, then
-              uses guided hints when the student asks it to do the assignment for them.
+              MyTutor can use your syllabus and assignment context. It answers factual questions
+              directly; for assignment work, it asks a question first and builds toward stronger hints.
             </p>
             <ul className="snippet-benefits">
-              <li><IconCheck /> More scaffolding when a concept needs it</li>
-              <li><IconCheck /> Remembers progress by concept across sessions</li>
+              <li><IconCheck /> Guided help without writing the assignment for you</li>
+              <li><IconCheck /> Remembers how much help each concept needed</li>
             </ul>
           </div>
           <div className="snippet-frame motion-reveal"><MyTutorSnippet /></div>
@@ -1070,8 +1142,8 @@ function ProductSnippets({
         <div className="support-tools motion-reveal" aria-labelledby="support-tools-title">
           <div className="support-tools-intro">
             <p className="eyebrow">Support for the moment</p>
-            <h3 id="support-tools-title">Useful when you need it. Quiet when you do not.</h3>
-            <p>These tools stay close without becoming another routine to maintain.</p>
+            <h3 id="support-tools-title">Breathing, café rewards, and practical resources.</h3>
+            <p>Choose a breathing pace, customize your café cats, or open practical ADHD resources from the same place you study.</p>
           </div>
           <div className="support-tool-grid">
             <article>
@@ -1726,8 +1798,8 @@ function App() {
           <p className="eyebrow motion-reveal">How it works</p>
           <h2 className="motion-reveal">Three small steps to get started.</h2>
           <p className="section-lede motion-reveal">
-            Start with one course. Apulza carries its context into your plan and the help you get
-            when you study.
+            Add a course manually or connect Canvas. Apulza carries its assignments and syllabus
+            into your plan and the help you get from MyTutor.
           </p>
           <div className="step-grid">
             {steps.map((step) => (
@@ -1795,8 +1867,8 @@ function App() {
             <p className="eyebrow">Our foundation</p>
             <h2>Everything is built on CLEAR.</h2>
             <p className="section-lede">
-              Five principles act as the acceptance test for every screen. A feature isn't finished
-              until it satisfies all five.
+              Every screen has one primary action, restores your place when you return, and gives
+              progress in context without streaks or blame.
             </p>
           </div>
           <div className="clear-grid" aria-label="CLEAR principles">
@@ -1829,8 +1901,8 @@ function App() {
             <p className="eyebrow">For schools and counselors</p>
             <h2>See who needs a check-in before the transcript does.</h2>
             <p>
-              Students get course-aware plans and a tutor designed to protect their learning.
-              Counselors get an early-warning view that explains why a student may need support.
+              Students get course-specific plans and guided tutoring. Counselors get a nightly,
+              explainable early-warning view and a place to record check-ins and follow-ups.
             </p>
             <ul className="check-list">
               {schoolPoints.map((point) => (
@@ -1855,10 +1927,10 @@ function App() {
         <div className="contact-inner">
           <div className="contact-copy motion-reveal">
             <p className="eyebrow">Beta testers</p>
-            <h2 id="beta-title">Try a more supportive way to study.</h2>
+            <h2 id="beta-title">Try Apulza with your courses.</h2>
             <p>
-              We're inviting a small group of students to try Apulza and tell us what helps and
-              what gets in the way. Signing up takes about a minute.
+              We're inviting a small group of students to test course plans, MyTutor hints, and
+              the dashboard. Tell us what helps and what gets in the way. Signing up takes about a minute.
             </p>
             <div className="contact-paths" aria-label="What beta testing involves">
               <article>
@@ -1948,8 +2020,8 @@ function App() {
           <div className="footer-brand">
             <Brand />
             <p>
-              A supportive study buddy. Built to reduce load, protect feeling, and always show the
-              next small step.
+              Course-specific plans, guided tutoring, and a dashboard that remembers where you left off.
+              Partner schools also get explainable signals for earlier support.
             </p>
             <nav className="footer-links" aria-label="Footer navigation">
               <a href="#privacy">Safety & privacy</a>
@@ -1981,7 +2053,7 @@ function App() {
         </div>
         <div className="footer-bottom">
           <span>© 2026 Apulza - Built on CLEAR</span>
-          <span>Made for the day you're actually having.</span>
+          <span>Course-aware plans. Guided hints. Earlier support.</span>
         </div>
       </footer>
 

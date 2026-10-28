@@ -17,7 +17,7 @@ const mobileScreens: MobileScreen[] = [
     src: '/snippets/apulza-mobile-dashboard-breathing-snippets',
     selector: '.snippet-preview[data-tpl="tpl-dashboard"]',
     eyebrow: 'See what matters now',
-    note: 'Return to one calm home base for today’s work, upcoming deadlines, and real progress.',
+    note: 'See upcoming assignments, resume your last course, and track this month’s progress.',
   },
   {
     id: 'support',
@@ -313,10 +313,10 @@ export default function MobileAppShowcase() {
       <div className="mobile-app-inner">
         <div className="mobile-app-copy motion-reveal">
           <p className="eyebrow">Support that goes with you</p>
-          <h2 id="mobile-app-title">A calmer next step, right from your phone.</h2>
+          <h2 id="mobile-app-title">Your dashboard and support, on your phone.</h2>
           <p className="mobile-app-lede">
-            Open your dashboard, find platform support, and adjust how Apulza looks and feels—all
-            from your phone.
+            Check upcoming work, pick up your last course, reach ApulzaBot, and adjust your display
+            preferences from your phone.
           </p>
 
           <div className="mobile-platforms" aria-label="Apulza works on iOS and Android">
